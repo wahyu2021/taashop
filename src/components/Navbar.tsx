@@ -98,7 +98,7 @@ const galleryCategories = [
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-orange-600 bg-orange-500 text-white">
+    <header className="sticky top-0 z-50 w-full border-b border-orange-800 bg-orange-700 text-white">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center group ms-0 md:ms-96 space-x-2">
