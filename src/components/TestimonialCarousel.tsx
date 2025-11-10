@@ -36,7 +36,7 @@ const testimonials = [
 
 export function TestimonialCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [
-    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
+    Autoplay({ delay: 15    00, stopOnInteraction: false, stopOnMouseEnter: true }),
   ]);
 
   return (
