@@ -10,40 +10,39 @@ export default function HomePage() {
   return (
     <main className="flex-1">
       {/* Hero Section */}
-      <section className="w-full py-20 md:py-32 lg:py-40 relative overflow-hidden flex justify-center">
-        <div className="absolute top-0 left-0 -z-10 h-full w-full bg-background bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(249,115,22,0.1),rgba(255,255,255,0))]"></div>
-        
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+      <section className="relative w-full h-[100vh] flex flex-col items-center justify-center text-center text-white">
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/banner.jpg"
+            alt="TaaShop Konveksi"
+            layout="fill"
+            objectFit="cover"
+            className="brightness-50"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 md:px-6">
           <AnimatedSection>
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-6">
-                <div className="space-y-4">
-                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl xl:text-7xl/none">
-                    Wujudkan Desain Pakaian Impian Anda
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    TaaShop adalah konveksi terpercaya untuk semua kebutuhan pakaian custom Anda. Dari kaos, seragam, hingga jersey dengan kualitas premium dan harga terbaik.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg" className="transition-transform hover:scale-105">
-                    <Link href="/kontak">Konsultasi Gratis</Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg" className="transition-transform hover:scale-105">
-                    <Link href="/produk">Lihat Produk</Link>
-                  </Button>
-                </div>
+            <div className="flex flex-col items-center space-y-6">
+              <div className="space-y-4">
+                <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl xl:text-7xl/none text-shadow-lg">
+                  Kualitas Terbaik, Harga Terjangkau
+                </h1>
+                <p className="max-w-2xl mx-auto text-lg md:text-xl text-neutral-200 text-shadow">
+                  TaaShop adalah partner konveksi Anda untuk mewujudkan pakaian custom berkualitas tinggi.
+                </p>
               </div>
-              <div className="flex justify-center">
-                <Image
-                  src="https://picsum.photos/seed/taashop_hero/800/800"
-                  alt="Contoh Pakaian Custom"
-                  width="800"
-                  height="800"
-                  className="rounded-xl object-cover aspect-square shadow-2xl"
-                  priority
-                />
-              </div>
+              <AnimatedSection delay={200}>
+                <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center">
+                  <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-2xl">
+                    <Link href="/kontak">Mulai Proyek Anda</Link>
+                  </Button>
+                  <Button asChild variant="secondary" size="lg" className="transition-transform hover:scale-105 shadow-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white">
+                    <Link href="/layanan">Lihat Layanan</Link>
+                  </Button>
+                </div>
+              </AnimatedSection>
             </div>
           </AnimatedSection>
         </div>
@@ -51,7 +50,7 @@ export default function HomePage() {
 
       {/* Services Section */}
       <section id="layanan" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -74,7 +73,7 @@ export default function HomePage() {
 
       {/* Ordering Process Section */}
       <section id="proses" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -142,7 +141,7 @@ export default function HomePage() {
 
       {/* Why Choose Us Section */}
       <section id="keunggulan" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-3">
@@ -169,7 +168,7 @@ export default function HomePage() {
 
       {/* Portfolio Section */}
       <section id="portofolio" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -200,7 +199,7 @@ export default function HomePage() {
 
       {/* Customer Compliments Section */}
       <section id="testimoni" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -221,7 +220,7 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section id="kontak" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 border-t flex justify-center">
-        <div className="w-full max-w-screen-xl px-4 md:px-6">
+        <div className="w-full max-w-7xl px-4 md:px-6">
           <div className="grid items-center justify-center gap-4 text-center">
             <AnimatedSection>
               <div className="space-y-3">

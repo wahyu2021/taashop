@@ -98,7 +98,7 @@ const galleryCategories = [
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-orange-600 bg-orange-500 text-white">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center group ms-0 md:ms-96 space-x-2">
@@ -114,7 +114,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
                   >
                     <Home className="h-4 w-4 mr-2" />
                     Beranda
@@ -123,7 +123,7 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center">
+                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white">
                   <ShoppingBag className="h-4 w-4 mr-2" />
                   Produk
                 </NavigationMenuTrigger>
@@ -142,7 +142,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
                   >
                     <ImageIcon className="h-4 w-4 mr-2" />
                     Portofolio
@@ -151,7 +151,7 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center">
+                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white">
                   <Ruler className="h-4 w-4 mr-2" />
                   Ukuran & Harga
                 </NavigationMenuTrigger>
@@ -183,7 +183,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/tentang-kami"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
                   >
                     Tentang Kami
                   </Link>
@@ -194,10 +194,20 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
                   >
                     <ImageIcon className="h-4 w-4 mr-2" />
                     FAQ
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/kontak"
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                  >
+                    Hubungi Kami
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -207,22 +217,18 @@ export function Navbar() {
 
         {/* Actions (Right Side) */}
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9" asChild>
+          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9 text-white" asChild>
             <a href="tel:+6281234567890">
               <Phone className="h-4 w-4" />
               <span className="sr-only">Telepon</span>
             </a>
           </Button>
 
-          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9" asChild>
+          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9 text-white" asChild>
             <a href="mailto:info@taashop.com">
               <Mail className="h-4 w-4" />
               <span className="sr-only">Email</span>
             </a>
-          </Button>
-
-          <Button className="hidden sm:inline-flex h-9" asChild>
-            <Link href="/kontak">Hubungi Kami</Link>
           </Button>
 
           <ThemeToggle />
@@ -231,12 +237,12 @@ export function Navbar() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-white">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open Menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[280px] sm:w-[350px]">
+              <SheetContent side="left" className="w-[280px] sm:w-[350px] bg-background">
                 <MobileMenu />
               </SheetContent>
             </Sheet>
@@ -253,7 +259,7 @@ function MobileMenu() {
     <div className="flex flex-col gap-6 py-6">
       <Link href="/" className="flex items-center space-x-2">
         <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} />
-        <span className="font-bold text-lg">TaaShop</span>
+        <span className="font-bold text-lg text-foreground">TaaShop</span>
       </Link>
 
       <div className="flex flex-col gap-3">
@@ -274,7 +280,7 @@ function MobileMenu() {
           <Link
             key={category.title}
             href={category.href}
-            className="flex flex-col px-2 py-2 rounded-md hover:bg-accent transition-colors"
+            className="flex flex-col px-2 py-2 rounded-md hover:bg-accent transition-colors text-foreground"
           >
             <span className="text-sm font-medium">{category.title}</span>
             <span className="text-xs text-muted-foreground line-clamp-1">
@@ -285,20 +291,20 @@ function MobileMenu() {
       </div>
 
       <div className="flex flex-col gap-2 pt-4 border-t">
-        <Button className="w-full justify-start gap-2" asChild>
+        <Button className="w-full justify-start gap-2 text-foreground" asChild>
           <Link href="/kontak">
             <Mail className="h-4 w-4" />
             Hubungi Kami
           </Link>
         </Button>
         <div className="flex gap-2">
-          <Button variant="outline" className="flex-1" size="sm" asChild>
+          <Button variant="outline" className="flex-1 text-foreground" size="sm" asChild>
             <a href="tel:+6281234567890">
               <Phone className="h-4 w-4 mr-1" />
               Call
             </a>
           </Button>
-          <Button variant="outline" className="flex-1" size="sm" asChild>
+          <Button variant="outline" className="flex-1 text-foreground" size="sm" asChild>
             <a href="mailto:info@taashop.com">
               <Mail className="h-4 w-4 mr-1" />
               Email
@@ -341,7 +347,7 @@ const ListItem = React.forwardRef<
         )}
         {...props}
       >
-        <div className="text-sm font-medium leading-none">{title}</div>
+        <div className="text-sm font-medium leading-none text-foreground">{title}</div>
         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
           {children}
         </p>
