@@ -4,6 +4,12 @@ import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -98,7 +104,7 @@ const galleryCategories = [
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-orange-800 bg-orange-700 text-white">
+    <header className="sticky top-0 z-50 w-full border-b border-orange-800 bg-orange-700 text-white dark:bg-gray-900 dark:border-gray-800 dark:text-white">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center group ms-0 md:ms-96 space-x-2">
@@ -114,7 +120,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
                   >
                     <Home className="h-4 w-4 mr-2" />
                     Beranda
@@ -123,7 +129,7 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white">
+                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white dark:bg-transparent">
                   <ShoppingBag className="h-4 w-4 mr-2" />
                   Produk
                 </NavigationMenuTrigger>
@@ -142,7 +148,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
                   >
                     <ImageIcon className="h-4 w-4 mr-2" />
                     Portofolio
@@ -151,7 +157,7 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white">
+                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white dark:bg-transparent">
                   <Ruler className="h-4 w-4 mr-2" />
                   Ukuran & Harga
                 </NavigationMenuTrigger>
@@ -183,7 +189,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/tentang-kami"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
                   >
                     Tentang Kami
                   </Link>
@@ -194,7 +200,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
                   >
                     <ImageIcon className="h-4 w-4 mr-2" />
                     FAQ
@@ -205,7 +211,7 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/kontak"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white")}
+                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
                   >
                     Hubungi Kami
                   </Link>
@@ -256,55 +262,66 @@ export function Navbar() {
 // 🔸 Mobile Menu Component
 function MobileMenu() {
   return (
-    <div className="flex flex-col gap-6 py-6">
-      <Link href="/" className="flex items-center space-x-2">
-        <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} />
-        <span className="font-bold text-lg text-foreground">TaaShop</span>
-      </Link>
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto">
+        <Link href="/" className="flex items-center space-x-2 p-4">
+          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} />
+          <span className="font-bold text-lg text-foreground">TaaShop</span>
+        </Link>
 
-      <div className="flex flex-col gap-3">
-        <div className="text-xs font-semibold uppercase text-muted-foreground px-2">
-          Menu
+        <div className="flex flex-col gap-1 p-2">
+          <MobileLink href="/" icon={<Home className="h-4 w-4" />} text="Beranda" />
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1" className="border-b-0">
+              <AccordionTrigger className="px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180">
+                <ShoppingBag className="h-4 w-4" />
+                <span>Produk</span>
+              </AccordionTrigger>
+              <AccordionContent className="pl-8 pr-2 pb-1">
+                <div className="flex flex-col gap-1">
+                  {productCategories.map((category) => (
+                    <MobileLink key={category.title} href={category.href} text={category.title} />
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2" className="border-b-0">
+              <AccordionTrigger className="px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180">
+                <Ruler className="h-4 w-4" />
+                <span>Ukuran & Harga</span>
+              </AccordionTrigger>
+              <AccordionContent className="pl-8 pr-2 pb-1">
+                <div className="flex flex-col gap-1">
+                  {sizingOptions.map((option) => (
+                    <MobileLink key={option.title} href={option.href} text={option.title} />
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <MobileLink href="/portofolio" icon={<ImageIcon className="h-4 w-4" />} text="Portofolio" />
+          <MobileLink href="/tentang-kami" text="Tentang Kami" />
+          <MobileLink href="/faq" text="FAQ" />
         </div>
-        <MobileLink href="/" icon={<Home className="h-4 w-4" />} text="Beranda" />
-        <MobileLink href="/galeri" icon={<ImageIcon className="h-4 w-4" />} text="Galeri" />
-        <MobileLink href="/sizing" icon={<Ruler className="h-4 w-4" />} text="Ukuran & Harga" />
-        <MobileLink href="/tentang-kami" text="Tentang Kami" />
       </div>
 
-      <div className="flex flex-col gap-3 pt-4 border-t">
-        <div className="text-xs font-semibold uppercase text-muted-foreground px-2">
-          Kategori Galeri
-        </div>
-        {galleryCategories.map((category) => (
-          <Link
-            key={category.title}
-            href={category.href}
-            className="flex flex-col px-2 py-2 rounded-md hover:bg-accent transition-colors text-foreground"
-          >
-            <span className="text-sm font-medium">{category.title}</span>
-            <span className="text-xs text-muted-foreground line-clamp-1">
-              {category.description}
-            </span>
-          </Link>
-        ))}
-      </div>
-
-      <div className="flex flex-col gap-2 pt-4 border-t">
-        <Button className="w-full justify-start gap-2 text-foreground" asChild>
+      <div className="flex flex-col gap-2 p-4 border-t">
+        <Button className="w-full justify-center gap-2" asChild>
           <Link href="/kontak">
             <Mail className="h-4 w-4" />
             Hubungi Kami
           </Link>
         </Button>
         <div className="flex gap-2">
-          <Button variant="outline" className="flex-1 text-foreground" size="sm" asChild>
+          <Button variant="outline" className="flex-1" size="sm" asChild>
             <a href="tel:+6281234567890">
               <Phone className="h-4 w-4 mr-1" />
               Call
             </a>
           </Button>
-          <Button variant="outline" className="flex-1 text-foreground" size="sm" asChild>
+          <Button variant="outline" className="flex-1" size="sm" asChild>
             <a href="mailto:info@taashop.com">
               <Mail className="h-4 w-4 mr-1" />
               Email

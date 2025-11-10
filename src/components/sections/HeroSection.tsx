@@ -33,10 +33,10 @@ export function HeroSection() {
             <AnimatedSection delay={200}>
               <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center">
                 <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-2xl">
-                  <Link href="/kontak">Mulai Proyek Anda</Link>
+                  <Link href="/kontak">Konsultasi Gratis</Link>
                 </Button>
                 <Button asChild variant="secondary" size="lg" className="transition-transform hover:scale-105 shadow-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white">
-                  <Link href="/layanan">Lihat Layanan</Link>
+                  <Link href="/layanan">Lihat Produk</Link>
                 </Button>
               </div>
             </AnimatedSection>

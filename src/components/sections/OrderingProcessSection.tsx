@@ -18,13 +18,13 @@ function ProcessStep({ icon, step, title, description, align }: { icon: React.Re
         <div className="flex-1">
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
-              <CardTitle className="flex items-center gap-3">
+              <CardTitle className="flex items-center gap-3 -mb-6">
                 <span className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground">{icon}</span>
                 {step}. {title}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{description}</p>
+              <p className="text-muted-foreground text-left">{description}</p>
             </CardContent>
           </Card>
         </div>

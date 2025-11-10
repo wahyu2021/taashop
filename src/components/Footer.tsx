@@ -5,7 +5,7 @@ import { Instagram, Phone, Mail } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-orange-700 text-white w-full flex justify-center border-t border-orange-800">
+    <footer className="bg-orange-700 text-white w-full flex justify-center border-t border-orange-800 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
       <div className="w-full max-w-screen-xl px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: About */}
@@ -18,13 +18,13 @@ export function Footer() {
               Solusi konveksi terpercaya untuk segala kebutuhan pakaian custom Anda. Kualitas premium, harga kompetitif, dan desain tanpa batas.
             </p>
             <div className="flex space-x-4 mt-2">
-              <a href="https://www.instagram.com/taaashop_konveksi/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-300 transition-colors">
+              <a href="https://www.instagram.com/taaashop_konveksi/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-300 dark:hover:text-gray-400 transition-colors">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="mailto:info@taashop.com" className="hover:text-orange-300 transition-colors">
+              <a href="mailto:info@taashop.com" className="hover:text-orange-300 dark:hover:text-gray-400 transition-colors">
                 <Mail className="h-6 w-6" />
               </a>
-              <a href="tel:+6281234567890" className="hover:text-orange-300 transition-colors">
+              <a href="tel:+6281234567890" className="hover:text-orange-300 dark:hover:text-gray-400 transition-colors">
                 <Phone className="h-6 w-6" />
               </a>
             </div>
@@ -70,7 +70,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="border-t border-orange-800 mt-8 pt-6 text-center text-sm">
+        <div className="border-t border-orange-800 dark:border-gray-800 mt-8 pt-6 text-center text-sm text-orange-200 dark:text-gray-400">
           &copy; {new Date().getFullYear()} TaaShop Konveksi. All Rights Reserved.
         </div>
       </div>
@@ -80,7 +80,7 @@ export function Footer() {
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="hover:text-orange-300 hover:underline underline-offset-4 transition-colors">
+    <Link href={href} className="hover:text-orange-300 dark:hover:text-gray-400 hover:underline underline-offset-4 transition-colors">
       {children}
     </Link>
   );
