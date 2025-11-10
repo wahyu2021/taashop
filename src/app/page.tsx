@@ -85,11 +85,57 @@ export default function HomePage() {
               </div>
             </div>
           </AnimatedSection>
-          <div className="mx-auto grid gap-12 py-12 md:grid-cols-4">
-            <AnimatedSection delay={100}><ProcessStep icon={<ClipboardCheck />} step="1" title="Konsultasi" description="Hubungi kami untuk konsultasi gratis mengenai desain, bahan, dan harga." /></AnimatedSection>
-            <AnimatedSection delay={200}><ProcessStep icon={<Paintbrush />} step="2" title="Desain & Approval" description="Tim kami akan membuatkan visual desain untuk Anda setujui sebelum masuk produksi." /></AnimatedSection>
-            <AnimatedSection delay={300}><ProcessStep icon={<Package />} step="3" title="Produksi" description="Proses produksi presisi dengan quality control yang ketat untuk hasil terbaik." /></AnimatedSection>
-            <AnimatedSection delay={400}><ProcessStep icon={<Send />} step="4" title="Pengiriman" description="Pesanan Anda kami kirim dengan aman dan tepat waktu ke seluruh Indonesia." /></AnimatedSection>
+          <div className="relative py-12">
+            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border/50 transform -translate-x-1/2 hidden md:block"></div>
+            <div className="grid gap-12 md:grid-cols-2">
+              {/* Step 1 */}
+              <AnimatedSection delay={100}>
+                <ProcessStep
+                  icon={<ClipboardCheck />}
+                  step="1"
+                  title="Konsultasi & Desain"
+                  description="Hubungi kami untuk konsultasi gratis. Tim kami akan membantu Anda merancang desain yang sempurna, memilih bahan terbaik, dan memberikan penawaran harga yang transparan."
+                  align="right"
+                />
+              </AnimatedSection>
+              <div className="hidden md:block"></div>
+
+              {/* Step 2 */}
+              <div className="hidden md:block"></div>
+              <AnimatedSection delay={200}>
+                <ProcessStep
+                  icon={<Paintbrush />}
+                  step="2"
+                  title="Approval & DP"
+                  description="Setelah desain disetujui, Anda akan menerima mockup digital. Lakukan pembayaran uang muka (DP) untuk memulai proses produksi."
+                  align="left"
+                />
+              </AnimatedSection>
+
+              {/* Step 3 */}
+              <AnimatedSection delay={300}>
+                <ProcessStep
+                  icon={<Package />}
+                  step="3"
+                  title="Produksi Presisi"
+                  description="Pesanan Anda masuk ke tahap produksi. Kami menggunakan teknologi canggih dan quality control yang ketat untuk memastikan setiap detail sempurna."
+                  align="right"
+                />
+              </AnimatedSection>
+              <div className="hidden md:block"></div>
+
+              {/* Step 4 */}
+              <div className="hidden md:block"></div>
+              <AnimatedSection delay={400}>
+                <ProcessStep
+                  icon={<Send />}
+                  step="4"
+                  title="Pelunasan & Pengiriman"
+                  description="Setelah produksi selesai, lakukan pelunasan. Pesanan Anda akan segera kami kemas dengan aman dan kirimkan ke alamat Anda di seluruh Indonesia."
+                  align="left"
+                />
+              </AnimatedSection>
+            </div>
           </div>
         </div>
       </section>
@@ -210,14 +256,32 @@ function ServiceCard({ icon, title, description }: { icon: React.ReactNode; titl
   );
 }
 
-function ProcessStep({ icon, step, title, description }: { icon: React.ReactNode; step: string; title: string; description: string }) {
+function ProcessStep({ icon, step, title, description, align }: { icon: React.ReactNode; step: string; title: string; description: string; align: 'left' | 'right' }) {
+  const alignmentClasses = align === 'left' ? 'md:text-left' : 'md:text-right';
+  const contentOrder = align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse';
+  const timelineDotAlign = align === 'left' ? 'md:left-0 md:-translate-x-1/2' : 'md:right-0 md:translate-x-1/2';
+
   return (
-    <div className="flex flex-col items-center text-center gap-2">
-      <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary border-2 border-primary/20 mb-4">
-        {icon}
+    <div className={`relative flex flex-col items-center md:items-stretch ${alignmentClasses}`}>
+      <div className={`flex items-center gap-6 ${contentOrder}`}>
+        <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-primary text-primary-foreground border-4 border-background shadow-lg">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground">{icon}</span>
+                {step}. {title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">{description}</p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-      <h3 className="text-lg font-bold">{step}. {title}</h3>
-      <p className="text-sm text-muted-foreground">{description}</p>
+      <div className={`absolute top-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background transform -translate-y-1/2 hidden md:block ${timelineDotAlign}`}></div>
     </div>
   );
 }
