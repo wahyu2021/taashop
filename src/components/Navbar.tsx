@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import usePathname
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -28,15 +29,23 @@ import {
   Image as ImageIcon,
   Ruler,
   ShoppingBag,
+  Info,
+  HelpCircle,
 } from "lucide-react";
 import Image from "next/image";
 
 import { ThemeToggle } from "@/components/ThemeToggle";
 
+interface GalleryCategory {
+  title: string;
+  href: string;
+  description: string;
+}
+
 const productCategories = [
   {
     title: "Semua Produk",
-    href: "/produk",
+    href: "/galeri",
     description: "Lihat semua koleksi produk konveksi kami.",
   },
   {
@@ -84,7 +93,7 @@ const sizingOptions = [
   },
 ];
 
-const galleryCategories = [
+export const galleryCategories: GalleryCategory[] = [
   {
     title: "Galeri Kaos",
     href: "/galeri/kaos",
@@ -103,34 +112,41 @@ const galleryCategories = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname(); // Get current pathname
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-orange-800 bg-orange-700 text-white dark:bg-gray-900 dark:border-gray-800 dark:text-white">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center group ms-0 md:ms-96 space-x-2">
-          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="tra   nsition-transform group-hover:scale-110" />
+          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8 transition-transform group-hover:scale-110" priority />
           <span className="font-bold text-lg hidden sm:inline-block">TaaShop</span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex flex-1 justify-center">
           <NavigationMenu>
-            <NavigationMenuList className="flex items-center [&>li]:h-10 [&>li]:flex [&>li]:items-center [&>li>a]:h-10 [&>li>button]:h-10">
+            <NavigationMenuList className="flex items-center [&>li>a]:flex [&>li>a]:items-center [&>li>button]:flex [&>li>button]:items-center">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
                     href="/"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent text-white dark:bg-transparent px-3",
+                      pathname === "/" && "bg-orange-600 font-semibold"
+                    )}
                   >
-                    <Home className="h-4 w-4 mr-2" />
                     Beranda
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white dark:bg-transparent">
-                  <ShoppingBag className="h-4 w-4 mr-2" />
+                <NavigationMenuTrigger className={cn(
+                  "bg-transparent text-white dark:bg-transparent px-3",
+                  pathname.startsWith("/produk") && "bg-orange-600 font-semibold" // Assuming /produk is the base for product categories
+                )}>
                   Produk
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -147,18 +163,23 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
-                    href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
+                    href="/galeri"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent text-white dark:bg-transparent px-3",
+                      pathname === "/galeri" && "bg-orange-600 font-semibold"
+                    )}
                   >
-                    <ImageIcon className="h-4 w-4 mr-2" />
-                    Portofolio
+                    Galeri
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-full flex items-center bg-transparent text-white dark:bg-transparent">
-                  <Ruler className="h-4 w-4 mr-2" />
+                <NavigationMenuTrigger className={cn(
+                  "bg-transparent text-white dark:bg-transparent px-3",
+                  (pathname.startsWith("/size-chart") || pathname.startsWith("/harga")) && "bg-orange-600 font-semibold"
+                )}>
                   Ukuran & Harga
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -189,7 +210,11 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/tentang-kami"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent text-white dark:bg-transparent px-3",
+                      pathname === "/tentang-kami" && "bg-orange-600 font-semibold"
+                    )}
                   >
                     Tentang Kami
                   </Link>
@@ -199,10 +224,13 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
-                    href="/portofolio"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
+                    href="/faq"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent text-white dark:bg-transparent px-3",
+                      pathname === "/faq" && "bg-orange-600 font-semibold"
+                    )}
                   >
-                    <ImageIcon className="h-4 w-4 mr-2" />
                     FAQ
                   </Link>
                 </NavigationMenuLink>
@@ -211,7 +239,11 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link
                     href="/kontak"
-                    className={cn(navigationMenuTriggerStyle(), "h-full flex items-center bg-transparent text-white dark:bg-transparent")}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent text-white dark:bg-transparent px-3",
+                      pathname === "/kontak" && "bg-orange-600 font-semibold"
+                    )}
                   >
                     Hubungi Kami
                   </Link>
@@ -249,7 +281,7 @@ export function Navbar() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[280px] sm:w-[350px] bg-background">
-                <MobileMenu />
+                <MobileMenu pathname={pathname} />
               </SheetContent>
             </Sheet>
           </div>
@@ -260,60 +292,66 @@ export function Navbar() {
 }
 
 // 🔸 Mobile Menu Component
-function MobileMenu() {
+function MobileMenu({ pathname }: { pathname: string }) {
+  const navItems = [
+    { href: "/", icon: <Home className="h-4 w-4" />, text: "Beranda", activePath: "/" },
+    { href: "/galeri", icon: <ImageIcon className="h-4 w-4" />, text: "Galeri", activePath: "/galeri" },
+    { href: "/tentang-kami", icon: <Info className="h-4 w-4" />, text: "Tentang Kami", activePath: "/tentang-kami" },
+    { href: "/faq", icon: <HelpCircle className="h-4 w-4" />, text: "FAQ", activePath: "/faq" },
+    { href: "/kontak", icon: <Phone className="h-4 w-4" />, text: "Hubungi Kami", activePath: "/kontak" },
+  ];
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto">
         <Link href="/" className="flex items-center space-x-2 p-4">
-          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} />
+          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8" priority />
           <span className="font-bold text-lg text-foreground">TaaShop</span>
         </Link>
 
         <div className="flex flex-col gap-1 p-2">
-          <MobileLink href="/" icon={<Home className="h-4 w-4" />} text="Beranda" />
-
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger className="px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180">
+              <AccordionTrigger className={cn(
+                "px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180",
+                pathname.startsWith("/produk") && "bg-accent font-semibold"
+              )}>
                 <ShoppingBag className="h-4 w-4" />
                 <span>Produk</span>
               </AccordionTrigger>
               <AccordionContent className="pl-8 pr-2 pb-1">
                 <div className="flex flex-col gap-1">
                   {productCategories.map((category) => (
-                    <MobileLink key={category.title} href={category.href} text={category.title} />
+                    <MobileLink key={category.title} href={category.href} text={category.title} isActive={pathname === category.href} />
                   ))}
                 </div>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="border-b-0">
-              <AccordionTrigger className="px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180">
+              <AccordionTrigger className={cn(
+                "px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180",
+                (pathname.startsWith("/size-chart") || pathname.startsWith("/harga")) && "bg-accent font-semibold"
+              )}>
                 <Ruler className="h-4 w-4" />
                 <span>Ukuran & Harga</span>
               </AccordionTrigger>
               <AccordionContent className="pl-8 pr-2 pb-1">
                 <div className="flex flex-col gap-1">
                   {sizingOptions.map((option) => (
-                    <MobileLink key={option.title} href={option.href} text={option.title} />
+                    <MobileLink key={option.title} href={option.href} text={option.title} isActive={pathname === option.href} />
                   ))}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
-          <MobileLink href="/portofolio" icon={<ImageIcon className="h-4 w-4" />} text="Portofolio" />
-          <MobileLink href="/tentang-kami" text="Tentang Kami" />
-          <MobileLink href="/faq" text="FAQ" />
+          {navItems.map((item) => (
+            <MobileLink key={item.href} href={item.href} icon={item.icon} text={item.text} isActive={pathname === item.activePath} />
+          ))}
         </div>
       </div>
 
       <div className="flex flex-col gap-2 p-4 border-t">
-        <Button className="w-full justify-center gap-2" asChild>
-          <Link href="/kontak">
-            <Mail className="h-4 w-4" />
-            Hubungi Kami
-          </Link>
-        </Button>
         <div className="flex gap-2">
           <Button variant="outline" className="flex-1" size="sm" asChild>
             <a href="tel:+6281234567890">
@@ -338,12 +376,16 @@ interface MobileLinkProps {
   href: string;
   icon?: React.ReactNode;
   text: string;
+  isActive?: boolean; // Add isActive prop
 }
 
-const MobileLink = ({ href, icon, text }: MobileLinkProps) => (
+const MobileLink = ({ href, icon, text, isActive }: MobileLinkProps) => (
   <Link
     href={href}
-    className="flex items-center gap-2 px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+    className={cn(
+      "flex items-center gap-2 px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors",
+      isActive && "bg-accent font-semibold" // Apply active style
+    )}
   >
     {icon}
     {text}

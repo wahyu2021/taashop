@@ -6,12 +6,12 @@ import { Instagram, Phone, Mail } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-orange-700 text-white w-full flex justify-center border-t border-orange-800 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
-      <div className="w-full max-w-screen-xl px-4 md:px-6 py-12">
+      <div className="w-full max-w-7xl px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: About */}
           <div className="flex flex-col gap-4">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} />
+              <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8" />
               <span className="font-bold text-lg">TaaShop Konveksi</span>
             </Link>
             <p className="text-sm">

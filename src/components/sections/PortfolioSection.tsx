@@ -19,6 +19,15 @@ function PortfolioImage({ src, alt }: { src: string; alt: string }) {
   );
 }
 
+const portfolioImages = [
+  "jaket-bomber-bank-mandiri.png",
+  "Jersey Basket Agriculture UNSRI.png",
+  "Jersey Basket Away DBASCOM.png",
+  "Jersey Basket Home Dan Away Universitas Aisyah Pringsewu.png",
+  "Jersey Basket Home DBASCOM.png",
+  "Kemeja BPN Kab. Lahat.png",
+];
+
 export function PortfolioSection() {
   return (
     <section id="portofolio" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 flex justify-center">
@@ -34,12 +43,14 @@ export function PortfolioSection() {
           </div>
         </AnimatedSection>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 py-12">
-          <AnimatedSection delay={100}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_1/500/500" alt="Portfolio 1" /></AnimatedSection>
-          <AnimatedSection delay={200}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_2/500/500" alt="Portfolio 2" /></AnimatedSection>
-          <AnimatedSection delay={300}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_3/500/500" alt="Portfolio 3" /></AnimatedSection>
-          <AnimatedSection delay={400}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_4/500/500" alt="Portfolio 4" /></AnimatedSection>
-          <AnimatedSection delay={500}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_5/500/500" alt="Portfolio 5" /></AnimatedSection>
-          <AnimatedSection delay={600}><PortfolioImage src="https://picsum.photos/seed/taashop_portfolio_6/500/500" alt="Portfolio 6" /></AnimatedSection>
+          {portfolioImages.map((image, index) => (
+            <AnimatedSection key={index} delay={(index + 1) * 100}>
+              <PortfolioImage
+                src={`/produk/${image}`}
+                alt={`Portfolio ${index + 1}`}
+              />
+            </AnimatedSection>
+          ))}
         </div>
         <div className="flex justify-center">
           <AnimatedSection delay={700}>
