@@ -5,6 +5,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
+const portfolioImages = [
+  "jaket-bomber-bank-mandiri.png",
+  "Jersey Basket Agriculture UNSRI.png",
+  "Jersey Basket Away DBASCOM.png",
+  "Jersey Basket Home Dan Away Universitas Aisyah Pringsewu.png",
+  "Jersey Basket Home DBASCOM.png",
+  "Kemeja BPN Kab. Lahat.png",
+];
+
 function PortfolioImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="aspect-square overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:z-10">
@@ -18,15 +27,6 @@ function PortfolioImage({ src, alt }: { src: string; alt: string }) {
     </div>
   );
 }
-
-const portfolioImages = [
-  "jaket-bomber-bank-mandiri.png",
-  "Jersey Basket Agriculture UNSRI.png",
-  "Jersey Basket Away DBASCOM.png",
-  "Jersey Basket Home Dan Away Universitas Aisyah Pringsewu.png",
-  "Jersey Basket Home DBASCOM.png",
-  "Kemeja BPN Kab. Lahat.png",
-];
 
 export function PortfolioSection() {
   return (
@@ -47,7 +47,7 @@ export function PortfolioSection() {
             <AnimatedSection key={index} delay={(index + 1) * 100}>
               <PortfolioImage
                 src={`/produk/${image}`}
-                alt={`Portfolio ${index + 1}`}
+                alt={image.replace(".png", "").replace(".jpg", "")}
               />
             </AnimatedSection>
           ))}

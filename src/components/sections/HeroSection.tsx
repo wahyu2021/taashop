@@ -12,8 +12,8 @@ export function HeroSection() {
         <Image
           src="/banner.jpg"
           alt="TaaShop Konveksi"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="brightness-50"
           priority
         />

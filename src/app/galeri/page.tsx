@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { ArrowLeft, X, Search, Shirt, Building, Wind, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, X, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const products = [
   { id: 1, src: "jaket-bomber-bank-mandiri.png", title: "Jaket Bomber Bank Mandiri", category: "Jaket & Outerwear", description: "Jaket bomber eksklusif untuk Bank Mandiri dengan bahan taslan premium dan bordir komputer presisi. Nyaman dan stylish untuk kegiatan korporat." },
