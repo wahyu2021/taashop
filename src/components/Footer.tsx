@@ -47,7 +47,7 @@ export function Footer() {
             <h4 className="font-semibold">Informasi</h4>
             <nav className="flex flex-col gap-2 text-sm">
               <FooterLink href="/tentang-kami">Tentang Kami</FooterLink>
-              <FooterLink href="/portofolio">Portofolio</FooterLink>
+              <FooterLink href="/galeri">Galeri</FooterLink>
               <FooterLink href="/faq">FAQ</FooterLink>
               <FooterLink href="/kontak">Kontak</FooterLink>
             </nav>

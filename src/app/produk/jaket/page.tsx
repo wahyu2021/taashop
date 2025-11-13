@@ -15,6 +15,7 @@ export default function JaketPage() {
       title="Jaket & Hoodie"
       description="Dari jaket bomber korporat hingga hoodie komunitas, kami siap membuat outerwear custom sesuai kebutuhan Anda."
       products={products}
+      bannerImageUrl="/banner.jpg"
     />
   );
 }

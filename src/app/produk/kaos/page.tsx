@@ -39,6 +39,7 @@ export default function KaosPage() {
       title="Kaos & T-Shirt"
       description="Jelajahi berbagai pilihan kaos dan poloshirt custom kami, ideal untuk berbagai acara dan kebutuhan."
       products={products}
+      bannerImageUrl="/banner2.jpg"
     />
   );
 }

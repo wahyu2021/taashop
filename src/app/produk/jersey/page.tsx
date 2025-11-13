@@ -54,6 +54,7 @@ export default function JerseyPage() {
       title="Jersey & Pakaian Olahraga"
       description="Buat tim Anda tampil beda dengan jersey custom dan pakaian olahraga berkualitas tinggi dari kami."
       products={products}
+      bannerImageUrl="/banner2.jpg"
     />
   );
 }

@@ -24,6 +24,7 @@ export default function SeragamKantorPage() {
       title="Seragam Kantor"
       description="Tingkatkan citra profesional perusahaan Anda dengan seragam kantor berkualitas tinggi dari kami."
       products={products}
+      bannerImageUrl="/banner.jpg"
     />
   );
 }

@@ -24,6 +24,7 @@ export default function SeragamSekolahPage() {
       title="Seragam Sekolah"
       description="Kami menyediakan seragam sekolah berkualitas yang nyaman dan tahan lama untuk berbagai tingkatan pendidikan."
       products={products}
+      bannerImageUrl="/banner2.jpg"
     />
   );
 }

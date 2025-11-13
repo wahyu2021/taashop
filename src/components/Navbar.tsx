@@ -191,7 +191,7 @@ export function Navbar() {
                     ))}
                     <li className="mt-2">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex select-none flex-col justify-center rounded-md bg-linear-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md hover:shadow-lg transition-shadow"
                           href="/custom-order"
                         >
@@ -199,7 +199,7 @@ export function Navbar() {
                           <p className="text-xs leading-tight text-muted-foreground">
                             Butuh desain khusus atau jumlah besar? Konsultasikan kebutuhan konveksi Anda dengan tim kami.
                           </p>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                   </ul>
@@ -393,13 +393,14 @@ const MobileLink = ({ href, icon, text, isActive }: MobileLinkProps) => (
 );
 
 const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => (
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link>
+>(({ className, title, children, href, ...props }, ref) => (
   <li>
     <NavigationMenuLink asChild>
-      <a
+      <Link
         ref={ref}
+        href={href || "#"}
         className={cn(
           "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
           className
@@ -410,7 +411,7 @@ const ListItem = React.forwardRef<
         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
           {children}
         </p>
-      </a>
+      </Link>
     </NavigationMenuLink>
   </li>
 ));
