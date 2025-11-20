@@ -120,7 +120,7 @@ const JerseyModel = ({
       style={{ perspective: "1000px" }}
     >
       <div
-        className="relative w-full transition-transform duration-700 ease-in-out group-hover:transform-[rotateY(180deg)]"
+        className="relative w-full transition-transform duration-700 ease-in-out lg:group-hover:transform-[rotateY(180deg)]"
         style={{ transformStyle: "preserve-3d" }}
       >
         <div className="w-full" style={{ backfaceVisibility: "hidden" }}>
@@ -153,6 +153,23 @@ const JerseyModel = ({
                   </p>
                 )}
                 {frontContent}
+                {combinedDetails.length > 0 && (
+                  <dl className="mt-4 space-y-3 text-sm text-gray-600 dark:text-gray-300 lg:hidden">
+                    {combinedDetails.map((detail, index) => (
+                      <div
+                        key={`${detail.label}-${index}`}
+                        className="rounded-xl border border-orange-100/60 bg-orange-50/70 px-4 py-3 text-left dark:border-orange-900/40 dark:bg-orange-900/10"
+                      >
+                        <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300">
+                          {detail.label}
+                        </dt>
+                        <dd className="mt-1 text-sm font-medium text-gray-700 dark:text-gray-100">
+                          {detail.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
               </div>
 
               {priceDisplay && (
@@ -166,7 +183,7 @@ const JerseyModel = ({
         </div>
 
         <div
-          className="absolute top-0 left-0 w-full h-full"
+          className="absolute top-0 left-0 hidden h-full w-full lg:block"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <div className="border rounded-xl overflow-hidden shadow-lg h-full p-6 flex flex-col justify-center items-center bg-gray-100/90 dark:bg-gray-800/80 backdrop-blur">
