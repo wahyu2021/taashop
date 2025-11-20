@@ -139,13 +139,15 @@ const TShirtPage: NextPage = () => {
                                 <h3 className="text-2xl font-semibold mb-4">
                                     Ukuran Baju
                                 </h3>
-                                <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-lg shadow-lg">
+                                <div className="mx-auto w-full max-w-md overflow-hidden rounded-xl shadow-xl">
                                     <Image
                                         src="/model-desain/jersey-bola/size-guide-baju.jpg"
                                         alt="Panduan Ukuran Baju"
-                                        fill
-                                        className="object-contain"
-                                        sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 400px"
+                                        width={900}
+                                        height={1200}
+                                        className="h-full w-full object-cover"
+                                        sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 420px"
+                                        priority
                                     />
                                 </div>
                             </div>
@@ -153,13 +155,15 @@ const TShirtPage: NextPage = () => {
                                 <h3 className="text-2xl font-semibold mb-4">
                                     Ukuran Celana
                                 </h3>
-                                <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-lg shadow-lg">
+                                <div className="mx-auto w-full max-w-md overflow-hidden rounded-xl shadow-xl">
                                     <Image
                                         src="/model-desain/jersey-bola/size-guide-celana.jpg"
                                         alt="Panduan Ukuran Celana"
-                                        fill
-                                        className="object-contain"
-                                        sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 400px"
+                                        width={900}
+                                        height={1200}
+                                        className="h-full w-full object-cover"
+                                        sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 420px"
+                                        priority
                                     />
                                 </div>
                             </div>
