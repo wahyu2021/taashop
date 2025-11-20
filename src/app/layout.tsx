@@ -28,18 +28,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Footer />
+          <div className="relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-br from-orange-50 via-white to-white transition-colors duration-500 dark:from-gray-900 dark:via-slate-950/95 dark:to-gray-900">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -right-40 top-[-6rem] h-96 w-96 rounded-full bg-orange-200/40 blur-3xl dark:bg-orange-500/20" />
+              <div className="absolute -left-48 bottom-[-10rem] h-[28rem] w-[28rem] rounded-full bg-orange-100/50 blur-3xl dark:bg-orange-500/25" />
+              <div className="absolute left-1/2 top-1/3 h-80 w-80 -translate-x-1/2 rounded-full bg-white/40 blur-3xl dark:bg-slate-800/40" />
+            </div>
+
+            <div className="relative z-10 flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>

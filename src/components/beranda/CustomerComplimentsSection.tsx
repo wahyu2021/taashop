@@ -5,7 +5,7 @@ import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 
 export function CustomerComplimentsSection() {
   return (
-    <section id="testimoni" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
+    <section id="testimoni" className="w-full py-12 md:py-24 lg:py-32 flex justify-center bg-muted/40">
       <div className="w-full max-w-7xl px-4 md:px-6">
         <AnimatedSection>
           <div className="flex flex-col items-center justify-center space-y-4 text-center">

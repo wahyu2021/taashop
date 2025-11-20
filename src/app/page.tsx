@@ -1,10 +1,10 @@
-import { HeroSection } from "@/components/sections/HeroSection";
-import { ServicesSection } from "@/components/sections/ServicesSection";
-import { OrderingProcessSection } from "@/components/sections/OrderingProcessSection";
-import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
-import { PortfolioSection } from "@/components/sections/PortfolioSection";
-import { CustomerComplimentsSection } from "@/components/sections/CustomerComplimentsSection";
-import { CTASection } from "@/components/sections/CTASection";
+import { HeroSection } from "@/components/beranda/HeroSection";
+import { ServicesSection } from "@/components/beranda/ServicesSection";
+import { OrderingProcessSection } from "@/components/beranda/OrderingProcessSection";
+import { WhyChooseUsSection } from "@/components/beranda/WhyChooseUsSection";
+import { PortfolioSection } from "@/components/beranda/PortfolioSection";
+import { CustomerComplimentsSection } from "@/components/beranda/CustomerComplimentsSection";
+import { CTASection } from "@/components/beranda/CTASection";
 
 export default function HomePage() {
   return (

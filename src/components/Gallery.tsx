@@ -8,6 +8,7 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { ArrowLeft, X, Search, ChevronLeft, ChevronRight, PackageOpen } from "lucide-react";
 import { products } from "@/lib/products";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from 'next/navigation';
 
 const categories = ["Semua", ...Array.from(new Set(products.map(p => p.category)))];
 
@@ -46,16 +47,19 @@ function PortfolioImage({ product, onClick }: { product: typeof products[0]; onC
   );
 }
 
+
+// ... other imports
+
 function Lightbox({ product, onClose }: { product: typeof products[0] | null; onClose: () => void }) {
   if (!product) return null;
 
   return (
-    <div 
-      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-in fade-in-0"
+    <div
+      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={onClose}
     >
-      <div 
-        className="relative bg-card text-card-foreground max-w-4xl w-full rounded-lg shadow-2xl overflow-hidden animate-in zoom-in-95"
+      <div
+        className="relative bg-card text-card-foreground max-w-4xl w-full rounded-lg shadow-2xl overflow-hidden animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="grid md:grid-cols-2">
@@ -90,15 +94,22 @@ function Lightbox({ product, onClose }: { product: typeof products[0] | null; on
   );
 }
 
+
+
 function PaginationControls({ currentPage, totalPages, onPageChange }: { currentPage: number, totalPages: number, onPageChange: (page: number) => void }) {
   const pageNumbers = [];
   const maxPagesToShow = 5;
-  let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-  let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  let startPageCandidate = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  let endPageCandidate = Math.min(totalPages, startPageCandidate + maxPagesToShow - 1);
+
+  if (endPageCandidate - startPageCandidate + 1 < maxPagesToShow) {
+    startPageCandidate = Math.max(1, totalPages - maxPagesToShow + 1);
+    endPageCandidate = Math.min(totalPages, startPageCandidate + maxPagesToShow - 1);
   }
+
+  const startPage = Math.max(1, startPageCandidate);
+  const endPage = endPageCandidate;
 
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
@@ -154,11 +165,19 @@ function PaginationControls({ currentPage, totalPages, onPageChange }: { current
 }
 
 export default function Gallery() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("Semua");
+  const [selectedCategory, setSelectedCategory] = useState(category || "Semua");
   const itemsPerPage = 8;
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSelectedCategory(category || "Semua");
+  }, [category]);
 
   const filteredProducts = selectedCategory === "Semua" 
     ? products 

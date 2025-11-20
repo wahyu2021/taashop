@@ -28,7 +28,6 @@ import {
   Home,
   Image as ImageIcon,
   Ruler,
-  ShoppingBag,
   Info,
   HelpCircle,
 } from "lucide-react";
@@ -42,54 +41,38 @@ interface GalleryCategory {
   description: string;
 }
 
-const productCategories = [
-  {
-    title: "Semua Produk",
-    href: "/galeri",
-    description: "Lihat semua koleksi produk konveksi kami.",
-  },
-  {
-    title: "Kaos & T-Shirt",
-    href: "/produk/kaos",
-    description: "Custom kaos untuk berbagai kebutuhan.",
-  },
-  {
-    title: "Seragam Kantor",
-    href: "/produk/seragam-kantor",
-    description: "Seragam profesional untuk perusahaan.",
-  },
-  {
-    title: "Seragam Sekolah",
-    href: "/produk/seragam-sekolah",
-    description: "Seragam berkualitas untuk institusi pendidikan.",
-  },
-  {
-    title: "Jersey & Olahraga",
-    href: "/produk/jersey",
-    description: "Jersey tim dan pakaian olahraga custom.",
-  },
-  {
-    title: "Jaket & Hoodie",
-    href: "/produk/jaket",
-    description: "Jaket dan hoodie dengan desain custom.",
-  },
-];
+
 
 const sizingOptions = [
   {
-    title: "Size Chart",
-    href: "/size-chart",
-    description: "Panduan ukuran lengkap untuk semua produk.",
+    title: "Jersey Bola",
+    href: "/ukuran-harga/jersey-bola",
+    description: "List harga dan ukuran untuk jersey bola.",
   },
   {
-    title: "Harga Satuan",
-    href: "/harga/satuan",
-    description: "Harga untuk pembelian retail dan satuan.",
+    title: "Shooting Shirt",
+    href: "/ukuran-harga/shooting-shirt",
+    description: "List harga dan ukuran untuk shooting shirt.",
   },
   {
-    title: "Harga Grosir",
-    href: "/harga/grosir",
-    description: "Harga spesial untuk pembelian dalam jumlah besar.",
+    title: "Poloshirt",
+    href: "/ukuran-harga/poloshirt",
+    description: "List harga dan ukuran untuk poloshirt.",
+  },
+  {
+    title: "T-Shirt",
+    href: "/ukuran-harga/t-shirt",
+    description: "List harga dan ukuran untuk T-shirt.",
+  },
+  {
+    title: "Jersey Basketball",
+    href: "/ukuran-harga/jersey-basketball",
+    description: "List harga dan ukuran untuk jersey basketball.",
+  },
+  {
+    title: "Seragam Tactical",
+    href: "/ukuran-harga/seragam-tactical",
+    description: "List harga dan ukuran untuk seragam tactical.",
   },
 ];
 
@@ -133,8 +116,9 @@ export function Navbar() {
                     href="/"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3",
-                      pathname === "/" && "bg-orange-600 font-semibold"
+                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
+                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                      pathname === "/" && "bg-orange-600 font-semibold shadow-md"
                     )}
                   >
                     Beranda
@@ -142,23 +126,7 @@ export function Navbar() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn(
-                  "bg-transparent text-white dark:bg-transparent px-3",
-                  pathname.startsWith("/produk") && "bg-orange-600 font-semibold" // Assuming /produk is the base for product categories
-                )}>
-                  Produk
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    {productCategories.map((category) => (
-                      <ListItem key={category.title} title={category.title} href={category.href}>
-                        {category.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
@@ -166,8 +134,9 @@ export function Navbar() {
                     href="/galeri"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3",
-                      pathname === "/galeri" && "bg-orange-600 font-semibold"
+                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
+                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                      pathname === "/galeri" && "bg-orange-600 font-semibold shadow-md"
                     )}
                   >
                     Galeri
@@ -177,31 +146,21 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuTrigger className={cn(
-                  "bg-transparent text-white dark:bg-transparent px-3",
-                  (pathname.startsWith("/size-chart") || pathname.startsWith("/harga")) && "bg-orange-600 font-semibold"
+                  navigationMenuTriggerStyle(),
+                  "bg-transparent! text-white! dark:bg-transparent! px-3 transition-all",
+                  "hover:bg-orange-500/80! hover:text-white! hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                  "data-[state=open]:bg-orange-600! data-[state=open]:text-white! data-[state=open]:shadow-md data-[state=open]:border-b-2 data-[state=open]:border-white/70 data-[state=open]:hover:bg-orange-600!",
+                  pathname.startsWith("/ukuran-harga") && "bg-orange-600 font-semibold shadow-md"
                 )}>
                   Ukuran & Harga
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
+                <NavigationMenuContent className="bg-orange-50/95 dark:bg-orange-950/85 backdrop-blur-md border border-orange-200/70 dark:border-orange-900/60 shadow-xl shadow-orange-200/40 dark:shadow-orange-900/40">
+                  <ul className="grid gap-3 p-6 md:w-[400px] md:grid-cols-2 lg:w-[500px]">
                     {sizingOptions.map((option) => (
                       <ListItem key={option.title} title={option.title} href={option.href}>
                         {option.description}
                       </ListItem>
                     ))}
-                    <li className="mt-2">
-                      <NavigationMenuLink asChild>
-                        <Link
-                          className="flex select-none flex-col justify-center rounded-md bg-linear-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md hover:shadow-lg transition-shadow"
-                          href="/custom-order"
-                        >
-                          <div className="mb-1 text-sm font-bold">Pemesanan Custom</div>
-                          <p className="text-xs leading-tight text-muted-foreground">
-                            Butuh desain khusus atau jumlah besar? Konsultasikan kebutuhan konveksi Anda dengan tim kami.
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -212,8 +171,9 @@ export function Navbar() {
                     href="/tentang-kami"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3",
-                      pathname === "/tentang-kami" && "bg-orange-600 font-semibold"
+                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
+                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                      pathname === "/tentang-kami" && "bg-orange-600 font-semibold shadow-md"
                     )}
                   >
                     Tentang Kami
@@ -227,8 +187,9 @@ export function Navbar() {
                     href="/faq"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3",
-                      pathname === "/faq" && "bg-orange-600 font-semibold"
+                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
+                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                      pathname === "/faq" && "bg-orange-600 font-semibold shadow-md"
                     )}
                   >
                     FAQ
@@ -241,8 +202,9 @@ export function Navbar() {
                     href="/kontak"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3",
-                      pathname === "/kontak" && "bg-orange-600 font-semibold"
+                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
+                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
+                      pathname === "/kontak" && "bg-orange-600 font-semibold shadow-md"
                     )}
                   >
                     Hubungi Kami
@@ -254,28 +216,44 @@ export function Navbar() {
         </div>
 
         {/* Actions (Right Side) */}
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9 text-white" asChild>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden lg:inline-flex h-10 w-10 items-center justify-center rounded-lg border border-transparent bg-transparent text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 hover:shadow-lg"
+            asChild
+          >
             <a href="tel:+6281234567890">
               <Phone className="h-4 w-4" />
               <span className="sr-only">Telepon</span>
             </a>
           </Button>
 
-          <Button variant="ghost" size="icon" className="hidden lg:inline-flex h-9 w-9 text-white" asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden lg:inline-flex h-10 w-10 items-center justify-center rounded-lg border border-transparent bg-transparent text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 hover:shadow-lg"
+            asChild
+          >
             <a href="mailto:info@taashop.com">
               <Mail className="h-4 w-4" />
               <span className="sr-only">Email</span>
             </a>
           </Button>
 
-          <ThemeToggle />
+          <div className="hidden md:flex items-center">
+            <ThemeToggle className="h-10 w-10 rounded-lg border border-transparent bg-transparent text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 hover:shadow-lg" />
+          </div>
 
           {/* Mobile Menu */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-white">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-10 w-10 rounded-lg border border-transparent bg-transparent text-white transition-all hover:border-white/40 hover:bg-white/15 hover:shadow-lg"
+                >
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open Menu</span>
                 </Button>
@@ -291,7 +269,11 @@ export function Navbar() {
   );
 }
 
-// 🔸 Mobile Menu Component
+// Mobile Menu Component
+
+// ... other imports
+
+// Mobile Menu Component
 function MobileMenu({ pathname }: { pathname: string }) {
   const navItems = [
     { href: "/", icon: <Home className="h-4 w-4" />, text: "Beranda", activePath: "/" },
@@ -311,22 +293,7 @@ function MobileMenu({ pathname }: { pathname: string }) {
 
         <div className="flex flex-col gap-1 p-2">
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger className={cn(
-                "px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180",
-                pathname.startsWith("/produk") && "bg-accent font-semibold"
-              )}>
-                <ShoppingBag className="h-4 w-4" />
-                <span>Produk</span>
-              </AccordionTrigger>
-              <AccordionContent className="pl-8 pr-2 pb-1">
-                <div className="flex flex-col gap-1">
-                  {productCategories.map((category) => (
-                    <MobileLink key={category.title} href={category.href} text={category.title} isActive={pathname === category.href} />
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+
             <AccordionItem value="item-2" className="border-b-0">
               <AccordionTrigger className={cn(
                 "px-2 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors flex items-center justify-start gap-2 [&[data-state=open]>svg]:rotate-180",
@@ -335,11 +302,13 @@ function MobileMenu({ pathname }: { pathname: string }) {
                 <Ruler className="h-4 w-4" />
                 <span>Ukuran & Harga</span>
               </AccordionTrigger>
-              <AccordionContent className="pl-8 pr-2 pb-1">
-                <div className="flex flex-col gap-1">
-                  {sizingOptions.map((option) => (
-                    <MobileLink key={option.title} href={option.href} text={option.title} isActive={pathname === option.href} />
-                  ))}
+              <AccordionContent className="overflow-hidden transition-all duration-300 ease-in-out data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                <div className="pl-8 pr-2 pb-1">
+                  <div className="flex flex-col gap-1">
+                    {sizingOptions.map((option) => (
+                      <MobileLink key={option.title} href={option.href} text={option.title} isActive={pathname === option.href} />
+                    ))}
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -371,7 +340,7 @@ function MobileMenu({ pathname }: { pathname: string }) {
   );
 }
 
-// 🔸 Utility Components
+// Utility Components
 interface MobileLinkProps {
   href: string;
   icon?: React.ReactNode;
