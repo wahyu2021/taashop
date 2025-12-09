@@ -146,7 +146,7 @@ const JerseyBolaPage: NextPage = () => {
                                         alt="Panduan Ukuran Baju"
                                         width={900}
                                         height={1200}
-                                        className="h-full w-full object-cover"
+                                        className="h-auto w-full object-contain"
                                         sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 420px"
                                         priority
                                     />
@@ -162,7 +162,7 @@ const JerseyBolaPage: NextPage = () => {
                                         alt="Panduan Ukuran Celana"
                                         width={900}
                                         height={1200}
-                                        className="h-full w-full object-cover"
+                                        className="h-auto w-full object-contain"
                                         sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 420px"
                                         priority
                                     />
