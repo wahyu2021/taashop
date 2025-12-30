@@ -4,7 +4,7 @@ import { Instagram, Phone, Mail } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-orange-700 text-white w-full flex justify-center border-t border-orange-800 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
+    <footer className="bg-gradient-to-r from-orange-600 to-orange-500 text-white w-full flex justify-center border-t border-orange-700 dark:from-slate-900 dark:to-slate-800 dark:border-slate-700">
       <div className="w-full max-w-7xl px-4 md:px-6 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           
@@ -16,7 +16,7 @@ export function Footer() {
                 alt="TaaShop Logo"
                 width={36}
                 height={36}
-                className="w-9 h-9"
+                className="w-9 h-9 brightness-0 invert"
               />
               <span className="font-bold text-lg">TaaShop Konveksi</span>
             </Link>
@@ -84,7 +84,7 @@ export function Footer() {
         </div>
 
         {/* COPYRIGHT */}
-        <div className="border-t border-orange-800 dark:border-gray-800 mt-12 pt-6 text-center text-sm dark:text-gray-400">
+        <div className="border-t border-white/20 mt-12 pt-6 text-center text-sm text-white/80">
           &copy; {new Date().getFullYear()} TaaShop Konveksi. All Rights Reserved.
         </div>
       </div>
@@ -102,7 +102,7 @@ function FooterLink({
   return (
     <Link
       href={href}
-      className="hover:text-orange-300 dark:hover:text-gray-300 hover:underline underline-offset-4 transition-colors"
+      className="hover:text-white/80 hover:underline underline-offset-4 transition-colors"
     >
       {children}
     </Link>
@@ -121,7 +121,7 @@ function FooterContact({
   return (
     <a
       href={href}
-      className="flex items-center gap-2 hover:text-orange-300 dark:hover:text-gray-300 transition-colors hover:underline underline-offset-4"
+      className="flex items-center gap-2 hover:text-white/80 transition-colors hover:underline underline-offset-4"
     >
       {icon} {children}
     </a>

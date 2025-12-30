@@ -2,37 +2,21 @@
 "use client";
 
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { BannerSection } from "@/components/BannerSection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, Instagram, MapPin, Phone, Mail } from "lucide-react";
-import Image from "next/image";
 
 export default function KontakPage() {
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-      {/* Hero Section (Banner) */}
-      <section className="relative w-full h-[40vh] flex items-center justify-center text-center text-white">
-        <Image
-          src="/banner2.jpg"
-          alt="Kontak Kami Banner"
-          fill
-          sizes="100vw"
-          className="object-cover object-center brightness-50"
-          priority
-        />
-        <div className="relative z-10 max-w-4xl px-4">
-          <AnimatedSection>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Hubungi Kami
-            </h1>
-            <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-gray-200">
-              Kami siap mendengarkan ide dan kebutuhan Anda.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <BannerSection 
+        title="Hubungi Kami"
+        subtitle="Kami siap mendengarkan ide dan kebutuhan Anda."
+      />
 
       {/* Contact Form & Info Section */}
       <section className="py-24">

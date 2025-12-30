@@ -1,16 +1,15 @@
 "use client";
 
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { BannerSection } from "@/components/BannerSection";
+import { CTASection } from "@/components/common";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, HelpCircle } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { HelpCircle } from "lucide-react";
 
 export default function FaqPage() {
   const faqItems = [
@@ -68,30 +67,11 @@ export default function FaqPage() {
 
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-      {/* Hero Section (Banner) */}
-      <section className="relative w-full h-[40vh] flex items-center justify-center text-center text-white">
-        <Image
-          src="/banner.jpg"
-          alt="FAQ Banner"
-          fill
-          sizes="100vw"
-          className="object-cover object-center brightness-50"
-          priority
-        />
-        <div className="relative z-10 max-w-4xl px-4">
-          <AnimatedSection>
-            <div className="flex items-center justify-center space-x-4">
-              <HelpCircle className="w-12 h-12" />
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                FAQ
-              </h1>
-            </div>
-            <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-gray-200">
-              Pertanyaan yang Sering Diajukan. Temukan jawaban cepat untuk pertanyaan umum di sini.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <BannerSection 
+        title="FAQ"
+        subtitle="Pertanyaan yang Sering Diajukan. Temukan jawaban cepat untuk pertanyaan umum di sini."
+      />
 
       {/* FAQ Accordion Section */}
       <section className="py-24 bg-gray-50 dark:bg-gray-800/50">
@@ -117,26 +97,15 @@ export default function FaqPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-white dark:bg-gray-900">
-        <div className="container mx-auto max-w-4xl px-4 text-center">
-          <AnimatedSection>
-            <HelpCircle className="w-12 h-12 mx-auto text-orange-600 mb-4" />
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Tidak Menemukan Jawaban?
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Tim kami selalu siap membantu. Jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lain.
-            </p>
-            <div className="mt-8">
-              <Button asChild size="lg" className="bg-orange-600 hover:bg-orange-700 text-white">
-                <Link href="/kontak">
-                  Hubungi Kami Sekarang <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+      <CTASection
+        title="Tidak Menemukan Jawaban?"
+        description="Tim kami selalu siap membantu. Jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lain."
+        buttonText="Hubungi Kami Sekarang"
+        buttonHref="/kontak"
+        variant="gray"
+        icon={<HelpCircle className="w-12 h-12 text-orange-600" />}
+        showArrow
+      />
     </div>
   );
 }

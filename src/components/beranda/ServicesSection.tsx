@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { SectionHeader } from "@/components/common";
 import Image from "next/image";
 
 export function ServicesSection() {
@@ -58,20 +59,11 @@ export function ServicesSection() {
   return (
     <section id="layanan" className="w-full py-12 md:py-24 lg:py-32 flex justify-center bg-muted/40">
       <div className="w-full max-w-7xl px-4 md:px-6">
-        <AnimatedSection>
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            
-            <div className="space-y-2">
-              <span className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-orange-600 shadow-sm dark:bg-orange-500/20 dark:text-orange-200">
-              Layanan Kami
-            </span>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Produk Konveksi Unggulan</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Dari kaos kasual hingga seragam profesional, kami mengubah ide Anda menjadi produk garmen berkualitas tinggi. Jelajahi pilihan produk unggulan kami.
-              </p>
-            </div>
-          </div>
-        </AnimatedSection>
+        <SectionHeader
+          badge="Layanan Kami"
+          title="Produk Konveksi Unggulan"
+          subtitle="Dari kaos kasual hingga seragam profesional, kami mengubah ide Anda menjadi produk garmen berkualitas tinggi. Jelajahi pilihan produk unggulan kami."
+        />
         <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:gap-12 lg:grid-cols-2">
           {services.map((service, index) => (
             <AnimatedSection delay={(index + 1) * 100} key={service.title}>

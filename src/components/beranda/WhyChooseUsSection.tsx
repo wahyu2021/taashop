@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { SectionHeader, FeatureCard } from "@/components/common";
 import { Gem, Sparkles, Rocket, ShieldCheck, Users, PackageCheck } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export function WhyChooseUsSection() {
   const features = [
@@ -38,37 +38,22 @@ export function WhyChooseUsSection() {
     },
   ];
 
-  function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
-    return (
-      <Card className="transition-shadow duration-300 border shadow-sm hover:shadow-lg h-full flex flex-col bg-card">
-        <CardHeader className="flex flex-row items-center gap-4">
-          {icon}
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{description}</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <section id="keunggulan" className="w-full py-12 md:py-24 lg:py-32 flex justify-center bg-muted/40">
       <div className="w-full max-w-7xl px-4 md:px-6">
-        <AnimatedSection>
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Lebih dari Sekadar Konveksi, Kami Adalah Mitra Kreatif Anda</h2>
-              <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Temukan alasan mengapa ratusan klien mulai dari brand lokal, perusahaan, hingga komunitas memercayakan produksi mereka kepada kami.
-              </p>
-            </div>
-          </div>
-        </AnimatedSection>
+        <SectionHeader
+          title="Lebih dari Sekadar Konveksi, Kami Adalah Mitra Kreatif Anda"
+          subtitle="Temukan alasan mengapa ratusan klien mulai dari brand lokal, perusahaan, hingga komunitas memercayakan produksi mereka kepada kami."
+        />
         <div className="mx-auto w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
           {features.map((feature, index) => (
             <AnimatedSection delay={(index + 1) * 100} key={feature.title}>
-              <FeatureCard {...feature} />
+              <FeatureCard
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                variant="default"
+              />
             </AnimatedSection>
           ))}
         </div>
@@ -76,3 +61,4 @@ export function WhyChooseUsSection() {
     </section>
   );
 }
+

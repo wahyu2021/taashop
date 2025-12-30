@@ -10,6 +10,8 @@ import { products } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from 'next/navigation';
 
+import { BannerSection } from "@/components/BannerSection";
+
 const categories = ["Semua", ...Array.from(new Set(products.map(p => p.category)))];
 
 function PortfolioImage({ product, onClick }: { product: typeof products[0]; onClick: () => void }) {
@@ -17,7 +19,7 @@ function PortfolioImage({ product, onClick }: { product: typeof products[0]; onC
 
   return (
     <div 
-      className="aspect-square overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group relative cursor-pointer"
+      className="aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 group relative cursor-pointer border border-slate-200/50 dark:border-slate-700/50"
       onClick={onClick}
     >
       {isLoading && (
@@ -31,17 +33,17 @@ function PortfolioImage({ product, onClick }: { product: typeof products[0]; onC
         fill
         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         className={cn(
-          "object-cover w-full h-full transition-transform duration-300 group-hover:scale-110",
+          "object-cover w-full h-full transition-transform duration-500 group-hover:scale-110",
           isLoading ? "opacity-0" : "opacity-100"
         )}
         onLoad={() => setIsLoading(false)}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
         <h3 className="text-white font-bold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{product.title}</h3>
         <p className="text-white/80 text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{product.category}</p>
       </div>
-      <div className="absolute top-2 right-2 p-2 bg-black/30 rounded-full transform scale-0 group-hover:scale-100 transition-transform duration-300">
-        <Search className="h-5 w-5 text-white" />
+      <div className="absolute top-3 right-3 p-2.5 bg-white/90 dark:bg-slate-800/90 rounded-full transform scale-0 group-hover:scale-100 transition-transform duration-300 shadow-lg">
+        <Search className="h-4 w-4 text-orange-600" />
       </div>
     </div>
   );
@@ -218,24 +220,10 @@ export default function Gallery() {
 
   return (
     <main className="flex-1 bg-background">
-      <section className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden">
-        <Image
-          src="/banner2.jpg"
-          alt="Galeri Produk TaaShop"
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg">Jelajahi Karya Terbaik Kami</h1>
-            <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
-              Temukan inspirasi dari berbagai produk konveksi berkualitas tinggi yang telah kami hasilkan.
-            </p>
-          </div>
-        </div>
-      </section>
+      <BannerSection 
+        title="Jelajahi Karya Terbaik Kami"
+        subtitle="Temukan inspirasi dari berbagai produk konveksi berkualitas tinggi yang telah kami hasilkan."
+      />
 
       <section ref={galleryRef} className="w-full py-12 md:py-24 lg:py-32 scroll-mt-20">
         <div className="w-full max-w-7xl mx-auto px-4 md:px-6">

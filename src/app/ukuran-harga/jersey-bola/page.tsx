@@ -1,50 +1,22 @@
 "use client";
 
 import { NextPage } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import JerseyModel from "@/components/JerseyModel";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import HowToOrderSection from "@/components/HowToOrderSection";
-import { ArrowRight } from "lucide-react";
 import MaterialsSection from "@/components/MaterialsSection";
 import { JERSEY_MODELS } from "@/data/jerseyModel";
+import { BannerSection } from "@/components/BannerSection";
+import { CTASection } from "@/components/common";
 
 const JerseyBolaPage: NextPage = () => {
     return (
         <div className="dark:bg-gray-900">
-            {/* Hero Banner */}
-            <div
-                className="relative min-h-[50vh] md:min-h-[60vh] lg:h-[50vh] bg-cover bg-center"
-                style={{ backgroundImage: "url('/banner.jpg')" }}
-            >
-                <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/50 to-black/80"></div>
-                <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-24 md:py-16 text-center text-white space-y-4 md:space-y-6 sm:py-0">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold drop-shadow-2xl">
-                        Ukuran & Harga Jersey Bola
-                    </h1>
-                    <p className="text-base sm:text-lg md:text-xl max-w-3xl drop-shadow-lg">
-                        Temukan panduan lengkap ukuran dan daftar harga terbaru
-                        untuk semua jenis jersey bola custom Anda. Desain sesuai
-                        keinginan, kualitas terbaik!
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center gap-4">
-                        <Link
-                            href="/kontak"
-                            className="group flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg transition"
-                        >
-                            Pesan Sekarang
-                            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                        <Link
-                            href="#panduan-ukuran"
-                            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur px-6 sm:px-7 py-3 rounded-full border border-white/30 text-base sm:text-lg font-semibold transition"
-                        >
-                            Lihat Panduan Ukuran
-                        </Link>
-                    </div>
-                </div>
-            </div>
+            <BannerSection
+                title="Ukuran & Harga Jersey Bola"
+                subtitle="Temukan panduan lengkap ukuran dan daftar harga terbaru untuk semua jenis jersey bola custom Anda. Desain sesuai keinginan, kualitas terbaik!"
+            />
 
             {/* Main Content */}
             <main className="py-12 sm:py-20 lg:py-24 overflow-x-hidden">
@@ -174,24 +146,13 @@ const JerseyBolaPage: NextPage = () => {
             </main>
 
             {/* CTA Section */}
-            <section className="bg-gray-100 dark:bg-gray-800">
-                <div className="container mx-auto px-4 py-12 sm:py-16 text-center">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                        Siap Membuat Jersey Impian Anda?
-                    </h2>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                        Hubungi kami sekarang untuk konsultasi gratis mengenai
-                        desain, bahan, dan harga. Tim kami siap membantu
-                        mewujudkan jersey custom terbaik untuk tim Anda.
-                    </p>
-                    <Link
-                        href="/kontak"
-                        className="bg-orange-600 text-white font-bold py-3 px-6 sm:px-8 rounded-full text-base sm:text-lg hover:bg-orange-700 transition"
-                    >
-                        Hubungi Kami
-                    </Link>
-                </div>
-            </section>
+            <CTASection
+                title="Siap Membuat Jersey Impian Anda?"
+                description="Hubungi kami sekarang untuk konsultasi gratis mengenai desain, bahan, dan harga. Tim kami siap membantu mewujudkan jersey custom terbaik untuk tim Anda."
+                buttonText="Hubungi Kami"
+                buttonHref="/kontak"
+                variant="gray"
+            />
         </div>
     );
 };

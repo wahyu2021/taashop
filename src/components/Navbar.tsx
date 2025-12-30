@@ -98,11 +98,11 @@ export function Navbar() {
   const pathname = usePathname(); // Get current pathname
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-orange-800 bg-orange-700 text-white dark:bg-gray-900 dark:border-gray-800 dark:text-white">
-      <div className="container flex h-16 items-center justify-between px-4">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl rounded-full border border-orange-400/30 bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-2xl shadow-orange-500/25 backdrop-blur-sm dark:from-slate-900 dark:to-slate-800 dark:border-slate-600/50 dark:shadow-slate-900/50">
+      <div className="flex h-14 items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center group ms-0 md:ms-96 space-x-2">
-          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8 transition-transform group-hover:scale-110" priority />
+        <Link href="/" className="flex items-center group space-x-2">
+          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8 transition-transform group-hover:scale-110 brightness-0 invert" priority />
           <span className="font-bold text-lg hidden sm:inline-block">TaaShop</span>
         </Link>
 
@@ -116,9 +116,9 @@ export function Navbar() {
                     href="/"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
-                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                      pathname === "/" && "bg-orange-600 font-semibold shadow-md"
+                      "bg-transparent text-white/90 dark:text-slate-200 px-3 transition-all",
+                      "hover:bg-white/15 hover:text-white",
+                      pathname === "/" && "bg-white/20 text-white font-semibold"
                     )}
                   >
                     Beranda
@@ -134,9 +134,9 @@ export function Navbar() {
                     href="/galeri"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
-                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                      pathname === "/galeri" && "bg-orange-600 font-semibold shadow-md"
+                      "bg-transparent text-white/90 dark:text-slate-200 px-3 transition-all",
+                      "hover:bg-white/15 hover:text-white",
+                      pathname === "/galeri" && "bg-white/20 text-white font-semibold"
                     )}
                   >
                     Galeri
@@ -147,14 +147,14 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent! text-white! dark:bg-transparent! px-3 transition-all",
-                  "hover:bg-orange-500/80! hover:text-white! hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                  "data-[state=open]:bg-orange-600! data-[state=open]:text-white! data-[state=open]:shadow-md data-[state=open]:border-b-2 data-[state=open]:border-white/70 data-[state=open]:hover:bg-orange-600!",
-                  pathname.startsWith("/ukuran-harga") && "bg-orange-600 font-semibold shadow-md"
+                  "bg-transparent! text-white/90! dark:text-slate-200! px-3 transition-all",
+                  "hover:bg-white/15! hover:text-white!",
+                  "data-[state=open]:bg-white/20! data-[state=open]:text-white!",
+                  pathname.startsWith("/ukuran-harga") && "bg-white/20 text-white font-semibold"
                 )}>
                   Ukuran & Harga
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-orange-50/95 dark:bg-orange-950/85 backdrop-blur-md border border-orange-200/70 dark:border-orange-900/60 shadow-xl shadow-orange-200/40 dark:shadow-orange-900/40">
+                <NavigationMenuContent className="bg-white dark:bg-slate-900 backdrop-blur-md border border-orange-200 dark:border-slate-700 shadow-xl rounded-lg">
                   <ul className="grid gap-3 p-6 md:w-[400px] md:grid-cols-2 lg:w-[500px]">
                     {sizingOptions.map((option) => (
                       <ListItem key={option.title} title={option.title} href={option.href}>
@@ -171,9 +171,9 @@ export function Navbar() {
                     href="/tentang-kami"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
-                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                      pathname === "/tentang-kami" && "bg-orange-600 font-semibold shadow-md"
+                      "bg-transparent text-white/90 dark:text-slate-200 px-3 transition-all",
+                      "hover:bg-white/15 hover:text-white",
+                      pathname === "/tentang-kami" && "bg-white/20 text-white font-semibold"
                     )}
                   >
                     Tentang Kami
@@ -187,9 +187,9 @@ export function Navbar() {
                     href="/faq"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
-                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                      pathname === "/faq" && "bg-orange-600 font-semibold shadow-md"
+                      "bg-transparent text-white/90 dark:text-slate-200 px-3 transition-all",
+                      "hover:bg-white/15 hover:text-white",
+                      pathname === "/faq" && "bg-white/20 text-white font-semibold"
                     )}
                   >
                     FAQ
@@ -202,9 +202,9 @@ export function Navbar() {
                     href="/kontak"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent text-white dark:bg-transparent px-3 transition-all",
-                      "hover:bg-orange-500/80 hover:text-white hover:shadow-lg hover:-translate-y-0.5 hover:border-b-2 hover:border-white/70",
-                      pathname === "/kontak" && "bg-orange-600 font-semibold shadow-md"
+                      "bg-transparent text-white/90 dark:text-slate-200 px-3 transition-all",
+                      "hover:bg-white/15 hover:text-white",
+                      pathname === "/kontak" && "bg-white/20 text-white font-semibold"
                     )}
                   >
                     Hubungi Kami
@@ -242,7 +242,7 @@ export function Navbar() {
           </Button>
 
           <div className="hidden md:flex items-center">
-            <ThemeToggle className="h-10 w-10 rounded-lg border border-transparent bg-transparent text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 hover:shadow-lg" />
+            <ThemeToggle className="h-10 w-10 rounded-lg border border-transparent text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/15 hover:shadow-lg\" />
           </div>
 
           {/* Mobile Menu */}
