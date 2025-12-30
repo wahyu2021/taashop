@@ -34,12 +34,19 @@ export default function LeadsPage() {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/analytics/stats')
-      if (response.ok) {
-        const result = await response.json()
+      // Fetch stats
+      const statsResponse = await fetch('/api/analytics/stats')
+      if (statsResponse.ok) {
+        const result = await statsResponse.json()
         setLeadsCount(result.leadsCount || 0)
       }
-      // TODO: Fetch actual leads from Sanity
+      
+      // Fetch actual leads data
+      const leadsResponse = await fetch('/api/leads')
+      if (leadsResponse.ok) {
+        const leadsData = await leadsResponse.json()
+        setLeads(leadsData.leads || [])
+      }
     } catch (error) {
       console.error(error)
     } finally {
@@ -126,16 +133,24 @@ export default function LeadsPage() {
                     <p className="text-white font-medium">{lead.name}</p>
                     <div className="flex items-center gap-4 mt-2 text-sm text-slate-400">
                       {lead.email && (
-                        <span className="flex items-center gap-1">
+                        <a 
+                          href={`mailto:${lead.email}`}
+                          className="flex items-center gap-1 hover:text-blue-400 transition-colors"
+                        >
                           <Mail className="h-4 w-4" />
                           {lead.email}
-                        </span>
+                        </a>
                       )}
                       {lead.phone && (
-                        <span className="flex items-center gap-1">
+                        <a 
+                          href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 hover:text-green-400 transition-colors"
+                        >
                           <Phone className="h-4 w-4" />
                           {lead.phone}
-                        </span>
+                        </a>
                       )}
                     </div>
                     {lead.message && (

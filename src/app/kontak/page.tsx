@@ -1,6 +1,8 @@
 
 "use client";
 
+import React from 'react';
+
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { BannerSection } from "@/components/BannerSection";
 import { Button } from "@/components/ui/button";
@@ -55,29 +57,7 @@ export default function KontakPage() {
             <AnimatedSection delay={200} className="lg:col-span-2">
               <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-6">Tinggalkan Pesan</h2>
-                <form className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Nama Lengkap</Label>
-                      <Input id="name" placeholder="Nama Anda" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="Email Anda" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subjek</Label>
-                    <Input id="subject" placeholder="Subjek Pesan" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Pesan Anda</Label>
-                    <Textarea id="message" placeholder="Tuliskan detail proyek atau pertanyaan Anda di sini..." rows={6} />
-                  </div>
-                  <Button type="submit" size="lg" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
-                    Kirim Pesan <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </form>
+                <ContactForm />
               </div>
             </AnimatedSection>
           </div>
@@ -123,6 +103,87 @@ export default function KontakPage() {
     </div>
   );
 }
+
+function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [status, setStatus] = React.useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: '' });
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setStatus({ type: null, message: '' });
+
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Gagal mengirim pesan');
+      }
+
+      setStatus({ type: 'success', message: 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.' });
+      (event.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus({ type: 'error', message: 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      {status.message && (
+        <div className={`p-4 rounded-md ${status.type === 'success' ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300'}`}>
+          {status.message}
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid sm:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label htmlFor="name">Nama Lengkap</Label>
+            <Input id="name" name="name" placeholder="Nama Anda" required suppressHydrationWarning />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" placeholder="Email Anda" required suppressHydrationWarning />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Nomor WhatsApp</Label>
+            <Input id="phone" name="phone" type="tel" placeholder="Contoh: 08123456789" suppressHydrationWarning />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="subject">Subjek</Label>
+          <Input id="subject" name="subject" placeholder="Subjek Pesan" suppressHydrationWarning />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="message">Pesan Anda</Label>
+          <Textarea id="message" name="message" placeholder="Tuliskan detail proyek atau pertanyaan Anda di sini..." rows={6} required />
+        </div>
+        <Button type="submit" size="lg" className="w-full bg-orange-600 hover:bg-orange-700 text-white" disabled={isSubmitting} suppressHydrationWarning>
+          {isSubmitting ? 'Mengirim...' : 'Kirim Pesan'} 
+          {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
+        </Button>
+      </form>
+    </div>
+  );
+}
+
 
 function ContactInfoItem({ icon, title, content }: { icon: React.ReactNode; title: string; content: React.ReactNode }) {
   return (

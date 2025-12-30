@@ -10,7 +10,8 @@ import {
   HelpCircle,
   CheckCircle,
   Sparkles,
-  BookOpen
+  BookOpen,
+  Lightbulb
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -113,34 +114,125 @@ export default function GuidePage() {
         />
       </div>
 
-      {/* Sanity Studio */}
+      {/* Sanity Studio - Comprehensive Guide */}
       <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 mb-8">
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-4 mb-6">
           <div className="p-3 bg-purple-500/10 rounded-xl">
             <Database className="h-8 w-8 text-purple-400" />
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-white mb-2">Sanity Studio</h3>
-            <p className="text-slate-400 mb-4">Content Management System untuk mengelola semua konten website Anda.</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                <p className="text-white font-medium">Produk</p>
-                <p className="text-slate-400 text-xs mt-1">Tambah/edit produk</p>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                <p className="text-white font-medium">Galeri</p>
-                <p className="text-slate-400 text-xs mt-1">Upload gambar</p>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                <p className="text-white font-medium">Testimoni</p>
-                <p className="text-slate-400 text-xs mt-1">Kelola testimoni</p>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                <p className="text-white font-medium">FAQ</p>
-                <p className="text-slate-400 text-xs mt-1">Edit FAQ</p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">Panduan Lengkap Sanity Studio</h3>
+            <p className="text-slate-400">Content Management System untuk mengelola semua konten website Anda. Buka <Link href="/admin/studio" className="text-orange-400 hover:underline">Sanity Studio</Link> di tab baru untuk mulai.</p>
           </div>
+        </div>
+        
+        {/* Content Types Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p className="text-white font-medium">Galeri</p>
+            <p className="text-slate-400 text-xs mt-1">Foto hasil produksi</p>
+          </div>
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p className="text-white font-medium">Testimoni</p>
+            <p className="text-slate-400 text-xs mt-1">Review pelanggan</p>
+          </div>
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p className="text-white font-medium">FAQ</p>
+            <p className="text-slate-400 text-xs mt-1">Pertanyaan umum</p>
+          </div>
+          <div className="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p className="text-white font-medium">Site Settings</p>
+            <p className="text-slate-400 text-xs mt-1">Logo & kontak</p>
+          </div>
+        </div>
+
+        {/* Step by Step Guides */}
+        <div className="space-y-6">
+          {/* Menambah Galeri */}
+          <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-600">
+            <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+              Menambah Foto Galeri
+            </h4>
+            <ol className="space-y-2 text-slate-300 text-sm ml-8 list-decimal">
+              <li>Buka <span className="text-orange-400">Sanity Studio</span> → klik menu <span className="bg-slate-700 px-2 py-0.5 rounded">Gallery</span></li>
+              <li>Klik tombol <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs">+ Create</span> di pojok kanan atas</li>
+              <li>Isi <span className="text-white font-medium">Title</span> - nama gambar (misal: "Jersey Tim Futsal ABC")</li>
+              <li>Upload <span className="text-white font-medium">Image</span> - klik area upload dan pilih file gambar</li>
+              <li>Pilih <span className="text-white font-medium">Category</span> - kategori produk (Jersey, Kaos, Seragam, dll)</li>
+              <li>Isi <span className="text-white font-medium">Description</span> (opsional) - deskripsi singkat</li>
+              <li>Klik tombol <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">Publish</span> untuk menyimpan</li>
+            </ol>
+          </div>
+
+          {/* Menambah Testimoni */}
+          <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-600">
+            <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+              Menambah Testimoni Pelanggan
+            </h4>
+            <ol className="space-y-2 text-slate-300 text-sm ml-8 list-decimal">
+              <li>Buka <span className="text-orange-400">Sanity Studio</span> → klik menu <span className="bg-slate-700 px-2 py-0.5 rounded">Testimonial</span></li>
+              <li>Klik tombol <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs">+ Create</span></li>
+              <li>Isi <span className="text-white font-medium">Name</span> - nama pelanggan</li>
+              <li>Isi <span className="text-white font-medium">Role/Company</span> - jabatan atau nama perusahaan/tim</li>
+              <li>Upload <span className="text-white font-medium">Avatar</span> (opsional) - foto pelanggan</li>
+              <li>Isi <span className="text-white font-medium">Quote</span> - isi testimoni pelanggan</li>
+              <li>Pilih <span className="text-white font-medium">Rating</span> - rating bintang (1-5)</li>
+              <li>Klik <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">Publish</span></li>
+            </ol>
+          </div>
+
+          {/* Mengedit FAQ */}
+          <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-600">
+            <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+              Menambah/Edit FAQ
+            </h4>
+            <ol className="space-y-2 text-slate-300 text-sm ml-8 list-decimal">
+              <li>Buka <span className="text-orange-400">Sanity Studio</span> → klik menu <span className="bg-slate-700 px-2 py-0.5 rounded">FAQ</span></li>
+              <li>Untuk edit: klik item FAQ yang ingin diubah</li>
+              <li>Untuk tambah baru: klik <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs">+ Create</span></li>
+              <li>Isi <span className="text-white font-medium">Question</span> - pertanyaan yang sering diajukan</li>
+              <li>Isi <span className="text-white font-medium">Answer</span> - jawaban dari pertanyaan</li>
+              <li>Atur <span className="text-white font-medium">Order</span> - urutan tampil (angka kecil = tampil duluan)</li>
+              <li>Klik <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">Publish</span></li>
+            </ol>
+          </div>
+
+          {/* Site Settings */}
+          <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-600">
+            <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+              Mengubah Site Settings (Logo & Kontak)
+            </h4>
+            <ol className="space-y-2 text-slate-300 text-sm ml-8 list-decimal">
+              <li>Buka <span className="text-orange-400">Sanity Studio</span> → klik menu <span className="bg-slate-700 px-2 py-0.5 rounded">Site Settings</span></li>
+              <li>Klik pada item settings yang ada (biasanya hanya ada 1)</li>
+              <li><span className="text-white font-medium">Logo</span> - upload logo baru untuk website</li>
+              <li><span className="text-white font-medium">Phone</span> - nomor telepon yang tampil di website</li>
+              <li><span className="text-white font-medium">Email</span> - alamat email kontak</li>
+              <li><span className="text-white font-medium">WhatsApp</span> - nomor WhatsApp untuk tombol chat</li>
+              <li><span className="text-white font-medium">Address</span> - alamat lengkap toko/workshop</li>
+              <li><span className="text-white font-medium">Social Media</span> - link Instagram, Facebook, dll</li>
+              <li>Klik <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">Publish</span> untuk menyimpan</li>
+            </ol>
+          </div>
+        </div>
+
+        {/* Important Notes */}
+        <div className="mt-6 bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+          <h4 className="text-yellow-400 font-semibold mb-2 flex items-center gap-2">
+            <Lightbulb className="h-4 w-4" />
+            Penting Diingat
+          </h4>
+          <ul className="space-y-1 text-slate-300 text-sm">
+            <li>• Selalu klik <span className="text-blue-400 font-medium">Publish</span> setelah melakukan perubahan</li>
+            <li>• Perubahan akan langsung tampil di website setelah di-publish</li>
+            <li>• Gunakan gambar dengan ukuran maksimal 2MB untuk performa terbaik</li>
+            <li>• Format gambar yang disarankan: JPG, PNG, atau WebP</li>
+            <li>• Jika ada perubahan tidak muncul, coba refresh halaman website (Ctrl+F5)</li>
+          </ul>
         </div>
       </div>
 
@@ -172,7 +264,8 @@ export default function GuidePage() {
       {/* Tips */}
       <div className="bg-gradient-to-r from-blue-500/10 to-slate-800 rounded-xl p-6 border border-blue-500/20">
         <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-          💡 Tips Penggunaan
+          <Lightbulb className="h-5 w-5 text-yellow-400" />
+          Tips Penggunaan
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TipItem text="Klik tombol Refresh untuk memperbarui data statistik" />

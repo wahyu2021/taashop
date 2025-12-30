@@ -39,31 +39,27 @@ async function getOrderingSteps(): Promise<OrderingStep[]> {
 }
 
 function ProcessStep({ icon, step, title, description, align }: { icon: React.ReactNode; step: string; title: string; description: string; align: 'left' | 'right' }) {
-  const alignmentClasses = align === 'left' ? 'md:text-left' : 'md:text-right';
-  const contentOrder = align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse';
-  const timelineDotAlign = align === 'left' ? 'md:left-0 md:-translate-x-1/2' : 'md:right-0 md:translate-x-1/2';
+  const cardPosition = align === 'left' ? 'md:pr-12' : 'md:pl-12';
 
   return (
-    <div className={`relative flex flex-col items-center md:items-stretch ${alignmentClasses}`}>
-      <div className={`flex items-center gap-6 ${contentOrder}`}>
-        <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-primary text-primary-foreground border-4 border-background shadow-lg">
-          {icon}
-        </div>
-        <div className="flex-1">
-          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 -mb-6">
-                <span className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground">{icon}</span>
-                {step}. {title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground text-left">{description}</p>
-            </CardContent>
-          </Card>
-        </div>
+    <div className={`relative ${cardPosition}`}>
+      {/* Icon on the timeline - positioned at the edge towards center */}
+      <div className={`absolute top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground border-4 border-background shadow-lg z-10 ${align === 'left' ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'}`}>
+        {icon}
       </div>
-      <div className={`absolute top-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background transform -translate-y-1/2 hidden md:block ${timelineDotAlign}`}></div>
+      
+      {/* Card */}
+      <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 -mb-6">
+            <span className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground">{icon}</span>
+            {step}. {title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground text-left">{description}</p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -24,9 +24,9 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex bg-slate-900" data-admin="true">
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-800 border-r border-slate-700 flex flex-col">
+    <div className="h-screen flex bg-slate-900 overflow-hidden" data-admin="true">
+      {/* Sidebar - Fixed */}
+      <aside className="w-64 h-screen bg-slate-800 border-r border-slate-700 flex flex-col flex-shrink-0">
         {/* Header with Logo */}
         <div className="p-5 border-b border-slate-700">
           <Link href="/admin" className="flex items-center gap-3 group">

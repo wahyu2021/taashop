@@ -11,7 +11,10 @@ import {
   Database,
   ExternalLink,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  BarChart3,
+  PieChart,
+  Zap
 } from 'lucide-react'
 import Link from 'next/link'
 import { TopPagesChart, DonutChart } from '@/components/admin/Charts'
@@ -159,7 +162,10 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Top Pages Chart */}
         <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-          <h2 className="text-xl font-semibold text-white mb-4">📊 Halaman Populer</h2>
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-orange-500" />
+            Halaman Populer
+          </h2>
           {loading ? (
             <div className="flex justify-center items-center h-[300px]">
               <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
@@ -175,7 +181,10 @@ export default function AdminDashboard() {
 
         {/* Donut Chart - Overview */}
         <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-          <h2 className="text-xl font-semibold text-white mb-4">📈 Overview Statistik</h2>
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <PieChart className="h-5 w-5 text-orange-500" />
+            Overview Statistik
+          </h2>
           {loading ? (
             <div className="flex justify-center items-center h-[280px]">
               <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
@@ -192,7 +201,10 @@ export default function AdminDashboard() {
 
       {/* Quick Actions */}
       <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-        <h2 className="text-xl font-semibold text-white mb-4">⚡ Aksi Cepat</h2>
+        <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+          <Zap className="h-5 w-5 text-yellow-500" />
+          Aksi Cepat
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/admin/studio"

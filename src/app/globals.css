@@ -180,3 +180,49 @@
 [data-admin="true"] * {
     outline: none !important;
 }
+
+/* Custom Scrollbar - Orange Theme */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #f97316, #ea580c);
+    border-radius: 5px;
+    border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ea580c, #c2410c);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+    background: #18181b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #f97316, #ea580c);
+    border: 2px solid #18181b;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #fb923c, #f97316);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #f97316 #f1f5f9;
+}
+
+.dark * {
+    scrollbar-color: #f97316 #18181b;
+}

@@ -11,14 +11,19 @@ import { Footer } from "@/components/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false, // Secondary font, don't preload
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://taashop.com"),
   title: {
     default: "TaaShop Konveksi - Jasa Konveksi Custom Berkualitas",
     template: "%s | TaaShop Konveksi",
