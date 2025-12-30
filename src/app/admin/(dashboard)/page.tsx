@@ -14,6 +14,7 @@ import {
   RefreshCw
 } from 'lucide-react'
 import Link from 'next/link'
+import { TopPagesChart, DonutChart } from '@/components/admin/Charts'
 
 interface AnalyticsData {
   totalViews: number
@@ -56,6 +57,7 @@ export default function AdminDashboard() {
       change: data?.viewsChange ?? null,
       icon: Eye, 
       description: 'Bulan ini',
+      color: 'orange',
     },
     { 
       label: 'Unique Visitors', 
@@ -63,6 +65,7 @@ export default function AdminDashboard() {
       change: null,
       icon: Users, 
       description: 'Bulan ini',
+      color: 'green',
     },
     { 
       label: 'Views Hari Ini', 
@@ -70,6 +73,7 @@ export default function AdminDashboard() {
       change: null,
       icon: Calendar, 
       description: 'Hari ini',
+      color: 'blue',
     },
     { 
       label: 'Leads', 
@@ -77,7 +81,24 @@ export default function AdminDashboard() {
       change: null,
       icon: TrendingUp, 
       description: 'Kontak masuk bulan ini',
+      color: 'purple',
     },
+  ]
+
+  const colorMap: Record<string, string> = {
+    orange: 'bg-orange-500/10 text-orange-500',
+    green: 'bg-green-500/10 text-green-500',
+    blue: 'bg-blue-500/10 text-blue-500',
+    purple: 'bg-purple-500/10 text-purple-500',
+  }
+
+  // Prepare data for donut chart
+  const donutLabels = ['Page Views', 'Unique Visitors', 'Today Views', 'Leads']
+  const donutValues = [
+    data?.totalViews ?? 0,
+    data?.uniqueVisitors ?? 0,
+    data?.todayViews ?? 0,
+    data?.leadsCount ?? 0,
   ]
 
   return (
@@ -108,15 +129,15 @@ export default function AdminDashboard() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-slate-800 rounded-xl p-6 border border-slate-700"
+            className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-slate-600 transition-colors"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-orange-500/10 rounded-lg">
-                <stat.icon className="h-6 w-6 text-orange-500" />
+              <div className={`p-3 rounded-lg ${colorMap[stat.color]?.split(' ')[0] || 'bg-orange-500/10'}`}>
+                <stat.icon className={`h-6 w-6 ${colorMap[stat.color]?.split(' ')[1] || 'text-orange-500'}`} />
               </div>
               {stat.change !== null && stat.change !== 0 && (
-                <span className={`flex items-center text-sm ${
-                  stat.change >= 0 ? 'text-green-400' : 'text-red-400'
+                <span className={`flex items-center text-sm font-medium px-2 py-1 rounded-full ${
+                  stat.change >= 0 ? 'text-green-400 bg-green-500/10' : 'text-red-400 bg-red-500/10'
                 }`}>
                   {stat.change >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
                   {Math.abs(stat.change)}%
@@ -134,27 +155,44 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* Top Pages */}
-      {data?.topPages && data.topPages.length > 0 && (
-        <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 mb-8">
-          <h2 className="text-xl font-semibold text-white mb-4">Halaman Populer</h2>
-          <div className="space-y-3">
-            {data.topPages.map((page, index) => (
-              <div key={page.path} className="flex items-center justify-between py-2 border-b border-slate-700 last:border-0">
-                <div className="flex items-center gap-3">
-                  <span className="text-slate-500 text-sm w-6">{index + 1}.</span>
-                  <span className="text-white">{page.path}</span>
-                </div>
-                <span className="text-slate-400">{page.count} views</span>
-              </div>
-            ))}
-          </div>
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Top Pages Chart */}
+        <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <h2 className="text-xl font-semibold text-white mb-4">📊 Halaman Populer</h2>
+          {loading ? (
+            <div className="flex justify-center items-center h-[300px]">
+              <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+            </div>
+          ) : data?.topPages && data.topPages.length > 0 ? (
+            <TopPagesChart data={data.topPages.slice(0, 8)} />
+          ) : (
+            <div className="flex justify-center items-center h-[300px] text-slate-500">
+              Belum ada data
+            </div>
+          )}
         </div>
-      )}
+
+        {/* Donut Chart - Overview */}
+        <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <h2 className="text-xl font-semibold text-white mb-4">📈 Overview Statistik</h2>
+          {loading ? (
+            <div className="flex justify-center items-center h-[280px]">
+              <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+            </div>
+          ) : (
+            <DonutChart 
+              labels={donutLabels} 
+              values={donutValues}
+              colors={['#f97316', '#22c55e', '#3b82f6', '#a855f7']}
+            />
+          )}
+        </div>
+      </div>
 
       {/* Quick Actions */}
       <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-        <h2 className="text-xl font-semibold text-white mb-4">Aksi Cepat</h2>
+        <h2 className="text-xl font-semibold text-white mb-4">⚡ Aksi Cepat</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/admin/studio"
@@ -189,5 +227,6 @@ export default function AdminDashboard() {
     </div>
   )
 }
+
 
 

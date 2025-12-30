@@ -7,6 +7,9 @@ import { siteSettings } from './siteSettings'
 import { adminUser } from './adminUser'
 import { pageView } from './pageView'
 import { contactSubmission } from './contactSubmission'
+import { service } from './service'
+import { feature } from './feature'
+import { orderingStep } from './orderingStep'
 
 export const schemaTypes = [
   product,
@@ -18,5 +21,9 @@ export const schemaTypes = [
   adminUser,
   pageView,
   contactSubmission,
+  service,
+  feature,
+  orderingStep,
 ]
+
 

@@ -8,10 +8,8 @@ export async function middleware(request: NextRequest) {
   // - Login page
   // - API routes
   // - Static assets
-  // - Sanity Studio (has its own auth)
   if (
     pathname === '/admin/login' ||
-    pathname.startsWith('/admin/studio') ||
     pathname.startsWith('/api/') ||
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/static/') ||

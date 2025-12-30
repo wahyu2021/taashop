@@ -1,8 +1,49 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Phone, Mail } from "lucide-react";
+import { client } from "@/sanity/client";
 
-export function Footer() {
+interface SiteSettings {
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+  instagram?: string;
+  address?: string;
+  googleMapsEmbed?: string;
+}
+
+// Fallback data
+const fallbackSettings: SiteSettings = {
+  phone: "+62 822-8195-4629",
+  email: "info@taashop.com",
+  whatsapp: "6282281954629",
+  instagram: "taaashop_konveksi",
+  address: "Palembang, Sumatera Selatan",
+  googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d996.1643323594824!2d104.64398196589632!3d-2.9145696817020856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b0d228b1e20a7%3A0xe9263652f2ab49a6!2sKITA%20Coffee%20and%20Eatery%20%7C%20Taaashop%20Konveksi!5e0!3m2!1sen!2sid!4v1762762411117!5m2!1sen!2sid",
+};
+
+async function getSiteSettings(): Promise<SiteSettings> {
+  try {
+    const settings = await client.fetch<SiteSettings>(
+      `*[_type == "siteSettings"][0] {
+        phone, email, whatsapp, instagram, address, googleMapsEmbed
+      }`
+    );
+    return settings || fallbackSettings;
+  } catch {
+    return fallbackSettings;
+  }
+}
+
+export async function Footer() {
+  const settings = await getSiteSettings();
+  
+  const phone = settings.phone || fallbackSettings.phone;
+  const email = settings.email || fallbackSettings.email;
+  const whatsapp = settings.whatsapp || fallbackSettings.whatsapp;
+  const instagram = settings.instagram || fallbackSettings.instagram;
+  const googleMapsEmbed = settings.googleMapsEmbed || fallbackSettings.googleMapsEmbed;
+
   return (
     <footer className="bg-gradient-to-r from-orange-600 to-orange-500 text-white w-full flex justify-center border-t border-orange-700 dark:from-slate-900 dark:to-slate-800 dark:border-slate-700">
       <div className="w-full max-w-7xl px-4 md:px-6 py-16">
@@ -31,24 +72,24 @@ export function Footer() {
             <h4 className="font-semibold text-lg">Kontak Kami</h4>
             <div className="flex flex-col gap-3 text-sm">
               <FooterContact
-                href="https://wa.me/6282281954629"
+                href={`https://wa.me/${whatsapp}`}
                 icon={<Phone className="h-4 w-4" />}
               >
-                +62 822-8195-4629
+                {phone}
               </FooterContact>
 
               <FooterContact
-                href="mailto:info@taashop.com"
+                href={`mailto:${email}`}
                 icon={<Mail className="h-4 w-4" />}
               >
-                info@taashop.com
+                {email}
               </FooterContact>
 
               <FooterContact
-                href="https://www.instagram.com/taaashop_konveksi/"
+                href={`https://www.instagram.com/${instagram}/`}
                 icon={<Instagram className="h-4 w-4" />}
               >
-                @taaashop_konveksi
+                @{instagram}
               </FooterContact>
             </div>
           </div>
@@ -69,7 +110,7 @@ export function Footer() {
             <h4 className="font-semibold text-lg">Lokasi Kami</h4>
             <div className="aspect-video w-full overflow-hidden rounded-xl shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d996.1643323594824!2d104.64398196589632!3d-2.9145696817020856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b0d228b1e20a7%3A0xe9263652f2ab49a6!2sKITA%20Coffee%20and%20Eatery%20%7C%20Taaashop%20Konveksi!5e0!3m2!1sen!2sid!4v1762762411117!5m2!1sen!2sid"
+                src={googleMapsEmbed}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

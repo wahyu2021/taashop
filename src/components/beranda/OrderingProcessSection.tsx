@@ -1,8 +1,41 @@
-"use client";
-
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipboardCheck, Paintbrush, Package, Send } from "lucide-react";
+import { ClipboardCheck, Paintbrush, Package, Send, Truck, Shirt, CheckCircle } from "lucide-react";
+import { client } from "@/sanity/client";
+
+interface OrderingStep {
+  _id: string;
+  stepNumber: number;
+  title: string;
+  description: string;
+  iconName: string;
+}
+
+// Icon mapping
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  ClipboardCheck, Paintbrush, Package, Send, Truck, Shirt, CheckCircle,
+};
+
+// Fallback data
+const fallbackSteps: OrderingStep[] = [
+  { _id: "1", stepNumber: 1, title: "Konsultasi & Desain", description: "Hubungi kami untuk konsultasi gratis. Tim kami akan membantu Anda merancang desain yang sempurna, memilih bahan terbaik, dan memberikan penawaran harga yang transparan.", iconName: "ClipboardCheck" },
+  { _id: "2", stepNumber: 2, title: "Approval & DP", description: "Setelah desain disetujui, Anda akan menerima mockup digital. Lakukan pembayaran uang muka (DP) untuk memulai proses produksi.", iconName: "Paintbrush" },
+  { _id: "3", stepNumber: 3, title: "Produksi Presisi", description: "Pesanan Anda masuk ke tahap produksi. Kami menggunakan teknologi canggih dan quality control yang ketat untuk memastikan setiap detail sempurna.", iconName: "Package" },
+  { _id: "4", stepNumber: 4, title: "Pelunasan & Pengiriman", description: "Setelah produksi selesai, lakukan pelunasan. Pesanan Anda akan segera kami kemas dengan aman dan kirimkan ke alamat Anda di seluruh Indonesia.", iconName: "Send" },
+];
+
+async function getOrderingSteps(): Promise<OrderingStep[]> {
+  try {
+    const steps = await client.fetch<OrderingStep[]>(
+      `*[_type == "orderingStep"] | order(stepNumber asc) {
+        _id, stepNumber, title, description, iconName
+      }`
+    );
+    return steps.length > 0 ? steps : fallbackSteps;
+  } catch {
+    return fallbackSteps;
+  }
+}
 
 function ProcessStep({ icon, step, title, description, align }: { icon: React.ReactNode; step: string; title: string; description: string; align: 'left' | 'right' }) {
   const alignmentClasses = align === 'left' ? 'md:text-left' : 'md:text-right';
@@ -34,7 +67,9 @@ function ProcessStep({ icon, step, title, description, align }: { icon: React.Re
   );
 }
 
-export function OrderingProcessSection() {
+export async function OrderingProcessSection() {
+  const steps = await getOrderingSteps();
+
   return (
     <section id="proses" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 flex justify-center">
       <div className="w-full max-w-7xl px-4 md:px-6">
@@ -51,53 +86,27 @@ export function OrderingProcessSection() {
         <div className="relative py-12">
           <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border/50 transform -translate-x-1/2 hidden md:block"></div>
           <div className="grid gap-12 md:grid-cols-2">
-            {/* Step 1 */}
-            <AnimatedSection delay={100}>
-              <ProcessStep
-                icon={<ClipboardCheck />}
-                step="1"
-                title="Konsultasi & Desain"
-                description="Hubungi kami untuk konsultasi gratis. Tim kami akan membantu Anda merancang desain yang sempurna, memilih bahan terbaik, dan memberikan penawaran harga yang transparan."
-                align="right"
-              />
-            </AnimatedSection>
-            <div className="hidden md:block"></div>
-
-            {/* Step 2 */}
-            <div className="hidden md:block"></div>
-            <AnimatedSection delay={200}>
-              <ProcessStep
-                icon={<Paintbrush />}
-                step="2"
-                title="Approval & DP"
-                description="Setelah desain disetujui, Anda akan menerima mockup digital. Lakukan pembayaran uang muka (DP) untuk memulai proses produksi."
-                align="left"
-              />
-            </AnimatedSection>
-
-            {/* Step 3 */}
-            <AnimatedSection delay={300}>
-              <ProcessStep
-                icon={<Package />}
-                step="3"
-                title="Produksi Presisi"
-                description="Pesanan Anda masuk ke tahap produksi. Kami menggunakan teknologi canggih dan quality control yang ketat untuk memastikan setiap detail sempurna."
-                align="right"
-              />
-            </AnimatedSection>
-            <div className="hidden md:block"></div>
-
-            {/* Step 4 */}
-            <div className="hidden md:block"></div>
-            <AnimatedSection delay={400}>
-              <ProcessStep
-                icon={<Send />}
-                step="4"
-                title="Pelunasan & Pengiriman"
-                description="Setelah produksi selesai, lakukan pelunasan. Pesanan Anda akan segera kami kemas dengan aman dan kirimkan ke alamat Anda di seluruh Indonesia."
-                align="left"
-              />
-            </AnimatedSection>
+            {steps.map((step, index) => {
+              const IconComponent = iconMap[step.iconName] || ClipboardCheck;
+              const align = index % 2 === 0 ? 'right' : 'left';
+              const showPlaceholder = index % 2 === 0;
+              
+              return (
+                <>
+                  {showPlaceholder && <div key={`placeholder-before-${step._id}`} className="hidden md:block"></div>}
+                  <AnimatedSection delay={(index + 1) * 100} key={step._id}>
+                    <ProcessStep
+                      icon={<IconComponent />}
+                      step={step.stepNumber.toString()}
+                      title={step.title}
+                      description={step.description}
+                      align={align}
+                    />
+                  </AnimatedSection>
+                  {!showPlaceholder && <div key={`placeholder-after-${step._id}`} className="hidden md:block"></div>}
+                </>
+              );
+            })}
           </div>
         </div>
       </div>
