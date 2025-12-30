@@ -1,3 +1,4 @@
+import React from 'react';
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardCheck, Paintbrush, Package, Send, Truck, Shirt, CheckCircle } from "lucide-react";
@@ -91,21 +92,21 @@ export async function OrderingProcessSection() {
               const align = index % 2 === 0 ? 'right' : 'left';
               const showPlaceholder = index % 2 === 0;
               
-              return (
-                <>
-                  {showPlaceholder && <div key={`placeholder-before-${step._id}`} className="hidden md:block"></div>}
-                  <AnimatedSection delay={(index + 1) * 100} key={step._id}>
-                    <ProcessStep
-                      icon={<IconComponent />}
-                      step={step.stepNumber.toString()}
-                      title={step.title}
-                      description={step.description}
-                      align={align}
-                    />
-                  </AnimatedSection>
-                  {!showPlaceholder && <div key={`placeholder-after-${step._id}`} className="hidden md:block"></div>}
-                </>
-              );
+                return (
+                  <React.Fragment key={step._id}>
+                    {showPlaceholder && <div className="hidden md:block"></div>}
+                    <AnimatedSection delay={(index + 1) * 100}>
+                      <ProcessStep
+                        icon={<IconComponent />}
+                        step={step.stepNumber.toString()}
+                        title={step.title}
+                        description={step.description}
+                        align={align}
+                      />
+                    </AnimatedSection>
+                    {!showPlaceholder && <div className="hidden md:block"></div>}
+                  </React.Fragment>
+                );
             })}
           </div>
         </div>

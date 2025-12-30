@@ -19,6 +19,14 @@ export const siteSettings = defineType({
       initialValue: 'TaaShop adalah partner konveksi Anda untuk mewujudkan pakaian custom berkualitas tinggi.',
     }),
     defineField({
+      name: 'logo',
+      title: 'Logo Website',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'phone',
       title: 'Nomor Telepon',
       type: 'string',

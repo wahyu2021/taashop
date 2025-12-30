@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConditionalLayout } from "@/components/ConditionalLayout";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { client, urlFor } from "@/sanity/client";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,11 +62,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let logoUrl = undefined;
+  try {
+    const settings = await client.fetch('*[_type == "siteSettings"][0]{logo}');
+    if (settings?.logo) {
+      logoUrl = urlFor(settings.logo).url();
+    }
+  } catch (error) {
+    console.error("Error fetching logo:", error);
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -74,7 +87,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AnalyticsTracker />
-          <ConditionalLayout>
+          <ConditionalLayout 
+            navbar={<Navbar logoUrl={logoUrl} />}
+            footer={<Footer />}
+          >
             {children}
           </ConditionalLayout>
         </ThemeProvider>

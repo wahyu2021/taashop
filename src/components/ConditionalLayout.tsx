@@ -1,14 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 
 interface ConditionalLayoutProps {
   children: React.ReactNode;
+  navbar: React.ReactNode;
+  footer: React.ReactNode;
 }
 
-export function ConditionalLayout({ children }: ConditionalLayoutProps) {
+export function ConditionalLayout({ children, navbar, footer }: ConditionalLayoutProps) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
 
@@ -27,11 +28,11 @@ export function ConditionalLayout({ children }: ConditionalLayoutProps) {
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <Navbar />
+        {navbar}
         <main className="flex-1">
           {children}
         </main>
-        <Footer />
+        {footer}
       </div>
     </div>
   );

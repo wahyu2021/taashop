@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Phone, Mail } from "lucide-react";
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 
 interface SiteSettings {
   phone?: string;
@@ -10,6 +10,7 @@ interface SiteSettings {
   instagram?: string;
   address?: string;
   googleMapsEmbed?: string;
+  logo?: any;
 }
 
 // Fallback data
@@ -26,7 +27,7 @@ async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const settings = await client.fetch<SiteSettings>(
       `*[_type == "siteSettings"][0] {
-        phone, email, whatsapp, instagram, address, googleMapsEmbed
+        phone, email, whatsapp, instagram, address, googleMapsEmbed, logo
       }`
     );
     return settings || fallbackSettings;
@@ -52,13 +53,23 @@ export async function Footer() {
           {/* ABOUT */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/logo.svg"
-                alt="TaaShop Logo"
-                width={36}
-                height={36}
-                className="w-9 h-9 brightness-0 invert"
-              />
+              {settings.logo ? (
+                <Image
+                  src={urlFor(settings.logo).url()}
+                  alt="TaaShop Logo"
+                  width={36}
+                  height={36}
+                  className="w-9 h-9 brightness-0 invert"
+                />
+              ) : (
+                <Image
+                  src="/logo.svg"
+                  alt="TaaShop Logo"
+                  width={36}
+                  height={36}
+                  className="w-9 h-9 brightness-0 invert"
+                />
+              )}
               <span className="font-bold text-lg">TaaShop Konveksi</span>
             </Link>
             <p className="text-sm leading-relaxed dark:text-gray-300">

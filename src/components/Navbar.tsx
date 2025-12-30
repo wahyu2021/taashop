@@ -94,7 +94,7 @@ export const galleryCategories: GalleryCategory[] = [
   },
 ];
 
-export function Navbar() {
+export function Navbar({ logoUrl }: { logoUrl?: string }) {
   const pathname = usePathname(); // Get current pathname
 
   return (
@@ -102,7 +102,7 @@ export function Navbar() {
       <div className="flex h-14 items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center group space-x-2">
-          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8 transition-transform group-hover:scale-110 brightness-0 invert" priority />
+          <Image src={logoUrl || "/logo.svg"} alt="TaaShop Logo" width={32} height={32} className="w-8 h-8 transition-transform group-hover:scale-110 brightness-0 invert" priority />
           <span className="font-bold text-lg hidden sm:inline-block">TaaShop</span>
         </Link>
 
@@ -259,7 +259,7 @@ export function Navbar() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[280px] sm:w-[350px] bg-background">
-                <MobileMenu pathname={pathname} />
+                <MobileMenu pathname={pathname} logoUrl={logoUrl} />
               </SheetContent>
             </Sheet>
           </div>
@@ -274,7 +274,7 @@ export function Navbar() {
 // ... other imports
 
 // Mobile Menu Component
-function MobileMenu({ pathname }: { pathname: string }) {
+function MobileMenu({ pathname, logoUrl }: { pathname: string; logoUrl?: string }) {
   const navItems = [
     { href: "/", icon: <Home className="h-4 w-4" />, text: "Beranda", activePath: "/" },
     { href: "/galeri", icon: <ImageIcon className="h-4 w-4" />, text: "Galeri", activePath: "/galeri" },
@@ -287,7 +287,7 @@ function MobileMenu({ pathname }: { pathname: string }) {
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto">
         <Link href="/" className="flex items-center space-x-2 p-4">
-          <Image src="/logo.svg" alt="TaaShop Logo" width={32} height={32} className="w-8 h-8" priority />
+          <Image src={logoUrl || "/logo.svg"} alt="TaaShop Logo" width={32} height={32} className="w-8 h-8" priority />
           <span className="font-bold text-lg text-foreground">TaaShop</span>
         </Link>
 
