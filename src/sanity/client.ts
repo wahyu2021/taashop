@@ -15,3 +15,14 @@ export function urlFor(source: any): ImageUrlBuilder {
   return builder.image(source)
 }
 
+// Next.js fetch caching configuration
+// Revalidate content every 1 hour (3600 seconds)
+export const fetchConfig = {
+  next: { revalidate: 3600 }
+}
+
+// For data that rarely changes, use longer cache (24 hours)
+export const staticFetchConfig = {
+  next: { revalidate: 86400 }
+}
+

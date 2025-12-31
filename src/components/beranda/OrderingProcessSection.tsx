@@ -30,7 +30,9 @@ async function getOrderingSteps(): Promise<OrderingStep[]> {
     const steps = await client.fetch<OrderingStep[]>(
       `*[_type == "orderingStep"] | order(stepNumber asc) {
         _id, stepNumber, title, description, iconName
-      }`
+      }`,
+      {},
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     );
     return steps.length > 0 ? steps : fallbackSteps;
   } catch {

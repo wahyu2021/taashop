@@ -74,7 +74,11 @@ export default async function RootLayout({
 }>) {
   let logoUrl = undefined;
   try {
-    const settings = await client.fetch('*[_type == "siteSettings"][0]{logo}');
+    const settings = await client.fetch(
+      '*[_type == "siteSettings"][0]{logo}',
+      {},
+      { next: { revalidate: 86400 } } // Cache for 24 hours (logo rarely changes)
+    );
     if (settings?.logo) {
       logoUrl = urlFor(settings.logo).url();
     }

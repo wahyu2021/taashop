@@ -1,28 +1,23 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@sanity/client'
+/**
+ * @fileoverview Leads API
+ * 
+ * Endpoint untuk mengambil semua contact submissions (leads).
+ * Memerlukan authentication (dilindungi oleh middleware).
+ * Digunakan di halaman admin /admin/leads.
+ * 
+ * @endpoint GET /api/leads
+ * @protected (memerlukan admin authentication)
+ * @returns { leads: ContactSubmission[] }
+ */
 
-const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
-})
+import { NextResponse } from 'next/server'
+import { sanityClient } from '@/lib/sanity-api'
 
 export async function GET() {
   try {
-    // Fetch all leads (contact submissions) ordered by submission date (newest first)
     const leads = await sanityClient.fetch(
       `*[_type == "contactSubmission"] | order(submittedAt desc) {
-        _id,
-        name,
-        email,
-        phone,
-        subject,
-        message,
-        submittedAt,
-        status,
-        source
+        _id, name, email, phone, subject, message, submittedAt, status, source
       }`
     )
 

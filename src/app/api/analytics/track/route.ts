@@ -1,30 +1,37 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@sanity/client'
+/**
+ * @fileoverview Analytics Page View Tracker
+ * 
+ * Endpoint untuk mencatat page view pengunjung.
+ * Dipanggil otomatis oleh AnalyticsTracker component di setiap navigasi.
+ * 
+ * Data yang Disimpan:
+ * - path: URL halaman yang dikunjungi
+ * - timestamp: waktu kunjungan
+ * - sessionId: ID sesi browser (untuk unique visitors)
+ * - referrer: halaman sebelumnya
+ * - userAgent: browser info
+ * - country: negara pengunjung (dari Vercel/Cloudflare headers)
+ * 
+ * @endpoint POST /api/analytics/track
+ * @public (tidak memerlukan authentication)
+ */
 
-const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
-})
+import { NextRequest, NextResponse } from 'next/server'
+import { sanityClient } from '@/lib/sanity-api'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { path, referrer, sessionId } = body
+    const { path, referrer, sessionId } = await request.json()
 
     if (!path) {
       return NextResponse.json({ error: 'Path is required' }, { status: 400 })
     }
 
-    // Get user agent and country from headers
     const userAgent = request.headers.get('user-agent') || ''
     const country = request.headers.get('x-vercel-ip-country') || 
                     request.headers.get('cf-ipcountry') || 
                     'Unknown'
 
-    // Create page view document in Sanity
     await sanityClient.create({
       _type: 'pageView',
       path,

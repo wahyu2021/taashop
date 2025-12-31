@@ -1,78 +1,71 @@
+/**
+ * @fileoverview Admin Login API Route
+ * 
+ * Endpoint untuk autentikasi admin panel.
+ * 
+ * Fitur Keamanan:
+ * - Rate limiting (5 attempt / 15 menit per IP)
+ * - Account lockout setelah 5 kali gagal
+ * - JWT dengan enhanced claims (jti, issuer, audience)
+ * - Random delay untuk mencegah timing attacks
+ * - HttpOnly cookie dengan secure flag
+ * 
+ * @endpoint POST /api/auth/login
+ * @body { email: string, password: string }
+ * @returns { success: boolean, message: string }
+ */
+
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { createClient } from '@sanity/client'
+import { v4 as uuidv4 } from 'uuid'
+import { getClientIP } from '@/lib/request-utils'
+import { loginLimiter } from '@/lib/rate-limit'
+import { sanityClient } from '@/lib/sanity-api'
 
-// Rate limiting store (in production, use Redis)
-const loginAttempts = new Map<string, { count: number; resetTime: number }>()
+/** Maksimum percobaan gagal sebelum account dikunci */
+const MAX_FAILED_ATTEMPTS = 5
 
-const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
-})
+/** Durasi lockout dalam milliseconds (15 menit) */
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000
 
-const MAX_ATTEMPTS = 5
-const LOCKOUT_DURATION = 15 * 60 * 1000 // 15 minutes
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000 // 15 minutes
-
-function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for')
-  const realIP = request.headers.get('x-real-ip')
-  return forwarded?.split(',')[0]?.trim() || realIP || 'unknown'
+/** Konfigurasi JWT */
+const JWT_EXPIRY = '1h'
+const JWT_CONFIG = {
+  algorithm: 'HS256' as const,
+  issuer: 'taashop-admin',
+  audience: 'taashop-admin-panel',
 }
 
-function checkRateLimit(ip: string): { allowed: boolean; remainingAttempts: number } {
-  const now = Date.now()
-  const attempt = loginAttempts.get(ip)
+/** Random delay 100-500ms untuk mencegah timing attacks */
+const randomDelay = () => 
+  new Promise<void>(resolve => 
+    setTimeout(resolve, Math.floor(Math.random() * 400) + 100)
+  )
 
-  if (!attempt || now > attempt.resetTime) {
-    loginAttempts.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
-    return { allowed: true, remainingAttempts: MAX_ATTEMPTS - 1 }
-  }
-
-  if (attempt.count >= MAX_ATTEMPTS) {
-    return { allowed: false, remainingAttempts: 0 }
-  }
-
-  attempt.count++
-  return { allowed: true, remainingAttempts: MAX_ATTEMPTS - attempt.count }
-}
-
-// Random delay to prevent timing attacks (100-500ms)
-async function randomDelay(): Promise<void> {
-  const delay = Math.floor(Math.random() * 400) + 100
-  return new Promise((resolve) => setTimeout(resolve, delay))
-}
+/** Helper untuk JSON error response */
+const errorResponse = (message: string, status: number) =>
+  NextResponse.json({ error: message }, { status })
 
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIP(request)
     
     // Rate limit check
-    const rateLimit = checkRateLimit(ip)
-    if (!rateLimit.allowed) {
+    const { allowed } = loginLimiter.check(ip)
+    if (!allowed) {
       await randomDelay()
-      return NextResponse.json(
-        { error: 'Terlalu banyak percobaan login. Coba lagi dalam 15 menit.' },
-        { status: 429 }
-      )
+      return errorResponse('Terlalu banyak percobaan login. Coba lagi dalam 15 menit.', 429)
     }
 
-    const body = await request.json()
-    const { email, password } = body
-
+    // Parse dan validasi input
+    const { email, password } = await request.json()
     if (!email || !password) {
       await randomDelay()
-      return NextResponse.json(
-        { error: 'Email dan password diperlukan' },
-        { status: 400 }
-      )
+      return errorResponse('Email dan password diperlukan', 400)
     }
 
-    // Find admin user in Sanity
+    // Cari user di Sanity
     const user = await sanityClient.fetch(
       `*[_type == "adminUser" && email == $email][0]`,
       { email: email.toLowerCase() }
@@ -80,66 +73,61 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       await randomDelay()
-      return NextResponse.json(
-        { error: 'Email atau password salah' },
-        { status: 401 }
-      )
+      return errorResponse('Email atau password salah', 401)
     }
 
-    // Check if account is locked
+    // Cek apakah account terkunci
     if (user.lockedUntil && new Date(user.lockedUntil) > new Date()) {
       await randomDelay()
-      return NextResponse.json(
-        { error: 'Akun terkunci. Coba lagi nanti.' },
-        { status: 423 }
-      )
+      return errorResponse('Akun terkunci. Coba lagi nanti.', 423)
     }
 
-    // Verify password
+    // Verifikasi password
     const isValidPassword = await bcrypt.compare(password, user.passwordHash)
-
+    
     if (!isValidPassword) {
-      // Increment failed attempts
+      // Update failed attempts
       const newFailedAttempts = (user.failedAttempts || 0) + 1
-      const shouldLock = newFailedAttempts >= MAX_ATTEMPTS
+      const shouldLock = newFailedAttempts >= MAX_FAILED_ATTEMPTS
 
-      await sanityClient
-        .patch(user._id)
-        .set({
-          failedAttempts: newFailedAttempts,
-          ...(shouldLock && { lockedUntil: new Date(Date.now() + LOCKOUT_DURATION).toISOString() }),
-        })
-        .commit()
+      await sanityClient.patch(user._id).set({
+        failedAttempts: newFailedAttempts,
+        ...(shouldLock && { 
+          lockedUntil: new Date(Date.now() + LOCKOUT_DURATION_MS).toISOString() 
+        }),
+      }).commit()
 
       await randomDelay()
-      return NextResponse.json(
-        { 
-          error: shouldLock 
-            ? 'Akun terkunci karena terlalu banyak percobaan gagal.' 
-            : 'Email atau password salah' 
-        },
-        { status: 401 }
+      return errorResponse(
+        shouldLock 
+          ? 'Akun terkunci karena terlalu banyak percobaan gagal.'
+          : 'Email atau password salah',
+        401
       )
     }
 
-    // Reset failed attempts on successful login
-    await sanityClient
-      .patch(user._id)
-      .set({
-        failedAttempts: 0,
-        lockedUntil: null,
-        lastLogin: new Date().toISOString(),
-      })
-      .commit()
+    // Login berhasil - reset failed attempts
+    await sanityClient.patch(user._id).set({
+      failedAttempts: 0,
+      lockedUntil: null,
+      lastLogin: new Date().toISOString(),
+    }).commit()
 
-    // Generate JWT token
+    // Generate JWT dengan enhanced security
+    const now = Math.floor(Date.now() / 1000)
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { 
+        userId: user._id, 
+        email: user.email,
+        jti: uuidv4(),
+        iat: now,
+        nbf: now,
+      },
       process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      { expiresIn: JWT_EXPIRY, ...JWT_CONFIG }
     )
 
-    // Create response with HttpOnly cookie
+    // Set HttpOnly cookie
     const response = NextResponse.json(
       { success: true, message: 'Login berhasil' },
       { status: 200 }
@@ -149,7 +137,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60,
       path: '/',
     })
 
@@ -157,9 +145,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Login error:', error)
     await randomDelay()
-    return NextResponse.json(
-      { error: 'Terjadi kesalahan server' },
-      { status: 500 }
-    )
+    return errorResponse('Terjadi kesalahan server', 500)
   }
 }

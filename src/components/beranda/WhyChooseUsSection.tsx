@@ -31,7 +31,9 @@ async function getFeatures(): Promise<Feature[]> {
     const features = await client.fetch<Feature[]>(
       `*[_type == "feature"] | order(order asc) {
         _id, title, description, iconName, order
-      }`
+      }`,
+      {},
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     );
     return features.length > 0 ? features : fallbackFeatures;
   } catch {

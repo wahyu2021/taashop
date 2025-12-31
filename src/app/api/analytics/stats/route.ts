@@ -1,13 +1,23 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@sanity/client'
+/**
+ * @fileoverview Analytics Statistics API
+ * 
+ * Endpoint untuk mengambil statistik analytics untuk admin dashboard.
+ * Memerlukan authentication (dilindungi oleh middleware).
+ * 
+ * Data yang Dikembalikan:
+ * - totalViews: total page views bulan ini
+ * - uniqueVisitors: unique visitors bulan ini
+ * - todayViews: page views hari ini
+ * - topPages: 10 halaman paling banyak dikunjungi
+ * - leadsCount: jumlah contact submission bulan ini
+ * - viewsChange: persentase perubahan dari bulan lalu
+ * 
+ * @endpoint GET /api/analytics/stats
+ * @protected (memerlukan admin authentication)
+ */
 
-const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
-})
+import { NextResponse } from 'next/server'
+import { sanityClient } from '@/lib/sanity-api'
 
 export async function GET() {
   try {
@@ -17,37 +27,18 @@ export async function GET() {
     const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).toISOString()
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
 
-    // Get this month's page views
-    const thisMonthViews = await sanityClient.fetch(
-      `count(*[_type == "pageView" && timestamp >= $startOfMonth])`,
-      { startOfMonth }
-    )
+    // Parallel fetch untuk performa lebih baik
+    const [thisMonthViews, lastMonthViews, uniqueVisitors, todayViews, topPages, leadsCount] = 
+      await Promise.all([
+        sanityClient.fetch(`count(*[_type == "pageView" && timestamp >= $startOfMonth])`, { startOfMonth }),
+        sanityClient.fetch(`count(*[_type == "pageView" && timestamp >= $startOfLastMonth && timestamp <= $endOfLastMonth])`, { startOfLastMonth, endOfLastMonth }),
+        sanityClient.fetch(`count(array::unique(*[_type == "pageView" && timestamp >= $startOfMonth && defined(sessionId)].sessionId))`, { startOfMonth }),
+        sanityClient.fetch(`count(*[_type == "pageView" && timestamp >= $startOfToday])`, { startOfToday }),
+        sanityClient.fetch(`*[_type == "pageView" && timestamp >= $startOfMonth] | order(path asc) {path}`, { startOfMonth }),
+        sanityClient.fetch(`count(*[_type == "contactSubmission" && submittedAt >= $startOfMonth])`, { startOfMonth }),
+      ])
 
-    // Get last month's page views for comparison
-    const lastMonthViews = await sanityClient.fetch(
-      `count(*[_type == "pageView" && timestamp >= $startOfLastMonth && timestamp <= $endOfLastMonth])`,
-      { startOfLastMonth, endOfLastMonth }
-    )
-
-    // Get unique visitors this month (by sessionId)
-    const uniqueVisitors = await sanityClient.fetch(
-      `count(array::unique(*[_type == "pageView" && timestamp >= $startOfMonth && defined(sessionId)].sessionId))`,
-      { startOfMonth }
-    )
-
-    // Get today's views
-    const todayViews = await sanityClient.fetch(
-      `count(*[_type == "pageView" && timestamp >= $startOfToday])`,
-      { startOfToday }
-    )
-
-    // Get top pages
-    const topPages = await sanityClient.fetch(
-      `*[_type == "pageView" && timestamp >= $startOfMonth] | order(path asc) {path}`,
-      { startOfMonth }
-    )
-
-    // Count pages
+    // Hitung page counts untuk top pages
     const pageCounts: Record<string, number> = {}
     topPages.forEach((view: { path: string }) => {
       pageCounts[view.path] = (pageCounts[view.path] || 0) + 1
@@ -58,13 +49,7 @@ export async function GET() {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10)
 
-    // Get contact submissions (leads)
-    const leadsCount = await sanityClient.fetch(
-      `count(*[_type == "contactSubmission" && submittedAt >= $startOfMonth])`,
-      { startOfMonth }
-    )
-
-    // Calculate percentage change
+    // Hitung persentase perubahan
     const viewsChange = lastMonthViews > 0 
       ? Math.round(((thisMonthViews - lastMonthViews) / lastMonthViews) * 100)
       : 0

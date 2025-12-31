@@ -60,7 +60,9 @@ async function getServices(): Promise<Service[]> {
         description,
         image,
         order
-      }`
+      }`,
+      {},
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     );
     return services.length > 0 ? services : fallbackServices as unknown as Service[];
   } catch {
@@ -110,7 +112,7 @@ export async function ServicesSection() {
         <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:gap-12 lg:grid-cols-2">
           {services.map((service, index) => {
             const imgSrc = service.image 
-              ? urlFor(service.image).width(800).height(600).url()
+              ? urlFor(service.image).width(400).height(300).format('webp').quality(80).url()
               : imageMap[service.title] || "/produk/T-Shirt Kampung SI.png";
             
             return (
