@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
       referrer: referrer || null,
       userAgent,
       country,
-    }).catch(err => {
+    }).catch((err: any) => {
       // Log error but don't fail the request
       console.error('Error writing analytics to Sanity:', err)
     })
