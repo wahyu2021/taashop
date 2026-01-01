@@ -30,13 +30,16 @@ const contactSchema = z.object({
     .max(254, 'Email terlalu panjang'),
   phone: z.string()
     .max(20, 'Nomor telepon terlalu panjang')
-    .regex(/^[\d\s+()-]*$/, 'Format nomor telepon tidak valid')
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .or(z.null())
+    .transform(val => val || ''),
   subject: z.string()
     .max(200, 'Subjek maksimal 200 karakter')
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .or(z.null())
+    .transform(val => val || ''),
   message: z.string()
     .min(10, 'Pesan minimal 10 karakter')
     .max(5000, 'Pesan maksimal 5000 karakter'),
@@ -65,9 +68,12 @@ export async function POST(request: NextRequest) {
 
     // Validasi input dengan Zod
     const body = await request.json()
+    console.log('Contact form submission:', JSON.stringify(body))
+    
     const result = contactSchema.safeParse(body)
     
     if (!result.success) {
+      console.log('Validation error:', JSON.stringify(result.error.issues))
       return jsonResponse({ error: result.error.issues[0].message }, 400)
     }
 
