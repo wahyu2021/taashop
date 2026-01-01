@@ -226,3 +226,139 @@
 .dark * {
     scrollbar-color: #f97316 #18181b;
 }
+
+/* ============================================
+   HERO SECTION ANIMATIONS (GPU-accelerated)
+   ============================================ */
+
+/* Float animation for glow elements */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-20px, 20px);
+    }
+}
+
+/* Float animation for hero image */
+@keyframes float-image {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Slow pulse for background glow */
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Shimmer effect for badges */
+@keyframes shimmer {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Text glow effect */
+@keyframes text-glow {
+    0% {
+        text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+    }
+
+    100% {
+        text-shadow: 0 0 20px rgba(249, 115, 22, 0.6), 0 0 40px rgba(249, 115, 22, 0.3);
+    }
+}
+
+/* Subtle bounce for floating cards */
+@keyframes bounce-subtle {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Pulse badge animation */
+@keyframes pulse-badge {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.3);
+    }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU acceleration hints for animated elements */
+.hero-glow {
+    will-change: transform;
+    contain: layout style;
+}
+
+/* Optimize paint for animated backgrounds */
+.animate-float {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* ============================================
+   ACCESSIBILITY: Reduced Motion Support
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ============================================
+   CONTENT VISIBILITY FOR BELOW-FOLD SECTIONS
+   ============================================ */
+.section-lazy {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}

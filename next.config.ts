@@ -31,6 +31,8 @@ const nextConfig: NextConfig = {
   // Enable experimental features for better performance
   experimental: {
     optimizeCss: true,
+    // Tree-shake lucide-react icons for smaller bundles
+    optimizePackageImports: ['lucide-react'],
   },
   
   // Headers for caching static assets

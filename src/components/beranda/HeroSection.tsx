@@ -152,38 +152,6 @@ export function HeroSection() {
           </AnimatedSection>
         </div>
       </div>
-      
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-20px, 20px); }
-        }
-        @keyframes float-image {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.05; transform: translate(-50%, -50%) scale(1); }
-          50% { opacity: 0.1; transform: translate(-50%, -50%) scale(1.1); }
-        }
-        @keyframes shimmer {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.8; }
-        }
-        @keyframes text-glow {
-          0% { text-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
-          100% { text-shadow: 0 0 20px rgba(249, 115, 22, 0.6), 0 0 40px rgba(249, 115, 22, 0.3); }
-        }
-        @keyframes bounce-subtle {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-        @keyframes pulse-badge {
-          0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-          50% { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.3); }
-        }
-      `}</style>
     </section>
   );
 }

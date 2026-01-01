@@ -83,11 +83,33 @@ export default async function RootLayout({
       logoUrl = urlFor(settings.logo).url();
     }
   } catch (error) {
-    console.error("Error fetching logo:", error);
-  }
+  };
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "TaaShop Konveksi",
+    "image": "https://taashop.com/banner.jpg",
+    "description": "Partner konveksi terpercaya untuk jersey, kaos, kemeja, dan seragam custom berkualitas tinggi.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Palembang",
+      "addressRegion": "Sumatera Selatan",
+      "addressCountry": "ID"
+    },
+    "url": "https://taashop.com",
+    "telephone": "+6281234567890", // Ganti dengan nomor aktual jika ada
+    "priceRange": "Rp 50.000 - Rp 500.000"
+  };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
+      <head>
+        {/* Resource hints for faster external resource loading */}
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
@@ -102,6 +124,12 @@ export default async function RootLayout({
           >
             {children}
           </ConditionalLayout>
+          
+          {/* Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
         </ThemeProvider>
       </body>
     </html>
