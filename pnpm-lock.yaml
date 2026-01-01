@@ -29,6 +29,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@19.2.7)(react@19.2.0)
+      '@sanity/client':
+        specifier: ^7.13.2
+        version: 7.13.2(debug@4.4.3)
       '@sanity/image-url':
         specifier: ^2.0.2
         version: 2.0.2
