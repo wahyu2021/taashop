@@ -76,7 +76,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' https://cdn.sanity.io https://picsum.photos data: blob:",
-              "connect-src 'self' https://*.sanity.io",
+              "connect-src 'self' https://*.sanity.io https://*.sanity.sh wss://*.sanity.io https://registry.npmjs.org",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
