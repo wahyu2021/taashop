@@ -24,8 +24,7 @@ import { sanityClient } from '@/lib/sanity-api'
 const contactSchema = z.object({
   name: z.string()
     .min(2, 'Nama minimal 2 karakter')
-    .max(100, 'Nama maksimal 100 karakter')
-    .regex(/^[a-zA-Z\s'-]+$/, 'Nama hanya boleh mengandung huruf'),
+    .max(100, 'Nama maksimal 100 karakter'),
   email: z.string()
     .email('Format email tidak valid')
     .max(254, 'Email terlalu panjang'),
