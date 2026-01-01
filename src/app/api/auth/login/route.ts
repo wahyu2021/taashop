@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
     response.cookies.set('admin_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax', // 'lax' allows cookie to be sent on navigation, 'strict' blocks it
       maxAge: 60 * 60,
       path: '/',
     })
