@@ -131,15 +131,18 @@ function ContactForm() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error('Gagal mengirim pesan');
+        setStatus({ type: 'error', message: result.error || 'Gagal mengirim pesan' });
+        return;
       }
 
       setStatus({ type: 'success', message: 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.' });
       (event.target as HTMLFormElement).reset();
     } catch (error) {
       console.error('Submission error:', error);
-      setStatus({ type: 'error', message: 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.' });
+      setStatus({ type: 'error', message: 'Terjadi kesalahan jaringan. Silakan coba lagi.' });
     } finally {
       setIsSubmitting(false);
     }
