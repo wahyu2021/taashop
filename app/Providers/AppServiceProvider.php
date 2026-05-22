@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\MaterialRepositoryInterface::class,
             \App\Repositories\Eloquent\MaterialRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\PackageRepositoryInterface::class,
+            \App\Repositories\Eloquent\PackageRepository::class
+        );
     }
 
     /**
