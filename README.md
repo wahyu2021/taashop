@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Taashop Web - Company Profile & Katalog Custom
 
-## Getting Started
+Taashop Web adalah platform Company Profile dan Katalog Produk modern yang dirancang khusus untuk bisnis sablon dan jersey kustom. Proyek ini merupakan hasil *rebuild* dari arsitektur lama ke sistem **Modern Monolith** yang lebih efisien, aman, dan mudah dikelola.
 
-First, run the development server:
+## 🚀 Fitur Utama
+- **Landing Page Modern**: Hero section dinamis, showcase layanan, dan keunggulan bisnis.
+- **Katalog Produk**: Daftar produk jersey dan sablon dengan sistem filter.
+- **Galeri Portfolio**: Menampilkan hasil kerja nyata untuk membangun kepercayaan klien.
+- **Manajemen Media**: Optimasi gambar otomatis (WebP & Responsive) menggunakan Spatie MediaLibrary.
+- **Admin Panel Kustom**: Dashboard internal untuk mengelola konten tanpa pihak ketiga.
+- **Integrasi WhatsApp**: Alur pemesanan yang diarahkan langsung ke tim sales melalui WhatsApp.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tech Stack
+- **Backend**: [Laravel 12](https://laravel.com) (PHP 8.2+)
+- **Frontend**: [React 19](https://react.dev) via [Inertia.js](https://inertiajs.com)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)
+- **Database**: MySQL
+- **Data Layer**: [Spatie Laravel Data](https://spatie.be/docs/laravel-data) (Type-safe DTOs)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Persyaratan Sistem
+- PHP 8.2 atau lebih tinggi
+- Node.js (LTS) & NPM
+- Composer
+- MySQL 8.0+
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠 Instalasi Cepat
+1. Clone repository.
+2. Jalankan `composer install` & `npm install`.
+3. Salin `.env.example` ke `.env` dan atur database.
+4. Jalankan `php artisan key:generate`.
+5. Jalankan migrasi: `php artisan migrate --seed`.
+6. Jalankan server: `php artisan serve` & `npm run dev`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*Detail langkah-langkah instalasi dan standar kode dapat dilihat di [CONTRIBUTING.md](./CONTRIBUTING.md).*
 
-## Learn More
+## 🤝 Kontribusi
+Kami sangat menghargai kontribusi dari tim. Sebelum memulai, harap baca **[Panduan Kontribusi](./CONTRIBUTING.md)** kami untuk memahami standar arsitektur dan alur kerja (SOP) yang digunakan.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛡 Keamanan
+Jika Anda menemukan celah keamanan, harap laporkan secara privat melalui prosedur yang ada di **[SECURITY.md](./SECURITY.md)**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 Lisensi
+Proyek ini dilindungi oleh lisensi **Proprietary** milik Taashop. Lihat file [LICENSE](./LICENSE) untuk detail lebih lanjut.
