@@ -15,10 +15,14 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [x] Database: Buat Migration & Model untuk `Categories`, `Products`, `Materials`, `MaterialFeatures`, `Packages`
 - [x] Enums: Definisikan status produk dan tipe cetak
 - [x] DTO: Buat class `ProductData`, `CategoryData`, `MaterialData`, `PackageData`
-- [x] Repositories: Implementasi `ProductRepository` (Interface & Eloquent)
+- [x] Repositories: Implementasi `ProductRepository`
 - [x] Services: Implementasi `ProductService`
-- [ ] Implementasi Repository & Service untuk Materials & Packages
-- [ ] Seeding: Buat Dummy Data untuk testing awal (Opsional)   
+- [ ] **Testing:** Buat Unit Test untuk `ProductService` & `ProductRepository` (Wajib)
+- [ ] Implementasi Repository & Service untuk **Materials**
+- [ ] **Testing:** Buat Unit Test untuk `MaterialService`
+- [ ] Implementasi Repository & Service untuk **Packages**
+- [ ] **Testing:** Buat Unit Test untuk `PackageService`
+- [ ] Seeding: Buat Dummy Data untuk testing awal (Opsional)
 
 ## 🔵 FASE 3: Custom Admin Panel (Manajemen Konten)
 - [ ] Admin: Dashboard Analytics (Total produk, Inbox pesan)
@@ -27,6 +31,7 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [ ] Admin: CRUD Konten Statis (FAQ, Testimoni)
 - [ ] Admin: Inbox Pesan (Membaca pesan dari formulir kontak)
 - [ ] Admin: Pengaturan Web (Site Settings: No WA, Sosmed, Hero Text)
+- [ ] **Testing:** Feature Test untuk semua modul Admin Panel
 
 ## 🟠 FASE 4: Frontend Publik (Landing & Catalog)
 - [ ] Components: Layout Utama (Navbar, Footer, Mobile Menu)
@@ -36,12 +41,13 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [ ] Public: Galeri / Portfolio Page
 - [ ] Public: Info Page (About, FAQ, Cara Order)
 - [ ] Public: Contact Form (Submit ke Database/Inbox Admin)
+- [ ] **Testing:** Feature Test untuk navigasi dan tampilan data publik
 
 ## 🔴 FASE 5: Finalisasi & Optimasi
 - [ ] SEO: Implementasi dynamic Meta Tags (OpenGraph)
 - [ ] Performance: Optimasi gambar (WebP) & Lazy Loading
-- [ ] Testing: Unit Testing (Pest) untuk core services
-- [ ] Final Build: `npm run build` dan pengecekan responsivitas
+- [ ] Verification: Smoke test keseluruhan dan build check
+- [ ] Final Build: `npm run build`
 
 ---
-*Status Terakhir: Selesai FASE 1. Siap memulai FASE 2 (Database & Core Backend).*
+*Status Terakhir: Selesai implementasi Core Logic Produk. Masuk ke tahap Unit Testing Fase 2.*

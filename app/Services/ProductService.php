@@ -17,7 +17,7 @@ class ProductService
      */
     public function getCatalogProducts(int $limit = null): Collection
     {
-        $products = $this->productRepository.getAllPublished($limit);
+        $products = $this->productRepository->getAllPublished($limit);
 
         return ProductData::collect($products);
     }
@@ -27,14 +27,14 @@ class ProductService
      */
     public function getFeaturedProducts(): Collection
     {
-        $products = $this->productRepository.getFeatured();
+        $products = $this->productRepository->getFeatured();
 
         return ProductData::collect($products);
     }
 
     public function getProductDetail(string $slug): ?ProductData
     {
-        $product = $this->productRepository.findBySlug($slug);
+        $product = $this->productRepository->findBySlug($slug);
 
         return $product ? ProductData::fromModel($product) : null;
     }
