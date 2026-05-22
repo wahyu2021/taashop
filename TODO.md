@@ -18,8 +18,8 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [x] Repositories: Implementasi `ProductRepository`
 - [x] Services: Implementasi `ProductService`
 - [ ] **Testing:** Buat Unit Test untuk `ProductService` & `ProductRepository` (Wajib)
-- [ ] Implementasi Repository & Service untuk **Materials**
-- [ ] **Testing:** Buat Unit Test untuk `MaterialService`
+- [x] Implementasi Repository & Service untuk **Materials**
+- [x] **Testing:** Buat Unit Test untuk `MaterialService`
 - [ ] Implementasi Repository & Service untuk **Packages**
 - [ ] **Testing:** Buat Unit Test untuk `PackageService`
 - [ ] Seeding: Buat Dummy Data untuk testing awal (Opsional)
