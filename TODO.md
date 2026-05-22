@@ -27,7 +27,7 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 ---
 *Status Terakhir: Selesai Fase 2 (Database & Core Logic). Siap masuk ke Fase 3: Custom Admin Panel.*
 
-- [ ] Admin: CRUD Kategori & Produk (dengan upload gambar)
+- [x] Admin: CRUD Kategori & Produk (dengan upload gambar)
 - [ ] Admin: CRUD Portfolio / Galeri
 - [ ] Admin: CRUD Konten Statis (FAQ, Testimoni)
 - [ ] Admin: Inbox Pesan (Membaca pesan dari formulir kontak)
