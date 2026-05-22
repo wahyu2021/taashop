@@ -17,11 +17,11 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [x] DTO: Buat class `ProductData`, `CategoryData`, `MaterialData`, `PackageData`
 - [x] Repositories: Implementasi `ProductRepository`
 - [x] Services: Implementasi `ProductService`
-- [ ] **Testing:** Buat Unit Test untuk `ProductService` & `ProductRepository` (Wajib)
+- [x] **Testing:** Buat Unit Test untuk `ProductService` & `ProductRepository`
 - [x] Implementasi Repository & Service untuk **Materials**
 - [x] **Testing:** Buat Unit Test untuk `MaterialService`
-- [ ] Implementasi Repository & Service untuk **Packages**
-- [ ] **Testing:** Buat Unit Test untuk `PackageService`
+- [x] Implementasi Repository & Service untuk **Packages**
+- [x] **Testing:** Buat Unit Test untuk `PackageService`
 - [ ] Seeding: Buat Dummy Data untuk testing awal (Opsional)
 
 ## 🔵 FASE 3: Custom Admin Panel (Manajemen Konten)
@@ -50,4 +50,4 @@ File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres pr
 - [ ] Final Build: `npm run build`
 
 ---
-*Status Terakhir: Selesai implementasi Core Logic Produk. Masuk ke tahap Unit Testing Fase 2.*
+*Status Terakhir: Selesai implementasi Core Logic (Produk, Materials, Packages) beserta Unit Testing. Siap masuk ke tahap Seeding.*
