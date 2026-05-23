@@ -113,6 +113,25 @@ export interface PortfolioData {
     image_url: string | null;
 }
 
+// ─── FAQ ────────────────────────────────────────────────
+
+export interface FAQData {
+    id: number | null;
+    question: string;
+    answer: string;
+}
+
+// ─── Testimonial ────────────────────────────────────────
+
+export interface TestimonialData {
+    id: number | null;
+    customer_name: string;
+    customer_title: string | null;
+    content: string;
+    rating: number;
+    avatar_url: string | null;
+}
+
 // ─── News ───────────────────────────────────────────────
 
 export interface NewsData {

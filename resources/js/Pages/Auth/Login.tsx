@@ -150,10 +150,6 @@ export default function Login({
 
                 {/* Footer Decor */}
                 <div className="mt-10 text-center flex flex-col items-center gap-4">
-                    <p className="text-stone-600 text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2">
-                        <LogIn size={12} />
-                        Secured Taashop Access
-                    </p>
                     <Link 
                         href="/" 
                         className="text-stone-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"

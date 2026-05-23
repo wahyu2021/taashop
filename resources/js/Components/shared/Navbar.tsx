@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, ShoppingCart } from 'lucide-react';
-import { Button } from '@/Components/ui/button';
+import { Button, buttonVariants } from '@/Components/ui/button';
 import { cn } from '@/lib/utils';
 
 export default function Navbar() {
@@ -96,7 +96,7 @@ export default function Navbar() {
             {/* Mobile Menu */}
             <div
                 className={cn(
-                    'fixed inset-0 top-[72px] bg-white z-40 transition-transform duration-300 ease-in-out md:hidden',
+                    'fixed inset-0 top-18 bg-white z-40 transition-transform duration-300 ease-in-out md:hidden',
                     isOpen ? 'translate-x-0' : 'translate-x-full'
                 )}
             >
