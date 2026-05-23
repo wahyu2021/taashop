@@ -51,3 +51,41 @@ it('can find a material by slug', function () {
     expect($material)->not->toBeNull();
     expect($material->name)->toBe('Target Material');
 });
+
+it('can create a material with features', function () {
+    $data = [
+        'name' => 'Composite Fabric',
+        'slug' => 'composite-fabric',
+        'status' => ProductStatus::PUBLISHED,
+        'features' => ['Anti-UV', 'Breathable', 'Quick-Dry']
+    ];
+
+    $material = $this->repository->create($data);
+
+    expect($material->name)->toBe('Composite Fabric');
+    expect($material->features)->toHaveCount(3);
+    $this->assertDatabaseHas('material_features', ['feature' => 'Anti-UV', 'material_id' => $material->id]);
+});
+
+it('updates features correctly when material is updated', function () {
+    $material = Material::create([
+        'name' => 'Old Fabric',
+        'slug' => 'old-fabric',
+        'status' => ProductStatus::PUBLISHED
+    ]);
+    
+    $material->features()->create(['feature' => 'Old Feature']);
+
+    $updateData = [
+        'name' => 'Updated Fabric',
+        'features' => ['New Feature 1', 'New Feature 2']
+    ];
+
+    $this->repository->update($material->id, $updateData);
+
+    $updatedMaterial = $material->fresh();
+    expect($updatedMaterial->name)->toBe('Updated Fabric');
+    expect($updatedMaterial->features)->toHaveCount(2);
+    $this->assertDatabaseMissing('material_features', ['feature' => 'Old Feature']);
+    $this->assertDatabaseHas('material_features', ['feature' => 'New Feature 1']);
+});

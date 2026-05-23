@@ -9,6 +9,7 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
+    $this->withoutExceptionHandling();
     $user = User::factory()->create();
 
     $response = $this->post('/login', [

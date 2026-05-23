@@ -61,4 +61,20 @@ class SettingService
         $setting = Setting::where('key', $key)->first();
         return $setting ? $setting->getFirstMediaUrl('image') : null;
     }
+
+    public function getSiteSettings(): array
+    {
+        $settings = Setting::all();
+        $siteSettings = [];
+
+        foreach ($settings as $setting) {
+            if ($setting->type === 'image') {
+                $siteSettings[$setting->key] = $setting->getFirstMediaUrl('image');
+            } else {
+                $siteSettings[$setting->key] = $setting->value;
+            }
+        }
+
+        return $siteSettings;
+    }
 }

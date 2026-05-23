@@ -158,4 +158,9 @@ export type PageProps<
     auth: {
         user: User;
     };
+    site_settings: Record<string, string | null>;
+    flash: {
+        success: string | null;
+        error: string | null;
+    };
 };

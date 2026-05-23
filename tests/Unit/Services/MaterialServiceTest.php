@@ -3,44 +3,82 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Material;
-use App\Models\MaterialFeature;
-use App\Enums\ProductStatus;
+use App\Repositories\Contracts\MaterialRepositoryInterface;
 use App\Services\MaterialService;
-use App\Repositories\Eloquent\MaterialRepository;
-use App\Data\MaterialData;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use Tests\TestCase;
 
 class MaterialServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected MaterialService $service;
+    protected $repository;
+    protected $service;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new MaterialService(new MaterialRepository());
+        $this->repository = Mockery::mock(MaterialRepositoryInterface::class);
+        $this->service = new MaterialService($this->repository);
     }
 
-    public function test_it_returns_collection_of_material_data()
+    public function test_create_material_sanitizes_input_and_generates_slug()
     {
-        $material = Material::create([
-            'name' => 'Material 1',
-            'slug' => 'material-1',
-            'status' => ProductStatus::PUBLISHED,
-        ]);
+        $inputData = [
+            'name' => '<b>Super Jersey</b>',
+            'summary' => 'This is a summary with <script>alert("xss")</script>',
+            'description' => '<p>Good description</p>',
+            'features' => ['Feature 1', 'Feature 2'],
+            'status' => 'published'
+        ];
 
-        MaterialFeature::create([
-            'material_id' => $material->id,
-            'feature' => 'Cool Feature'
-        ]);
+        // Sanitizer::strip strips tags from 'name', 'summary', 'features'
+        // Sanitizer::clean purifies 'description'
+        $expectedData = [
+            'name' => 'Super Jersey',
+            'summary' => 'This is a summary with alert("xss")',
+            'description' => '<p>Good description</p>',
+            'features' => ['Feature 1', 'Feature 2'],
+            'status' => 'published',
+            'slug' => 'super-jersey'
+        ];
 
-        $result = $this->service->getAllMaterials();
+        $this->repository->shouldReceive('create')
+            ->once()
+            ->with(Mockery::on(function ($data) use ($expectedData) {
+                return $data['name'] === $expectedData['name'] &&
+                       $data['summary'] === $expectedData['summary'] &&
+                       $data['slug'] === $expectedData['slug'] &&
+                       $data['description'] === $expectedData['description'];
+            }))
+            ->andReturn(new Material($expectedData));
 
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf(MaterialData::class, $result->first());
-        $this->assertEquals('Material 1', $result->first()->name);
-        $this->assertContains('Cool Feature', $result->first()->features);
+        $result = $this->service->createMaterial($inputData);
+        
+        $this->assertInstanceOf(Material::class, $result);
+    }
+
+    public function test_update_material_updates_slug_if_name_changed()
+    {
+        $materialId = 1;
+        $inputData = [
+            'name' => 'Brand New Name',
+        ];
+
+        $this->repository->shouldReceive('update')
+            ->once()
+            ->with($materialId, Mockery::on(function ($data) {
+                return $data['name'] === 'Brand New Name' && 
+                       $data['slug'] === 'brand-new-name';
+            }))
+            ->andReturn(true);
+
+        $result = $this->service->updateMaterial($materialId, $inputData);
+        
+        $this->assertTrue($result);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }

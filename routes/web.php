@@ -1,18 +1,18 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PublicProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('catalog')->name('catalog.')->group(function () {
+    Route::get('/', [PublicProductController::class, 'index'])->name('index');
+    Route::get('/{slug}', [PublicProductController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
