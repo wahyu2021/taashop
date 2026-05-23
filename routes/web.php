@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
         Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
+        Route::resource('portfolios', \App\Http\Controllers\Admin\PortfolioController::class);
         Route::resource('inbox', \App\Http\Controllers\Admin\ContactSubmissionController::class)->only(['index', 'show', 'update', 'destroy']);
     });
 });

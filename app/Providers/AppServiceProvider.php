@@ -33,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            \App\Repositories\Contracts\PortfolioRepositoryInterface::class,
+            \App\Repositories\Eloquent\PortfolioRepository::class
+        );
+
+        $this->app->bind(
             \App\Repositories\Contracts\CategoryRepositoryInterface::class,
             \App\Repositories\Eloquent\CategoryRepository::class
         );
