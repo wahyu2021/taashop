@@ -12,7 +12,8 @@ import {
     LogOut,
     User,
     ChevronRight,
-    Tag
+    Tag,
+    Image as ImageIcon
 } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
@@ -44,6 +45,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             href: route('admin.portfolios.index'), 
             icon: ImageIcon, 
             active: route().current('admin.portfolios.*') 
+        },
+        { 
+            name: 'Berita & Artikel', 
+            href: route('admin.news.index'), 
+            icon: FileText, 
+            active: route().current('admin.news.*') 
         },
         { 
             name: 'Material Bahan', 

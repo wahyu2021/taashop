@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
         Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
         Route::resource('portfolios', \App\Http\Controllers\Admin\PortfolioController::class);
+        Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
         Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
         Route::patch('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
         Route::resource('inbox', \App\Http\Controllers\Admin\ContactSubmissionController::class)->only(['index', 'show', 'update', 'destroy']);
