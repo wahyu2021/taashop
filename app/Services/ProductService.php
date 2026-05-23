@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\ProductData;
 use App\Repositories\Contracts\ProductRepositoryInterface;
+use App\Utils\Sanitizer;
 use Illuminate\Support\Collection;
 
 class ProductService
@@ -53,12 +54,14 @@ class ProductService
 
     public function createProduct(array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['title'], ['description']);
         $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
         return $this->productRepository->create($data);
     }
 
     public function updateProduct(int $id, array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['title'], ['description']);
         if (isset($data['title'])) {
             $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
         }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Data\CategoryData;
+use App\Utils\Sanitizer;
 use Illuminate\Support\Str;
 
 class CategoryService
@@ -25,12 +26,14 @@ class CategoryService
 
     public function createCategory(array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['name']);
         $data['slug'] = Str::slug($data['name']);
         return $this->repository->create($data);
     }
 
     public function updateCategory(int $id, array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['name']);
         $data['slug'] = Str::slug($data['name']);
         return $this->repository->update($id, $data);
     }

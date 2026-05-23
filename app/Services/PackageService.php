@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\PackageData;
 use App\Repositories\Contracts\PackageRepositoryInterface;
+use App\Utils\Sanitizer;
 use Illuminate\Support\Collection;
 
 class PackageService
@@ -43,12 +44,14 @@ class PackageService
 
     public function createPackage(array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['title', 'product_type', 'includes']);
         $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
         return $this->packageRepository->create($data);
     }
 
     public function updatePackage(int $id, array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['title', 'product_type', 'includes']);
         if (isset($data['title'])) {
             $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
         }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\MaterialData;
 use App\Repositories\Contracts\MaterialRepositoryInterface;
+use App\Utils\Sanitizer;
 use Illuminate\Support\Collection;
 
 class MaterialService
@@ -43,12 +44,14 @@ class MaterialService
 
     public function createMaterial(array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['name', 'summary', 'features'], ['description']);
         $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
         return $this->materialRepository->create($data);
     }
 
     public function updateMaterial(int $id, array $data)
     {
+        $data = Sanitizer::sanitizeArray($data, ['name', 'summary', 'features'], ['description']);
         if (isset($data['name'])) {
             $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
         }
