@@ -9,12 +9,16 @@ use Illuminate\Support\Collection;
 
 class MaterialRepository implements MaterialRepositoryInterface
 {
+    public function all(): Collection
+    {
+        return Material::with('features')->latest()->get();
+    }
+
     public function getAllPublished(): Collection
     {
         return Material::with('features')
             ->where('status', ProductStatus::PUBLISHED)
             ->orderBy('order_priority', 'asc')
-            ->orderBy('name', 'asc')
             ->get();
     }
 
@@ -24,5 +28,53 @@ class MaterialRepository implements MaterialRepositoryInterface
             ->where('slug', $slug)
             ->where('status', ProductStatus::PUBLISHED)
             ->first();
+    }
+
+    public function findById(int $id): ?Material
+    {
+        return Material::with('features')->find($id);
+    }
+
+    public function create(array $data): Material
+    {
+        $material = Material::create($data);
+
+        if (isset($data['features']) && is_array($data['features'])) {
+            foreach ($data['features'] as $feature) {
+                $material->features()->create(['feature' => $feature]);
+            }
+        }
+
+        if (isset($data['image'])) {
+            $material->addMedia($data['image'])->toMediaCollection('image');
+        }
+
+        return $material;
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $material = $this->findById($id);
+        if (!$material) return false;
+
+        if (isset($data['features']) && is_array($data['features'])) {
+            $material->features()->delete();
+            foreach ($data['features'] as $feature) {
+                $material->features()->create(['feature' => $feature]);
+            }
+        }
+
+        if (isset($data['image'])) {
+            $material->addMedia($data['image'])->toMediaCollection('image');
+        }
+
+        return $material->update($data);
+    }
+
+    public function delete(int $id): bool
+    {
+        $material = $this->findById($id);
+        if (!$material) return false;
+        return $material->delete();
     }
 }

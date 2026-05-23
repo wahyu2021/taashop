@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+        Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
+        Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
     });
 });
 

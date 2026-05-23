@@ -38,7 +38,18 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             icon: Layers, 
             active: route().current('admin.categories.*') 
         },
-        { name: 'Material Bahan', href: '#', icon: Package, active: false },
+        { 
+            name: 'Material Bahan', 
+            href: route('admin.materials.index'), 
+            icon: Package, 
+            active: route().current('admin.materials.*') 
+        },
+        { 
+            name: 'Paket Harga', 
+            href: route('admin.packages.index'), 
+            icon: Tag, 
+            active: route().current('admin.packages.*') 
+        },
         { name: 'Pesan Masuk', href: '#', icon: Inbox, active: false },
         { name: 'Pengaturan', href: '#', icon: Settings, active: false },
     ];

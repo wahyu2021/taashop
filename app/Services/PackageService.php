@@ -12,10 +12,15 @@ class PackageService
         protected PackageRepositoryInterface $packageRepository
     ) {}
 
+    public function getAllPackagesForAdmin(): Collection
+    {
+        return PackageData::collect($this->packageRepository->all());
+    }
+
     /**
      * @return Collection<int, PackageData>
      */
-    public function getAllPackages(): Collection
+    public function getPublishedPackages(): Collection
     {
         $packages = $this->packageRepository->getAllPublished();
 
@@ -27,5 +32,31 @@ class PackageService
         $package = $this->packageRepository->findBySlug($slug);
 
         return $package ? PackageData::fromModel($package) : null;
+    }
+
+    public function getPackageById(int $id): ?PackageData
+    {
+        $package = $this->packageRepository->findById($id);
+
+        return $package ? PackageData::fromModel($package) : null;
+    }
+
+    public function createPackage(array $data)
+    {
+        $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
+        return $this->packageRepository->create($data);
+    }
+
+    public function updatePackage(int $id, array $data)
+    {
+        if (isset($data['title'])) {
+            $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
+        }
+        return $this->packageRepository->update($id, $data);
+    }
+
+    public function deletePackage(int $id)
+    {
+        return $this->packageRepository->delete($id);
     }
 }

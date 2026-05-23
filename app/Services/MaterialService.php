@@ -12,10 +12,15 @@ class MaterialService
         protected MaterialRepositoryInterface $materialRepository
     ) {}
 
+    public function getAllMaterialsForAdmin(): Collection
+    {
+        return MaterialData::collect($this->materialRepository->all());
+    }
+
     /**
      * @return Collection<int, MaterialData>
      */
-    public function getAllMaterials(): Collection
+    public function getPublishedMaterials(): Collection
     {
         $materials = $this->materialRepository->getAllPublished();
 
@@ -27,5 +32,31 @@ class MaterialService
         $material = $this->materialRepository->findBySlug($slug);
 
         return $material ? MaterialData::fromModel($material) : null;
+    }
+
+    public function getMaterialById(int $id): ?MaterialData
+    {
+        $material = $this->materialRepository->findById($id);
+
+        return $material ? MaterialData::fromModel($material) : null;
+    }
+
+    public function createMaterial(array $data)
+    {
+        $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
+        return $this->materialRepository->create($data);
+    }
+
+    public function updateMaterial(int $id, array $data)
+    {
+        if (isset($data['name'])) {
+            $data['slug'] = \Illuminate\Support\Str::slug($data['name']);
+        }
+        return $this->materialRepository->update($id, $data);
+    }
+
+    public function deleteMaterial(int $id)
+    {
+        return $this->materialRepository->delete($id);
     }
 }
