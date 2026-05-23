@@ -94,6 +94,8 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
     };
 
     const hasActiveFilters = filters.status || filters.print_type || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = packages.meta?.total ?? packages.total ?? 0;
 
     return (
         <AdminLayout>
@@ -152,7 +154,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Tipe Print</label>
-                                    <select value={filters.print_type || ''} onChange={(e) => updateFilters({ print_type: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold">
+                                    <select value={filters.print_type || ''} onChange={(e) => updateFilters({ print_type: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold focus:ring-primary/20 transition-all">
                                         <option value="">Semua Tipe</option>
                                         {printTypes.map(pt => (
                                             <option key={pt.value} value={pt.value}>{pt.name}</option>
@@ -243,7 +245,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={packages.meta?.total || 0} label="Paket" />
+                <AdminTableFooter count={totalCount} label="Paket" />
                 <Pagination links={packages.links} />
             </div>
         </AdminLayout>

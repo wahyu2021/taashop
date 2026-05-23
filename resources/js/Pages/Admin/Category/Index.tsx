@@ -110,7 +110,11 @@ export default function Index({ categories, filters }: Props) {
                 action={
                     <div className="flex items-center gap-2">
                         {hasActiveFilters && (
-                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400 hover:text-destructive">
+                            <Button 
+                                variant="ghost" 
+                                onClick={clearFilters}
+                                className="text-xs font-bold text-stone-400 hover:text-destructive"
+                            >
                                 <X className="w-3 h-3 mr-1" /> Bersihkan
                             </Button>
                         )}
@@ -126,10 +130,18 @@ export default function Index({ categories, filters }: Props) {
                             </PopoverTrigger>
                             <PopoverContent className="w-56 p-2" align="end">
                                 <div className="space-y-1">
-                                    <Button variant={filters.type === 'gallery' ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ type: filters.type === 'gallery' ? null : 'gallery' })}>
+                                    <Button 
+                                        variant={filters.type === 'gallery' ? 'default' : 'ghost'} 
+                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
+                                        onClick={() => updateFilters({ type: filters.type === 'gallery' ? null : 'gallery' })}
+                                    >
                                         Galeri Portfolio
                                     </Button>
-                                    <Button variant={filters.type === 'package' ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ type: filters.type === 'package' ? null : 'package' })}>
+                                    <Button 
+                                        variant={filters.type === 'package' ? 'default' : 'ghost'} 
+                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
+                                        onClick={() => updateFilters({ type: filters.type === 'package' ? null : 'package' })}
+                                    >
                                         Paket Harga
                                     </Button>
                                 </div>
@@ -139,6 +151,7 @@ export default function Index({ categories, filters }: Props) {
                 }
             />
 
+            {/* Categories Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -180,7 +193,12 @@ export default function Index({ categories, filters }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(category.id!)}>
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="icon" 
+                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
+                                                    onClick={() => handleDelete(category.id!)}
+                                                >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -191,7 +209,8 @@ export default function Index({ categories, filters }: Props) {
                                 <TableRow>
                                     <TableCell colSpan={4} className="px-6 py-20 text-center">
                                         <p className="text-stone-500 font-medium italic">Tidak ada kategori ditemukan.</p>
-                                    </TableRow>
+                                    </TableCell>
+                                </TableRow>
                             )}
                         </TableBody>
                     </Table>
