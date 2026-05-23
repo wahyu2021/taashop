@@ -10,8 +10,18 @@ import {
     Search,
     Filter
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
+import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Badge } from '@/Components/ui/badge';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/Components/ui/table";
 import { useState } from 'react';
 
 interface Props {
@@ -57,11 +67,11 @@ export default function Index({ categories }: Props) {
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
                 <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
-                        <input 
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
+                        <Input 
                             type="text" 
                             placeholder="Cari kategori..." 
-                            className="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -76,70 +86,71 @@ export default function Index({ categories }: Props) {
             {/* Categories Table/List */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-stone-50 border-b border-stone-100">
-                                <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest">Kategori</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest">Slug</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest">Tipe</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest text-right">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-stone-100">
-                                {filteredCategories.length > 0 ? (
-                                    filteredCategories.map((category) => (
-                                        <tr key={category.id} className="hover:bg-stone-50/50 transition-colors group">
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                                                        <Layers className="w-5 h-5" />
-                                                    </div>
-                                                    <span className="font-bold text-foreground">{category.name}</span>
+                    <Table>
+                        <TableHeader className="bg-stone-50">
+                            <TableRow className="hover:bg-transparent border-stone-100">
+                                <TableHead className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest h-auto">Kategori</TableHead>
+                                <TableHead className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest h-auto">Slug</TableHead>
+                                <TableHead className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest h-auto">Tipe</TableHead>
+                                <TableHead className="px-6 py-4 text-xs font-bold text-stone-400 uppercase tracking-widest h-auto text-right">Aksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="divide-y divide-stone-100">
+                            {filteredCategories.length > 0 ? (
+                                filteredCategories.map((category) => (
+                                    <TableRow key={category.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
+                                        <TableCell className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                                    <Layers className="w-5 h-5" />
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="text-sm font-medium text-stone-500 font-mono bg-stone-100 px-2 py-1 rounded">
-                                                    {category.slug}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full
+                                                <span className="font-bold text-foreground">{category.name}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="px-6 py-4">
+                                            <span className="text-sm font-medium text-stone-500 font-mono bg-stone-100 px-2 py-1 rounded">
+                                                {category.slug}
+                                            </span>
+                                        </TableCell>
+                                        <TableCell className="px-6 py-4">
+                                            <Badge 
+                                                variant="outline"
+                                                className={`
+                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
                                                     ${category.type === 'package' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}
-                                                `}>
-                                                    {category.type === 'package' ? 'Paket Harga' : 'Galeri'}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <Link href={route('admin.categories.edit', category.id)}>
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-primary hover:bg-primary/10">
-                                                            <Pencil className="w-4 h-4" />
-                                                        </Button>
-                                                    </Link>
-                                                    <Button 
-                                                        variant="ghost" 
-                                                        size="icon" 
-                                                        className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                        onClick={() => handleDelete(category.id!)}
-                                                    >
-                                                        <Trash2 className="w-4 h-4" />
+                                                `}
+                                            >
+                                                {category.type === 'package' ? 'Paket Harga' : 'Galeri'}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="px-6 py-4 text-right">
+                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Link href={route('admin.categories.edit', category.id!)}>
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-primary hover:bg-primary/10">
+                                                        <Pencil className="w-4 h-4" />
                                                     </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={4} className="px-6 py-12 text-center text-stone-500 italic">
-                                            Tidak ada kategori ditemukan.
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                                </Link>
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="icon" 
+                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
+                                                    onClick={() => handleDelete(category.id!)}
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={4} className="px-6 py-12 text-center text-stone-500 italic">
+                                        Tidak ada kategori ditemukan.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
                 </CardContent>
             </Card>
 
