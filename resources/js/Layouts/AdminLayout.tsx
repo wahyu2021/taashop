@@ -50,7 +50,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             icon: Tag, 
             active: route().current('admin.packages.*') 
         },
-        { name: 'Pesan Masuk', href: '#', icon: Inbox, active: false },
+        { 
+            name: 'Pesan Masuk', 
+            href: route('admin.inbox.index'), 
+            icon: Inbox, 
+            active: route().current('admin.inbox.*') 
+        },
         { name: 'Pengaturan', href: '#', icon: Settings, active: false },
     ];
 
