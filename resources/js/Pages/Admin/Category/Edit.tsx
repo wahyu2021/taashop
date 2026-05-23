@@ -1,17 +1,17 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { 
-    ChevronLeft, 
     Save, 
     Layers,
     Info,
     Trash2
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
 import { CategoryData } from '@/types';
+import AdminFormHeader from '@/Components/shared/AdminFormHeader';
+import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 
 interface Props {
     category: CategoryData;
@@ -38,19 +38,11 @@ export default function Edit({ category }: Props) {
         <AdminLayout>
             <Head title={`Edit Kategori: ${category.name}`} />
 
-            {/* Breadcrumbs / Back Button */}
-            <div className="mb-8">
-                <Link 
-                    href={route('admin.categories.index')}
-                    className="flex items-center text-xs font-bold text-stone-400 uppercase tracking-widest hover:text-primary transition-colors"
-                >
-                    <ChevronLeft className="w-4 h-4 mr-1" />
-                    Kembali ke Daftar
-                </Link>
-                <div className="flex items-center justify-between mt-4">
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Edit Kategori
-                    </h1>
+            <AdminFormHeader 
+                backHref={route('admin.categories.index')}
+                backText="Kembali ke Daftar"
+                title="Edit Kategori"
+                action={
                     <Button 
                         variant="ghost" 
                         onClick={handleDelete}
@@ -59,21 +51,18 @@ export default function Edit({ category }: Props) {
                         <Trash2 className="w-4 h-4 mr-2" />
                         Hapus Kategori
                     </Button>
-                </div>
-            </div>
+                }
+            />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Form */}
                 <div className="lg:col-span-2">
                     <form onSubmit={handleSubmit}>
-                        <Card className="border-none shadow-sm overflow-hidden">
-                            <CardHeader className="bg-stone-50 border-b border-stone-100">
-                                <CardTitle className="text-lg font-bold flex items-center gap-2 text-stone-700">
-                                    <Layers className="w-5 h-5 text-primary" />
-                                    Informasi Kategori
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-6 space-y-6">
+                        <AdminSectionCard 
+                            icon={Layers}
+                            title="Informasi Kategori"
+                        >
+                            <div className="space-y-6">
                                 {/* Name Field */}
                                 <div className="space-y-2">
                                     <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-stone-500">
@@ -123,31 +112,30 @@ export default function Edit({ category }: Props) {
                                     </div>
                                     {errors.type && <p className="text-xs font-bold text-destructive italic">{errors.type}</p>}
                                 </div>
-                            </CardContent>
-                            <div className="p-6 bg-stone-50 border-t border-stone-100 flex justify-end">
-                                <Button 
-                                    type="submit" 
-                                    disabled={processing}
-                                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 shadow-lg shadow-primary/20 transition-all active:scale-95"
-                                >
-                                    <Save className="w-5 h-5 mr-2" />
-                                    {processing ? 'Memperbarui...' : 'Simpan Perubahan'}
-                                </Button>
+
+                                <div className="pt-6 border-t border-stone-100 flex justify-end">
+                                    <Button 
+                                        type="submit" 
+                                        disabled={processing}
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 shadow-lg shadow-primary/20 transition-all active:scale-95"
+                                    >
+                                        <Save className="w-5 h-5 mr-2" />
+                                        {processing ? 'Memperbarui...' : 'Simpan Perubahan'}
+                                    </Button>
+                                </div>
                             </div>
-                        </Card>
+                        </AdminSectionCard>
                     </form>
                 </div>
 
                 {/* Info / Sidebar */}
                 <div className="space-y-6">
-                    <Card className="border-none shadow-sm bg-stone-50 overflow-hidden border border-stone-100">
-                        <CardHeader>
-                            <CardTitle className="text-sm font-bold flex items-center gap-2 text-stone-600">
-                                <Info className="w-4 h-4 text-primary" />
-                                Detail Metadata
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
+                    <AdminSectionCard 
+                        icon={Info}
+                        title="Detail Metadata"
+                        headerBg="bg-stone-50"
+                    >
+                        <div className="space-y-4">
                             <div className="space-y-1">
                                 <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">ID Kategori</p>
                                 <p className="text-sm font-bold text-stone-700">#{category.id}</p>
@@ -159,8 +147,8 @@ export default function Edit({ category }: Props) {
                             <p className="text-xs font-medium text-stone-500 italic leading-relaxed pt-2 border-t border-stone-200">
                                 Perubahan nama akan memperbarui slug secara otomatis. Pastikan link eksternal yang menggunakan slug lama telah diperbarui.
                             </p>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </AdminSectionCard>
                 </div>
             </div>
         </AdminLayout>

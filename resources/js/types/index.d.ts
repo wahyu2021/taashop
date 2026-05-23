@@ -13,6 +13,7 @@ export interface SettingData {
     type: string;
     group: string;
     order_priority: number;
+    image_url?: string | null;
 }
 
 export type PageProps<

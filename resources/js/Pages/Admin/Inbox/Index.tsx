@@ -15,7 +15,6 @@ import {
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Badge } from '@/Components/ui/badge';
 import {
     Table,
     TableBody,
@@ -27,6 +26,8 @@ import {
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     submissions: ContactSubmissionData[];
@@ -47,39 +48,14 @@ export default function Index({ submissions }: Props) {
         sub.subject?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const getStatusColor = (status: string) => {
-        switch (status.toLowerCase()) {
-            case 'new': return 'bg-blue-100 text-blue-600';
-            case 'contacted': return 'bg-orange-100 text-orange-600';
-            case 'closed': return 'bg-stone-100 text-stone-500';
-            default: return 'bg-stone-100 text-stone-500';
-        }
-    };
-
-    const getStatusLabel = (status: string) => {
-        switch (status.toLowerCase()) {
-            case 'new': return 'Baru';
-            case 'contacted': return 'Dihubungi';
-            case 'closed': return 'Selesai';
-            default: return status;
-        }
-    };
-
     return (
         <AdminLayout>
             <Head title="Inbox Pesan Masuk" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Inbox Pesan
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Pantau dan respon pesan dari calon pelanggan Anda.
-                    </p>
-                </div>
-            </div>
+            <AdminPageHeader 
+                title="Inbox Pesan"
+                description="Pantau dan respon pesan dari calon pelanggan Anda."
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -151,11 +127,7 @@ export default function Index({ submissions }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none ${getStatusColor(sub.status)}`}
-                                            >
-                                                {getStatusLabel(sub.status)}
-                                            </Badge>
+                                            <StatusBadge status={sub.status} />
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

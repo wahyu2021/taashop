@@ -23,11 +23,8 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        $settings = $request->input('settings');
-        
-        // We could add complex validation here if needed, 
-        // but since it's dynamic based on DB keys, we'll let Service handle basic cleanup.
-        $this->service->updateSettings($settings);
+        // We handle both text 'settings' and 'files' (for images)
+        $this->service->updateSettings($request->all());
 
         return redirect()->back()
             ->with('success', 'Pengaturan berhasil diperbarui.');

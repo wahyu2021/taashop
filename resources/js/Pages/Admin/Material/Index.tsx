@@ -8,13 +8,11 @@ import {
     Package, 
     ExternalLink,
     Search,
-    Image as ImageIcon,
-    CheckCircle2
+    Image as ImageIcon
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Badge } from '@/Components/ui/badge';
 import {
     Table,
     TableBody,
@@ -24,6 +22,8 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { useState } from 'react';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     materials: MaterialData[];
@@ -47,23 +47,18 @@ export default function Index({ materials }: Props) {
         <AdminLayout>
             <Head title="Manajemen Material Bahan" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Material Bahan
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Kelola berbagai jenis bahan kain dan kualitas sablon yang Anda tawarkan.
-                    </p>
-                </div>
-                <Link href={route('admin.materials.create')}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Tambah Material
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader 
+                title="Material Bahan"
+                description="Kelola berbagai jenis bahan kain dan kualitas sablon yang Anda tawarkan."
+                action={
+                    <Link href={route('admin.materials.create')}>
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                            <Plus className="w-5 h-5 mr-2" />
+                            Tambah Material
+                        </Button>
+                    </Link>
+                }
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -117,9 +112,9 @@ export default function Index({ materials }: Props) {
                                         <TableCell className="px-6 py-4">
                                             <div className="flex flex-wrap gap-1 max-w-[300px]">
                                                 {material.features.slice(0, 3).map((feature, i) => (
-                                                    <Badge key={i} variant="outline" className="text-[10px] font-bold border-stone-200 text-stone-500 whitespace-nowrap">
+                                                    <span key={i} className="text-[10px] font-bold border border-stone-200 text-stone-500 bg-stone-50 px-2 py-0.5 rounded-full whitespace-nowrap">
                                                         {feature}
-                                                    </Badge>
+                                                    </span>
                                                 ))}
                                                 {material.features.length > 3 && (
                                                     <span className="text-[10px] text-stone-400 font-bold">+{material.features.length - 3} lagi</span>
@@ -127,14 +122,7 @@ export default function Index({ materials }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
-                                                    ${material.status === 'published' ? 'bg-green-100 text-green-600' : 'bg-stone-100 text-stone-500'}
-                                                `}
-                                            >
-                                                {material.status === 'published' ? 'Aktif' : 'Draft'}
-                                            </Badge>
+                                            <StatusBadge status={material.status} />
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

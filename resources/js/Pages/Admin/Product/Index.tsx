@@ -25,6 +25,8 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { useState } from 'react';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     products: ProductData[];
@@ -48,23 +50,18 @@ export default function Index({ products }: Props) {
         <AdminLayout>
             <Head title="Manajemen Produk" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Produk
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Kelola katalog produk jersey dan sablon kustom Anda.
-                    </p>
-                </div>
-                <Link href={route('admin.products.create')}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Tambah Produk
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader 
+                title="Produk"
+                description="Kelola katalog produk jersey dan sablon kustom Anda."
+                action={
+                    <Link href={route('admin.products.create')}>
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                            <Plus className="w-5 h-5 mr-2" />
+                            Tambah Produk
+                        </Button>
+                    </Link>
+                }
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -141,14 +138,7 @@ export default function Index({ products }: Props) {
                                             )}
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
-                                                    ${product.status === 'published' ? 'bg-green-100 text-green-600' : 'bg-stone-100 text-stone-500'}
-                                                `}
-                                            >
-                                                {product.status === 'published' ? 'Aktif' : 'Draft'}
-                                            </Badge>
+                                            <StatusBadge status={product.status} />
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

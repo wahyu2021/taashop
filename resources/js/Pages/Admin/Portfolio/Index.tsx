@@ -15,7 +15,6 @@ import {
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Badge } from '@/Components/ui/badge';
 import {
     Table,
     TableBody,
@@ -27,6 +26,8 @@ import {
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     portfolios: PortfolioData[];
@@ -51,23 +52,18 @@ export default function Index({ portfolios }: Props) {
         <AdminLayout>
             <Head title="Manajemen Portfolio" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Portfolio Galeri
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Tampilkan hasil jadi produk terbaik Anda kepada calon pelanggan.
-                    </p>
-                </div>
-                <Link href={route('admin.portfolios.create')}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Tambah Portfolio
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader 
+                title="Portfolio Galeri"
+                description="Tampilkan hasil jadi produk terbaik Anda kepada calon pelanggan."
+                action={
+                    <Link href={route('admin.portfolios.create')}>
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                            <Plus className="w-5 h-5 mr-2" />
+                            Tambah Portfolio
+                        </Button>
+                    </Link>
+                }
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -131,19 +127,12 @@ export default function Index({ portfolios }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge variant="secondary" className="bg-stone-100 text-stone-600 border-none font-bold">
+                                            <span className="text-xs font-bold text-stone-600 px-2 py-0.5 bg-stone-100 rounded-full">
                                                 {portfolio.category?.name || '-'}
-                                            </Badge>
+                                            </span>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
-                                                    ${portfolio.status === 'published' ? 'bg-green-100 text-green-600' : 'bg-stone-100 text-stone-500'}
-                                                `}
-                                            >
-                                                {portfolio.status === 'published' ? 'Aktif' : 'Draft'}
-                                            </Badge>
+                                            <StatusBadge status={portfolio.status} />
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

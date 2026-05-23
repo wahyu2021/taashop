@@ -36,6 +36,24 @@ class SettingSeeder extends Seeder
                 'order_priority' => 3,
             ],
 
+            // Branding Group
+            [
+                'key' => 'site_logo',
+                'value' => null,
+                'label' => 'Logo Website',
+                'type' => 'image',
+                'group' => 'branding',
+                'order_priority' => 1,
+            ],
+            [
+                'key' => 'site_favicon',
+                'value' => null,
+                'label' => 'Favicon',
+                'type' => 'image',
+                'group' => 'branding',
+                'order_priority' => 2,
+            ],
+
             // Social Media Group
             [
                 'key' => 'instagram_url',

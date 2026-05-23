@@ -13,7 +13,6 @@ import {
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Badge } from '@/Components/ui/badge';
 import {
     Table,
     TableBody,
@@ -23,6 +22,8 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { useState } from 'react';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     categories: CategoryData[];
@@ -45,23 +46,18 @@ export default function Index({ categories }: Props) {
         <AdminLayout>
             <Head title="Manajemen Kategori" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Kategori
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Kelola kategori untuk katalog produk dan galeri portfolio.
-                    </p>
-                </div>
-                <Link href={route('admin.categories.create')}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Tambah Kategori
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader 
+                title="Kategori"
+                description="Kelola kategori untuk katalog produk dan galeri portfolio."
+                action={
+                    <Link href={route('admin.categories.create')}>
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                            <Plus className="w-5 h-5 mr-2" />
+                            Tambah Kategori
+                        </Button>
+                    </Link>
+                }
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -113,15 +109,11 @@ export default function Index({ categories }: Props) {
                                             </span>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                variant="outline"
-                                                className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
-                                                    ${category.type === 'package' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}
-                                                `}
-                                            >
-                                                {category.type === 'package' ? 'Paket Harga' : 'Galeri'}
-                                            </Badge>
+                                            <StatusBadge 
+                                                status={category.type === 'package' ? 'contacted' : 'new'} 
+                                                className={category.type === 'package' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}
+                                            />
+                                            {/* Note: utilizing labels 'contacted' and 'new' as proxy for visual style matching orange/blue */}
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Data\SettingData;
+use App\Models\Setting;
 use App\Repositories\Contracts\SettingRepositoryInterface;
 use App\Utils\Sanitizer;
 use Illuminate\Support\Collection;
+use Illuminate\Http\UploadedFile;
 
 class SettingService
 {
@@ -22,24 +24,41 @@ class SettingService
         });
     }
 
-    public function updateSettings(array $settings): bool
+    public function updateSettings(array $data): bool
     {
-        // Basic sanitization for all values
+        $settings = $data['settings'] ?? [];
+        $files = $data['files'] ?? [];
+
+        // Handle text settings
         foreach ($settings as $key => $value) {
             if (is_string($value)) {
-                // Determine if it's metadata (strip tags) or might need purification
-                // For settings, we usually want to strip all tags unless it's specifically a rich text field
-                // For now, let's strip all tags for safety as these are global configs.
-                $settings[$key] = Sanitizer::strip($value);
+                $sanitizedValue = Sanitizer::strip($value);
+                Setting::where('key', $key)->update(['value' => $sanitizedValue]);
             }
         }
 
-        return $this->repository->updateMany($settings);
+        // Handle file/image settings
+        foreach ($files as $key => $file) {
+            if ($file instanceof UploadedFile) {
+                $setting = Setting::where('key', $key)->first();
+                if ($setting) {
+                    $setting->addMedia($file)->toMediaCollection('image');
+                }
+            }
+        }
+
+        return true;
     }
 
     public function getSettingValue(string $key, $default = null)
     {
-        $setting = \App\Models\Setting::where('key', $key)->first();
+        $setting = Setting::where('key', $key)->first();
         return $setting ? $setting->value : $default;
+    }
+
+    public function getSettingImageUrl(string $key)
+    {
+        $setting = Setting::where('key', $key)->first();
+        return $setting ? $setting->getFirstMediaUrl('image') : null;
     }
 }

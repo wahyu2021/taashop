@@ -14,7 +14,6 @@ import {
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Badge } from '@/Components/ui/badge';
 import {
     Table,
     TableBody,
@@ -26,6 +25,8 @@ import {
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
     news: NewsData[];
@@ -49,23 +50,18 @@ export default function Index({ news }: Props) {
         <AdminLayout>
             <Head title="Manajemen Berita & Artikel" />
 
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                        Berita & Artikel
-                    </h1>
-                    <p className="text-stone-500 mt-1 font-medium">
-                        Kelola konten edukasi, promo, dan update terbaru Taashop.
-                    </p>
-                </div>
-                <Link href={route('admin.news.create')}>
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Tulis Berita
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader 
+                title="Berita & Artikel"
+                description="Kelola konten edukasi, promo, dan update terbaru Taashop."
+                action={
+                    <Link href={route('admin.news.create')}>
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                            <Plus className="w-5 h-5 mr-2" />
+                            Tulis Berita
+                        </Button>
+                    </Link>
+                }
+            />
 
             {/* Toolbar Section */}
             <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
@@ -125,14 +121,7 @@ export default function Index({ news }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <Badge 
-                                                className={`
-                                                    text-[10px] font-black uppercase tracking-widest px-2 py-0.5 border-none
-                                                    ${item.status === 'published' ? 'bg-green-100 text-green-600' : 'bg-stone-100 text-stone-500'}
-                                                `}
-                                            >
-                                                {item.status === 'published' ? 'Aktif' : 'Draft'}
-                                            </Badge>
+                                            <StatusBadge status={item.status} />
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
