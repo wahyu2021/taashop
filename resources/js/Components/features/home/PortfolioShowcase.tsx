@@ -25,7 +25,7 @@ export default function PortfolioShowcase({ portfolios }: Props) {
                 {portfolios.map((item) => (
                     <div key={item.id} className="aspect-square group relative overflow-hidden bg-stone-900">
                         <img 
-                            src={item.image_url || '/images/placeholder-portfolio.jpg'} 
+                            src={item.image_url || '/images/placeholder.svg'} 
                             alt={item.title} 
                             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
                         />

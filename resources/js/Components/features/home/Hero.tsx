@@ -12,7 +12,7 @@ interface HeroProps {
 
 export default function Hero({ title, description, whatsappUrl, heroImageUrl }: HeroProps) {
     return (
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-stone-950 pt-6">
+        <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-stone-950">
             {/* Background Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
                 backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
@@ -32,10 +32,10 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                         <span className="inline-block bg-orange-600 text-white text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] px-3 py-1 mb-6">
                             Premium Custom Sportswear
                         </span>
-                        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-8">
+                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-4">
                             {title || 'Bikin Jersey Impianmu Jadi Nyata'}
                         </h1>
-                        <p className="text-stone-400 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed">
+                        <p className="text-stone-400 text-md sm:text-lg max-w-xl mb-6 leading-relaxed">
                             {description || 'Taashop hadir sebagai partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.'}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0">
@@ -43,7 +43,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                                 href="/catalog"
                                 className={cn(
                                     buttonVariants({ variant: 'default' }),
-                                    "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-10 py-8 rounded-none text-lg h-auto flex items-center justify-center border-none"
+                                    "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto flex items-center justify-center border-none"
                                 )}
                             >
                                 Lihat Katalog
@@ -55,7 +55,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                                 rel="noopener noreferrer"
                                 className={cn(
                                     buttonVariants({ variant: 'outline' }),
-                                    "border-stone-700 text-white hover:bg-stone-900 font-black uppercase tracking-widest px-10 py-8 rounded-none text-lg h-auto flex items-center justify-center"
+                                    "border-stone-700 text-white hover:bg-stone-900 font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto flex items-center justify-center"
                                 )}
                             >
                                 Konsultasi Gratis

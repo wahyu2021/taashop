@@ -106,7 +106,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                 <div key={product.id} className="group flex flex-col h-full bg-white border border-stone-100 hover:border-orange-200 transition-all duration-300">
                                     <Link href={route('catalog.show', product.slug)} className="aspect-4/5 overflow-hidden bg-stone-100 relative">
                                         <img 
-                                            src={product.image_url || '/images/placeholder-product.jpg'} 
+                                            src={product.image_url || '/images/placeholder.svg'} 
                                             alt={product.title} 
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />

@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\ProductStatus;
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
@@ -32,7 +33,7 @@ class MaterialData extends Data
             order_priority: $material->order_priority,
             status: $material->status,
             features: $material->features->pluck('feature')->toArray(),
-            image_url: $material->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($material, 'image'),
         );
     }
 }

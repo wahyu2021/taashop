@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\ProductStatus;
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class PortfolioData extends Data
@@ -32,7 +33,7 @@ class PortfolioData extends Data
             order_priority: $portfolio->order_priority,
             status: $portfolio->status,
             category: $portfolio->category ? CategoryData::from($portfolio->category) : null,
-            image_url: $portfolio->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($portfolio, 'image'),
         );
     }
 }

@@ -4,6 +4,7 @@ namespace App\Data;
 
 use App\Enums\PrintType;
 use App\Enums\ProductStatus;
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class PackageData extends Data
@@ -35,7 +36,7 @@ class PackageData extends Data
             max_price: (float) $package->max_price,
             order_priority: $package->order_priority,
             status: $package->status,
-            image_url: $package->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($package, 'image'),
         );
     }
 }

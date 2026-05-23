@@ -32,7 +32,7 @@ export default function FeaturedProducts({ products }: Props) {
                         <div key={product.id} className="group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                             <div className="aspect-[4/5] overflow-hidden relative">
                                 <img 
-                                    src={product.image_url || '/images/placeholder-product.jpg'} 
+                                    src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />

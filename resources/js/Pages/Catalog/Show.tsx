@@ -39,7 +39,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                         <div className="lg:col-span-7">
                             <div className="bg-stone-100 border border-stone-200 sticky top-32">
                                 <img 
-                                    src={product.image_url || '/images/placeholder-product.jpg'} 
+                                    src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 
                                     className="w-full h-auto object-cover aspect-square sm:aspect-video lg:aspect-4/5"
                                 />
@@ -129,7 +129,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                             >
                                 <div className="aspect-square overflow-hidden">
                                     <img 
-                                        src={item.image_url || '/images/placeholder-product.jpg'} 
+                                        src={item.image_url || '/images/placeholder.svg'} 
                                         alt={item.title} 
                                         className="w-full h-full object-cover transition-transform group-hover:scale-105"
                                     />

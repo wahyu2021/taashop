@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\ProductStatus;
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class ProductData extends Data
@@ -30,7 +31,7 @@ class ProductData extends Data
             order_priority: $product->order_priority,
             status: $product->status,
             category: $product->category ? CategoryData::from($product->category) : null,
-            image_url: $product->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($product, 'image'),
         );
     }
 }

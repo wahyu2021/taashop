@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\ProductStatus;
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class NewsData extends Data
@@ -30,7 +31,7 @@ class NewsData extends Data
             status: $news->status,
             published_at: $news->published_at?->format('Y-m-d H:i'),
             order_priority: $news->order_priority,
-            image_url: $news->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($news, 'image'),
         );
     }
 }

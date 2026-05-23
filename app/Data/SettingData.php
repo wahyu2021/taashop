@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class SettingData extends Data
@@ -27,7 +28,7 @@ class SettingData extends Data
             type: $model->type,
             group: $model->group,
             order_priority: $model->order_priority,
-            image_url: $model->getFirstMediaUrl('image'),
+            image_url: MediaHelper::getRelativeUrl($model, 'image'),
         );
     }
 }

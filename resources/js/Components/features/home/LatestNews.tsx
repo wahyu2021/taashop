@@ -34,7 +34,7 @@ export default function LatestNews({ news }: Props) {
                         <div key={item.id} className="group flex flex-col h-full bg-white border border-stone-100 hover:border-stone-200 transition-all">
                             <Link href={`/news/${item.slug}`} className="aspect-video overflow-hidden bg-stone-100 relative">
                                 <img 
-                                    src={item.image_url || '/images/placeholder-news.jpg'} 
+                                    src={item.image_url || '/images/placeholder.svg'} 
                                     alt={item.title} 
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 />

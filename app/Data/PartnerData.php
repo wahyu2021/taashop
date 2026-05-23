@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class PartnerData extends Data
@@ -19,7 +20,7 @@ class PartnerData extends Data
             id: $partner->id,
             name: $partner->name,
             is_active: $partner->is_active,
-            logo_url: $partner->getFirstMediaUrl('logo'),
+            logo_url: MediaHelper::getRelativeUrl($partner, 'logo'),
         );
     }
 }

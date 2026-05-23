@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Utils\MediaHelper;
 use Spatie\LaravelData\Data;
 
 class TestimonialData extends Data
@@ -24,8 +25,8 @@ class TestimonialData extends Data
             customer_title: $testimonial->customer_title,
             content: $testimonial->content,
             rating: $testimonial->rating,
-            avatar_url: $testimonial->getFirstMediaUrl('avatar'),
-            proof_url: $testimonial->getFirstMediaUrl('proof'),
+            avatar_url: MediaHelper::getRelativeUrl($testimonial, 'avatar'),
+            proof_url: MediaHelper::getRelativeUrl($testimonial, 'proof'),
         );
     }
 }
