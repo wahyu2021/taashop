@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface ContactSubmissionRepositoryInterface
 {
     public function all(): Collection;
+    public function getFiltered(array $filters = [], int $perPage = 10);
     public function findById(int $id): ?ContactSubmission;
     public function updateStatus(int $id, string $status): bool;
     public function delete(int $id): bool;

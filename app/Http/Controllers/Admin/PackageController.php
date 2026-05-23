@@ -19,10 +19,15 @@ class PackageController extends Controller
         protected PackageService $packageService
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'status', 'print_type']);
+
         return Inertia::render('Admin/Package/Index', [
-            'packages' => $this->packageService->getAllPackagesForAdmin()
+            'packages' => $this->packageService->getFilteredPackagesForAdmin($filters),
+            'filters' => $filters,
+            'statuses' => ProductStatus::cases(),
+            'printTypes' => PrintType::cases()
         ]);
     }
 

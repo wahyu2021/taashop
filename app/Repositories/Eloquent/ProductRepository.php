@@ -16,6 +16,29 @@ class ProductRepository implements ProductRepositoryInterface
             ->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = Product::with('category');
+
+        if (!empty($filters['search'])) {
+            $query->where('title', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        if (isset($filters['is_featured']) && $filters['is_featured'] !== '') {
+            $query->where('is_featured', (bool) $filters['is_featured']);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
+    }
+
     public function getAllPublished(int $limit = null): Collection
     {
         $query = Product::with('category')

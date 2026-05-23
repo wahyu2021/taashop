@@ -20,10 +20,15 @@ class PortfolioController extends Controller
         protected CategoryService $categoryService
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'category_id', 'status']);
+
         return Inertia::render('Admin/Portfolio/Index', [
-            'portfolios' => $this->portfolioService->getAllPortfoliosForAdmin()
+            'portfolios' => $this->portfolioService->getFilteredPortfoliosForAdmin($filters),
+            'categories' => $this->categoryService->getAllCategories(),
+            'filters' => $filters,
+            'statuses' => ProductStatus::cases()
         ]);
     }
 

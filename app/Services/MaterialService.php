@@ -13,6 +13,13 @@ class MaterialService
         protected MaterialRepositoryInterface $materialRepository
     ) {}
 
+    public function getFilteredMaterialsForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->materialRepository->getFiltered($filters, $perPage);
+        
+        return MaterialData::collect($paginator);
+    }
+
     public function getAllMaterialsForAdmin(): Collection
     {
         return MaterialData::collect($this->materialRepository->all());

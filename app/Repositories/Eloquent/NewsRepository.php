@@ -14,6 +14,24 @@ class NewsRepository implements NewsRepositoryInterface
         return News::latest()->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = News::query();
+
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('title', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('summary', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
+    }
+
     public function findById(int $id): ?News
     {
         return News::find($id);

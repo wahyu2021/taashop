@@ -14,6 +14,13 @@ class NewsService
         protected NewsRepositoryInterface $repository
     ) {}
 
+    public function getFilteredNewsForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->repository->getFiltered($filters, $perPage);
+        
+        return NewsData::collect($paginator);
+    }
+
     public function getAllNewsForAdmin(): Collection
     {
         return NewsData::collect($this->repository->all());

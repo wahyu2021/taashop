@@ -14,6 +14,28 @@ class PackageRepository implements PackageRepositoryInterface
         return Package::latest()->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = Package::query();
+
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('title', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('product_type', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        if (!empty($filters['print_type'])) {
+            $query->where('print_type', $filters['print_type']);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
+    }
+
     public function getAllPublished(): Collection
     {
         return Package::where('status', ProductStatus::PUBLISHED)

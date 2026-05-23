@@ -14,6 +14,13 @@ class PortfolioService
         protected PortfolioRepositoryInterface $repository
     ) {}
 
+    public function getFilteredPortfoliosForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->repository->getFiltered($filters, $perPage);
+        
+        return PortfolioData::collect($paginator);
+    }
+
     public function getAllPortfoliosForAdmin(): Collection
     {
         return PortfolioData::collect($this->repository->all());

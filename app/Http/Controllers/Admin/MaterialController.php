@@ -18,10 +18,14 @@ class MaterialController extends Controller
         protected MaterialService $materialService
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'status']);
+
         return Inertia::render('Admin/Material/Index', [
-            'materials' => $this->materialService->getAllMaterialsForAdmin()
+            'materials' => $this->materialService->getFilteredMaterialsForAdmin($filters),
+            'filters' => $filters,
+            'statuses' => ProductStatus::cases()
         ]);
     }
 

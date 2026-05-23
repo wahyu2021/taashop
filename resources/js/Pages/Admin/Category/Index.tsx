@@ -1,12 +1,13 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { CategoryData } from '@/types';
+import { CategoryData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
     Layers, 
-    Filter
+    Filter,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
@@ -18,18 +19,31 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    categories: CategoryData[];
+    categories: PaginatedData<CategoryData>;
+    filters: {
+        search?: string;
+        type?: string;
+    };
 }
 
-export default function Index({ categories }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ categories, filters }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
@@ -37,9 +51,35 @@ export default function Index({ categories }: Props) {
         }
     };
 
-    const filteredCategories = categories.filter(category => 
-        category.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.categories.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.categories.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.type || filters.search;
 
     return (
         <AdminLayout>
@@ -63,10 +103,46 @@ export default function Index({ categories }: Props) {
                 onSearchChange={setSearchQuery}
                 placeholder="Cari kategori..."
                 action={
-                    <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider">
-                        <Filter className="w-4 h-4 mr-2" />
-                        Filter Tipe
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button 
+                                variant="ghost" 
+                                onClick={clearFilters}
+                                className="text-xs font-bold text-stone-400 hover:text-destructive"
+                            >
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter Tipe
+                                    {filters.type && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-56 p-2" align="end">
+                                <div className="space-y-1">
+                                    <Button 
+                                        variant={filters.type === 'gallery' ? 'default' : 'ghost'} 
+                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
+                                        onClick={() => updateFilters({ type: filters.type === 'gallery' ? null : 'gallery' })}
+                                    >
+                                        Galeri Portfolio
+                                    </Button>
+                                    <Button 
+                                        variant={filters.type === 'package' ? 'default' : 'ghost'} 
+                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
+                                        onClick={() => updateFilters({ type: filters.type === 'package' ? null : 'package' })}
+                                    >
+                                        Paket Harga
+                                    </Button>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                 }
             />
 
@@ -83,8 +159,8 @@ export default function Index({ categories }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredCategories.length > 0 ? (
-                                filteredCategories.map((category) => (
+                            {categories.data.length > 0 ? (
+                                categories.data.map((category) => (
                                     <TableRow key={category.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-3">
@@ -104,7 +180,6 @@ export default function Index({ categories }: Props) {
                                                 status={category.type === 'package' ? 'contacted' : 'new'} 
                                                 className={category.type === 'package' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}
                                             />
-                                            {/* Note: utilizing labels 'contacted' and 'new' as proxy for visual style matching orange/blue */}
                                         </TableCell>
                                         <TableCell className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -127,8 +202,10 @@ export default function Index({ categories }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={4} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada kategori ditemukan.
+                                    <TableCell colSpan={4} className="px-6 py-20 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <p className="text-stone-500 font-medium italic">Tidak ada kategori ditemukan.</p>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -137,7 +214,10 @@ export default function Index({ categories }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredCategories.length} label="Kategori" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={categories.meta.total} label="Kategori" />
+                <Pagination links={categories.links} />
+            </div>
         </AdminLayout>
     );
 }

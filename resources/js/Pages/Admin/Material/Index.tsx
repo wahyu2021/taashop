@@ -1,11 +1,13 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { MaterialData } from '@/types';
+import { MaterialData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
-    Image as ImageIcon
+    Filter,
+    Image as ImageIcon,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
@@ -17,18 +19,32 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    materials: MaterialData[];
+    materials: PaginatedData<MaterialData>;
+    filters: {
+        search?: string;
+        status?: string;
+    };
+    statuses: string[];
 }
 
-export default function Index({ materials }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ materials, filters, statuses }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus material ini?')) {
@@ -36,10 +52,35 @@ export default function Index({ materials }: Props) {
         }
     };
 
-    const filteredMaterials = materials.filter(material => 
-        material.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        material.summary?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.materials.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.materials.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.status || filters.search;
 
     return (
         <AdminLayout>
@@ -62,9 +103,46 @@ export default function Index({ materials }: Props) {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 placeholder="Cari material..."
+                action={
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400">
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter
+                                    {filters.status && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-56 p-2" align="end">
+                                <div className="space-y-1">
+                                    {statuses.map(s => {
+                                        const val = s.toLowerCase();
+                                        const active = filters.status === val;
+                                        return (
+                                            <Button 
+                                                key={val}
+                                                variant={active ? 'default' : 'ghost'} 
+                                                className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
+                                                onClick={() => updateFilters({ status: active ? null : val })}
+                                            >
+                                                {s}
+                                            </Button>
+                                        );
+                                    })}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                }
             />
 
-            {/* Materials Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -77,8 +155,8 @@ export default function Index({ materials }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredMaterials.length > 0 ? (
-                                filteredMaterials.map((material) => (
+                            {materials.data.length > 0 ? (
+                                materials.data.map((material) => (
                                     <TableRow key={material.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -93,12 +171,12 @@ export default function Index({ materials }: Props) {
                                                 </div>
                                                 <div>
                                                     <span className="font-bold text-foreground block leading-tight">{material.name}</span>
-                                                    <span className="text-xs text-stone-400 line-clamp-1 max-w-50">{material.summary || '-'}</span>
+                                                    <span className="text-xs text-stone-400 line-clamp-1 max-w-[200px]">{material.summary || '-'}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <div className="flex flex-wrap gap-1 max-w-75">
+                                            <div className="flex flex-wrap gap-1 max-w-[300px]">
                                                 {material.features.slice(0, 3).map((feature, i) => (
                                                     <span key={i} className="text-[10px] font-bold border border-stone-200 text-stone-500 bg-stone-50 px-2 py-0.5 rounded-full whitespace-nowrap">
                                                         {feature}
@@ -119,12 +197,7 @@ export default function Index({ materials }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(material.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(material.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -133,8 +206,8 @@ export default function Index({ materials }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={4} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada material ditemukan.
+                                    <TableCell colSpan={4} className="px-6 py-20 text-center">
+                                        <p className="text-stone-500 font-medium italic">Tidak ada material ditemukan.</p>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -143,7 +216,10 @@ export default function Index({ materials }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredMaterials.length} label="Material" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={materials.meta.total} label="Material" />
+                <Pagination links={materials.links} />
+            </div>
         </AdminLayout>
     );
 }

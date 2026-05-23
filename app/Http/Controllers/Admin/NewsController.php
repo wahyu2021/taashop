@@ -18,10 +18,14 @@ class NewsController extends Controller
         protected NewsService $service
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'status']);
+
         return Inertia::render('Admin/News/Index', [
-            'news' => $this->service->getAllNewsForAdmin()
+            'news' => $this->service->getFilteredNewsForAdmin($filters),
+            'filters' => $filters,
+            'statuses' => ProductStatus::cases()
         ]);
     }
 

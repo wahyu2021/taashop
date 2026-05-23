@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface CategoryRepositoryInterface
 {
     public function all(): Collection;
+    public function getFiltered(array $filters = [], int $perPage = 10);
     public function findById(int $id): ?Category;
     public function create(array $data): Category;
     public function update(int $id, array $data): bool;

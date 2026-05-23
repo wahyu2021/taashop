@@ -13,6 +13,13 @@ class ProductService
         protected ProductRepositoryInterface $productRepository
     ) {}
 
+    public function getFilteredProductsForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->productRepository->getFiltered($filters, $perPage);
+        
+        return ProductData::collect($paginator);
+    }
+
     public function getAllProductsForAdmin(): Collection
     {
         return ProductData::collect($this->productRepository->all());

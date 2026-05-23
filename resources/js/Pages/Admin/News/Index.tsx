@@ -1,15 +1,18 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { NewsData } from '@/types';
+import { NewsData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
+    Filter,
     Calendar,
-    Image as ImageIcon
+    Image as ImageIcon,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -18,20 +21,34 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    news: NewsData[];
+    news: PaginatedData<NewsData>;
+    filters: {
+        search?: string;
+        status?: string;
+    };
+    statuses: string[];
 }
 
-export default function Index({ news }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ news, filters, statuses }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
@@ -39,10 +56,35 @@ export default function Index({ news }: Props) {
         }
     };
 
-    const filteredNews = news.filter(item => 
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.summary?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.news.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.news.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.status || filters.search;
 
     return (
         <AdminLayout>
@@ -65,9 +107,41 @@ export default function Index({ news }: Props) {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 placeholder="Cari berita atau artikel..."
+                action={
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400">
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter
+                                    {filters.status && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-56 p-2" align="end">
+                                <div className="space-y-1">
+                                    {statuses.map(s => {
+                                        const val = s.toLowerCase();
+                                        const active = filters.status === val;
+                                        return (
+                                            <Button key={val} variant={active ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ status: active ? null : val })}>
+                                                {s}
+                                            </Button>
+                                        );
+                                    })}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                }
             />
 
-            {/* News Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -80,8 +154,8 @@ export default function Index({ news }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredNews.length > 0 ? (
-                                filteredNews.map((item) => (
+                            {news.data.length > 0 ? (
+                                news.data.map((item) => (
                                     <TableRow key={item.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -94,9 +168,9 @@ export default function Index({ news }: Props) {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <div className="max-w-75">
+                                                <div className="max-w-[300px]">
                                                     <span className="font-bold text-foreground block leading-tight truncate">{item.title}</span>
-                                                    <span className="text-[10px] font-mono text-stone-400 line-clamp-1">{item.summary || '-'}</span>
+                                                    <span className="text-[10px] font-mono text-stone-400 line-clamp-1 uppercase tracking-wider">{item.slug}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
@@ -118,12 +192,7 @@ export default function Index({ news }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(item.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(item.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -132,8 +201,8 @@ export default function Index({ news }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={4} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada berita ditemukan.
+                                    <TableCell colSpan={4} className="px-6 py-20 text-center">
+                                        <p className="text-stone-500 font-medium italic">Tidak ada berita ditemukan.</p>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -142,7 +211,10 @@ export default function Index({ news }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredNews.length} label="Berita & Artikel" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={news.meta.total} label="Berita" />
+                <Pagination links={news.links} />
+            </div>
         </AdminLayout>
     );
 }

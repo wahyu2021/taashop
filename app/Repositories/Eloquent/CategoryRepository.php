@@ -13,6 +13,21 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::latest()->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = Category::query();
+
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if (!empty($filters['type'])) {
+            $query->where('type', $filters['type']);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
+    }
+
     public function findById(int $id): ?Category
     {
         return Category::find($id);

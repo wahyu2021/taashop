@@ -1,14 +1,15 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { ProductData } from '@/types';
+import { ProductData, CategoryData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
-    ExternalLink,
     Filter,
     Star,
-    Image as ImageIcon
+    Image as ImageIcon,
+    X,
+    Check
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
@@ -21,18 +22,35 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    products: ProductData[];
+    products: PaginatedData<ProductData>;
+    categories: CategoryData[];
+    filters: {
+        search?: string;
+        category_id?: string;
+        status?: string;
+        is_featured?: string;
+    };
+    statuses: string[];
 }
 
-export default function Index({ products }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ products, categories, filters, statuses }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
@@ -40,10 +58,36 @@ export default function Index({ products }: Props) {
         }
     };
 
-    const filteredProducts = products.filter(product => 
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category?.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Handle filter updates
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.products.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1 // Reset to first page on filter change
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.products.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.category_id || filters.status || filters.is_featured || filters.search;
 
     return (
         <AdminLayout>
@@ -62,17 +106,92 @@ export default function Index({ products }: Props) {
                 }
             />
 
-            <AdminToolbar
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                placeholder="Cari produk atau kategori..."
-                action={
-                    <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider">
-                        <Filter className="w-4 h-4 mr-2" />
-                        Filter
-                    </Button>
-                }
-            />
+            <div className="flex flex-col gap-4 mb-6">
+                <AdminToolbar
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    placeholder="Cari produk atau kategori..."
+                    action={
+                        <div className="flex items-center gap-2">
+                            {hasActiveFilters && (
+                                <Button 
+                                    variant="ghost" 
+                                    onClick={clearFilters}
+                                    className="text-xs font-bold text-stone-400 hover:text-destructive"
+                                >
+                                    <X className="w-3 h-3 mr-1" /> Bersihkan
+                                </Button>
+                            )}
+                            
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                        <Filter className="w-4 h-4 mr-2" />
+                                        Filter
+                                        {(filters.category_id || filters.status || filters.is_featured) && (
+                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80 p-0" align="end">
+                                    <div className="p-4 border-b border-stone-100 bg-stone-50/50">
+                                        <h4 className="font-bold text-sm text-stone-700 uppercase tracking-widest">Filter Lanjutan</h4>
+                                    </div>
+                                    <div className="p-4 space-y-6">
+                                        {/* Status Filter */}
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Status Produk</label>
+                                            <div className="flex flex-wrap gap-2">
+                                                {statuses.map(s => {
+                                                    const val = s.toLowerCase();
+                                                    const active = filters.status === val;
+                                                    return (
+                                                        <Button 
+                                                            key={val}
+                                                            variant={active ? 'default' : 'outline'}
+                                                            size="sm"
+                                                            className="text-[10px] h-7 px-3 font-bold uppercase tracking-wider"
+                                                            onClick={() => updateFilters({ status: active ? null : val })}
+                                                        >
+                                                            {s}
+                                                        </Button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* Category Filter */}
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Kategori</label>
+                                            <select 
+                                                value={filters.category_id || ''}
+                                                onChange={(e) => updateFilters({ category_id: e.target.value || null })}
+                                                className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold focus:ring-primary/20"
+                                            >
+                                                <option value="">Semua Kategori</option>
+                                                {categories.map(cat => (
+                                                    <option key={cat.id} value={cat.id!}>{cat.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Featured Filter */}
+                                        <div className="flex items-center justify-between py-2 border-t border-stone-100 mt-4">
+                                            <label className="text-xs font-bold text-stone-600">Hanya Unggulan</label>
+                                            <button
+                                                onClick={() => updateFilters({ is_featured: filters.is_featured === '1' ? null : '1' })}
+                                                className={`w-10 h-5 rounded-full transition-colors relative ${filters.is_featured === '1' ? 'bg-primary' : 'bg-stone-200'}`}
+                                            >
+                                                <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${filters.is_featured === '1' ? 'translate-x-5' : ''}`} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    }
+                />
+            </div>
 
             {/* Products Table */}
             <Card className="border-none shadow-sm overflow-hidden">
@@ -88,8 +207,8 @@ export default function Index({ products }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredProducts.length > 0 ? (
-                                filteredProducts.map((product) => (
+                            {products.data.length > 0 ? (
+                                products.data.map((product) => (
                                     <TableRow key={product.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -104,13 +223,13 @@ export default function Index({ products }: Props) {
                                                 </div>
                                                 <div>
                                                     <span className="font-bold text-foreground block leading-tight">{product.title}</span>
-                                                    <span className="text-[10px] font-mono text-stone-400">{product.slug}</span>
+                                                    <span className="text-[10px] font-mono text-stone-400 uppercase tracking-wider">{product.slug}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
                                             {product.category ? (
-                                                <Badge variant="secondary" className="bg-stone-100 text-stone-600 border-none font-bold">
+                                                <Badge variant="secondary" className="bg-stone-100 text-stone-600 border-none font-bold text-[10px] uppercase">
                                                     {product.category.name}
                                                 </Badge>
                                             ) : (
@@ -120,7 +239,7 @@ export default function Index({ products }: Props) {
                                         <TableCell className="px-6 py-4 text-center">
                                             {product.is_featured ? (
                                                 <div className="flex justify-center">
-                                                    <div className="p-1.5 rounded-full bg-orange-100 text-orange-500">
+                                                    <div className="p-1.5 rounded-full bg-orange-100 text-orange-500 shadow-sm border border-orange-200">
                                                         <Star className="w-4 h-4 fill-orange-500" />
                                                     </div>
                                                 </div>
@@ -152,8 +271,18 @@ export default function Index({ products }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada produk ditemukan.
+                                    <TableCell colSpan={5} className="px-6 py-20 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <div className="w-12 h-12 rounded-full bg-stone-50 flex items-center justify-center text-stone-300 border-2 border-dashed border-stone-200">
+                                                <X className="w-6 h-6" />
+                                            </div>
+                                            <p className="text-stone-500 font-medium italic">Tidak ada produk ditemukan dengan kriteria tersebut.</p>
+                                            {hasActiveFilters && (
+                                                <Button variant="link" onClick={clearFilters} className="text-primary font-bold">
+                                                    Hapus Semua Filter
+                                                </Button>
+                                            )}
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -162,7 +291,10 @@ export default function Index({ products }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredProducts.length} label="Produk" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={products.meta.total} label="Produk" />
+                <Pagination links={products.links} />
+            </div>
         </AdminLayout>
     );
 }

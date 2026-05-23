@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface MaterialRepositoryInterface
 {
     public function all(): Collection;
+    public function getFiltered(array $filters = [], int $perPage = 10);
     public function getAllPublished(): Collection;
     public function findBySlug(string $slug): ?Material;
     public function findById(int $id): ?Material;

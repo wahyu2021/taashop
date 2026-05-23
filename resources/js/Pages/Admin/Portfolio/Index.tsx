@@ -1,16 +1,19 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { PortfolioData } from '@/types';
+import { PortfolioData, CategoryData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
     Image as ImageIcon, 
+    Filter,
     Calendar,
-    User
+    User,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -19,20 +22,36 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    portfolios: PortfolioData[];
+    portfolios: PaginatedData<PortfolioData>;
+    categories: CategoryData[];
+    filters: {
+        search?: string;
+        category_id?: string;
+        status?: string;
+    };
+    statuses: string[];
 }
 
-export default function Index({ portfolios }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ portfolios, categories, filters, statuses }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus portfolio ini?')) {
@@ -40,11 +59,35 @@ export default function Index({ portfolios }: Props) {
         }
     };
 
-    const filteredPortfolios = portfolios.filter(p => 
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.client_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category?.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.portfolios.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.portfolios.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.status || filters.category_id || filters.search;
 
     return (
         <AdminLayout>
@@ -66,10 +109,54 @@ export default function Index({ portfolios }: Props) {
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
-                placeholder="Cari portfolio, klien, atau kategori..."
+                placeholder="Cari portfolio atau klien..."
+                action={
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400">
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter
+                                    {(filters.status || filters.category_id) && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64 p-4 space-y-6" align="end">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Status</label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {statuses.map(s => {
+                                            const val = s.toLowerCase();
+                                            const active = filters.status === val;
+                                            return (
+                                                <Button key={val} variant={active ? 'default' : 'outline'} size="sm" className="text-[10px] h-7 px-3 font-bold uppercase" onClick={() => updateFilters({ status: active ? null : val })}>
+                                                    {s}
+                                                </Button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Kategori</label>
+                                    <select value={filters.category_id || ''} onChange={(e) => updateFilters({ category_id: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold">
+                                        <option value="">Semua Kategori</option>
+                                        {categories.filter(c => c.type === 'gallery').map(cat => (
+                                            <option key={cat.id} value={cat.id!}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                }
             />
 
-            {/* Portfolios Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -83,8 +170,8 @@ export default function Index({ portfolios }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredPortfolios.length > 0 ? (
-                                filteredPortfolios.map((portfolio) => (
+                            {portfolios.data.length > 0 ? (
+                                portfolios.data.map((portfolio) => (
                                     <TableRow key={portfolio.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -99,7 +186,7 @@ export default function Index({ portfolios }: Props) {
                                                 </div>
                                                 <div>
                                                     <span className="font-bold text-foreground block leading-tight">{portfolio.title}</span>
-                                                    <span className="text-[10px] font-mono text-stone-400">{portfolio.slug}</span>
+                                                    <span className="text-[10px] font-mono text-stone-400 uppercase tracking-wider">{portfolio.slug}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
@@ -115,7 +202,7 @@ export default function Index({ portfolios }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <span className="text-xs font-bold text-stone-600 px-2 py-0.5 bg-stone-100 rounded-full">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-stone-600 px-2 py-0.5 bg-stone-100 rounded-full">
                                                 {portfolio.category?.name || '-'}
                                             </span>
                                         </TableCell>
@@ -129,12 +216,7 @@ export default function Index({ portfolios }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(portfolio.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(portfolio.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -143,8 +225,8 @@ export default function Index({ portfolios }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada portfolio ditemukan.
+                                    <TableCell colSpan={5} className="px-6 py-20 text-center">
+                                        <p className="text-stone-500 font-medium italic">Tidak ada portfolio ditemukan.</p>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -153,7 +235,10 @@ export default function Index({ portfolios }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredPortfolios.length} label="Portfolio" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={portfolios.meta.total} label="Portfolio" />
+                <Pagination links={portfolios.links} />
+            </div>
         </AdminLayout>
     );
 }

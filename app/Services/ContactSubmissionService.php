@@ -12,6 +12,13 @@ class ContactSubmissionService
         protected ContactSubmissionRepositoryInterface $repository
     ) {}
 
+    public function getFilteredSubmissions(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->repository->getFiltered($filters, $perPage);
+        
+        return ContactSubmissionData::collect($paginator);
+    }
+
     public function getAllSubmissions(): Collection
     {
         return ContactSubmissionData::collect($this->repository->all());

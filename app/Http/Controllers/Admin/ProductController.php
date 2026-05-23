@@ -20,10 +20,15 @@ class ProductController extends Controller
         protected CategoryService $categoryService
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'category_id', 'status', 'is_featured']);
+        
         return Inertia::render('Admin/Product/Index', [
-            'products' => $this->productService->getAllProductsForAdmin()
+            'products' => $this->productService->getFilteredProductsForAdmin($filters),
+            'categories' => $this->categoryService->getAllCategories(),
+            'filters' => $filters,
+            'statuses' => ProductStatus::cases()
         ]);
     }
 

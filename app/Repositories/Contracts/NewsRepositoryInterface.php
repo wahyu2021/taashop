@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface NewsRepositoryInterface
 {
     public function all(): Collection;
+    public function getFiltered(array $filters = [], int $perPage = 10);
     public function findById(int $id): ?News;
     public function create(array $data): News;
     public function update(int $id, array $data): bool;

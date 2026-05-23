@@ -1,11 +1,13 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { PackageData } from '@/types';
+import { PackageData, PaginatedData } from '@/types';
 import { 
     Plus, 
     Pencil, 
     Trash2, 
-    Image as ImageIcon
+    Filter,
+    Image as ImageIcon,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
@@ -17,24 +19,60 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    packages: PackageData[];
+    packages: PaginatedData<PackageData>;
+    filters: {
+        search?: string;
+        status?: string;
+        print_type?: string;
+    };
+    statuses: string[];
+    printTypes: { name: string, value: string }[];
 }
 
-export default function Index({ packages }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ packages, filters, statuses, printTypes }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus paket harga ini?')) {
             router.delete(route('admin.packages.destroy', id));
         }
     };
+
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.packages.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('id-ID', {
@@ -45,10 +83,15 @@ export default function Index({ packages }: Props) {
         }).format(amount);
     };
 
-    const filteredPackages = packages.filter(pkg => 
-        pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        pkg.product_type.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.packages.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.status || filters.print_type || filters.search;
 
     return (
         <AdminLayout>
@@ -71,9 +114,53 @@ export default function Index({ packages }: Props) {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 placeholder="Cari paket atau tipe produk..."
+                action={
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400">
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter
+                                    {(filters.status || filters.print_type) && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64 p-4 space-y-6" align="end">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Status</label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {statuses.map(s => {
+                                            const val = s.toLowerCase();
+                                            const active = filters.status === val;
+                                            return (
+                                                <Button key={val} variant={active ? 'default' : 'outline'} size="sm" className="text-[10px] h-7 px-3 font-bold uppercase" onClick={() => updateFilters({ status: active ? null : val })}>
+                                                    {s}
+                                                </Button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Tipe Print</label>
+                                    <select value={filters.print_type || ''} onChange={(e) => updateFilters({ print_type: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold">
+                                        <option value="">Semua Tipe</option>
+                                        {printTypes.map(pt => (
+                                            <option key={pt.value} value={pt.value}>{pt.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                }
             />
 
-            {/* Packages Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -87,8 +174,8 @@ export default function Index({ packages }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredPackages.length > 0 ? (
-                                filteredPackages.map((pkg) => (
+                            {packages.data.length > 0 ? (
+                                packages.data.map((pkg) => (
                                     <TableRow key={pkg.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -132,12 +219,7 @@ export default function Index({ packages }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(pkg.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(pkg.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -146,8 +228,8 @@ export default function Index({ packages }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada paket ditemukan.
+                                    <TableCell colSpan={5} className="px-6 py-20 text-center">
+                                        <p className="text-stone-500 font-medium italic">Tidak ada paket ditemukan.</p>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -156,7 +238,10 @@ export default function Index({ packages }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredPackages.length} label="Paket" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={packages.meta.total} label="Paket" />
+                <Pagination links={packages.links} />
+            </div>
         </AdminLayout>
     );
 }

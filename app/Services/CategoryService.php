@@ -13,6 +13,13 @@ class CategoryService
         protected CategoryRepositoryInterface $repository
     ) {}
 
+    public function getFilteredCategoriesForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->repository->getFiltered($filters, $perPage);
+        
+        return CategoryData::collect($paginator);
+    }
+
     public function getAllCategories()
     {
         return CategoryData::collect($this->repository->all());

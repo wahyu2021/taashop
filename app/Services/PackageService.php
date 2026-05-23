@@ -13,6 +13,13 @@ class PackageService
         protected PackageRepositoryInterface $packageRepository
     ) {}
 
+    public function getFilteredPackagesForAdmin(array $filters = [], int $perPage = 10)
+    {
+        $paginator = $this->packageRepository->getFiltered($filters, $perPage);
+        
+        return PackageData::collect($paginator);
+    }
+
     public function getAllPackagesForAdmin(): Collection
     {
         return PackageData::collect($this->packageRepository->all());

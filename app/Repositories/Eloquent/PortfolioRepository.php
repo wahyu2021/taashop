@@ -14,6 +14,28 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         return Portfolio::with('category')->latest()->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = Portfolio::with('category');
+
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('title', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('client_name', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
+    }
+
     public function findById(int $id): ?Portfolio
     {
         return Portfolio::with('category')->find($id);

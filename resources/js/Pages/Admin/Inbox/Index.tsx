@@ -1,14 +1,19 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { ContactSubmissionData } from '@/types';
+import { ContactSubmissionData, PaginatedData } from '@/types';
 import { 
+    Inbox, 
     Eye, 
     Trash2, 
+    Filter,
     Mail,
-    Phone
+    Phone,
+    Calendar,
+    X
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -17,20 +22,34 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/Components/ui/popover";
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import AdminToolbar from '@/Components/shared/AdminToolbar';
 import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import Pagination from '@/Components/shared/Pagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
-    submissions: ContactSubmissionData[];
+    submissions: PaginatedData<ContactSubmissionData>;
+    filters: {
+        search?: string;
+        status?: string;
+    };
+    statuses: string[];
 }
 
-export default function Index({ submissions }: Props) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function Index({ submissions, filters, statuses }: Props) {
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
     const handleDelete = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
@@ -38,11 +57,35 @@ export default function Index({ submissions }: Props) {
         }
     };
 
-    const filteredSubmissions = submissions.filter(sub => 
-        sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sub.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sub.subject?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const updateFilters = (newFilters: any) => {
+        router.get(route('admin.inbox.index'), {
+            ...filters,
+            ...newFilters,
+            page: 1
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    };
+
+    useEffect(() => {
+        if (isFirstRender) {
+            setIsFirstRender(false);
+            return;
+        }
+        updateFilters({ search: debouncedSearch });
+    }, [debouncedSearch]);
+
+    const clearFilters = () => {
+        setSearchQuery('');
+        router.get(route('admin.inbox.index'), {}, {
+            preserveState: true,
+            replace: true
+        });
+    };
+
+    const hasActiveFilters = filters.status || filters.search;
 
     return (
         <AdminLayout>
@@ -57,9 +100,41 @@ export default function Index({ submissions }: Props) {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 placeholder="Cari nama, email, atau subjek..."
+                action={
+                    <div className="flex items-center gap-2">
+                        {hasActiveFilters && (
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400">
+                                <X className="w-3 h-3 mr-1" /> Bersihkan
+                            </Button>
+                        )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
+                                    <Filter className="w-4 h-4 mr-2" />
+                                    Filter
+                                    {filters.status && (
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-56 p-2" align="end">
+                                <div className="space-y-1">
+                                    {statuses.map(s => {
+                                        const val = s.toLowerCase();
+                                        const active = filters.status === val;
+                                        return (
+                                            <Button key={val} variant={active ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ status: active ? null : val })}>
+                                                {s}
+                                            </Button>
+                                        );
+                                    })}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                }
             />
 
-            {/* Submissions Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -73,8 +148,8 @@ export default function Index({ submissions }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {filteredSubmissions.length > 0 ? (
-                                filteredSubmissions.map((sub) => (
+                            {submissions.data.length > 0 ? (
+                                submissions.data.map((sub) => (
                                     <TableRow key={sub.id} className={`group border-stone-100 transition-colors ${sub.status === 'new' ? 'bg-primary/5 hover:bg-primary/10' : 'hover:bg-stone-50/50'}`}>
                                         <TableCell className="px-6 py-4">
                                             <div className="flex flex-col">
@@ -97,7 +172,7 @@ export default function Index({ submissions }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <div className="max-w-62.5">
+                                            <div className="max-w-[250px]">
                                                 <p className="text-sm font-bold text-stone-700 truncate">{sub.subject || 'Tanpa Subjek'}</p>
                                                 <p className="text-xs text-stone-400 truncate mt-0.5">{sub.message}</p>
                                             </div>
@@ -122,12 +197,7 @@ export default function Index({ submissions }: Props) {
                                                         <Eye className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(sub.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(sub.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -136,8 +206,8 @@ export default function Index({ submissions }: Props) {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="px-6 py-12 text-center text-stone-500 italic">
-                                        Tidak ada pesan ditemukan.
+                                    <TableCell colSpan={5} className="px-6 py-20 text-center">
+                                        <p className="text-stone-500 font-medium italic">Tidak ada pesan ditemukan.</p>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -146,7 +216,10 @@ export default function Index({ submissions }: Props) {
                 </CardContent>
             </Card>
 
-            <AdminTableFooter count={filteredSubmissions.length} label="Pesan Masuk" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+                <AdminTableFooter count={submissions.meta.total} label="Pesan" />
+                <Pagination links={submissions.links} />
+            </div>
         </AdminLayout>
     );
 }

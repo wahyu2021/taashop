@@ -17,10 +17,14 @@ class ContactSubmissionController extends Controller
         protected ContactSubmissionService $service
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'status']);
+
         return Inertia::render('Admin/Inbox/Index', [
-            'submissions' => $this->service->getAllSubmissions()
+            'submissions' => $this->service->getFilteredSubmissions($filters),
+            'filters' => $filters,
+            'statuses' => SubmissionStatus::cases()
         ]);
     }
 

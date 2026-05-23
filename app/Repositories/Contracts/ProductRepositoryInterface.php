@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface ProductRepositoryInterface
 {
     public function all(): Collection;
+    public function getFiltered(array $filters = [], int $perPage = 10);
     public function getAllPublished(int $limit = null): Collection;
     public function getFeatured(): Collection;
     public function findBySlug(string $slug): ?Product;

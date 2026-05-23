@@ -13,6 +13,25 @@ class ContactSubmissionRepository implements ContactSubmissionRepositoryInterfac
         return ContactSubmission::latest('submitted_at')->get();
     }
 
+    public function getFiltered(array $filters = [], int $perPage = 10)
+    {
+        $query = ContactSubmission::query();
+
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('email', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('subject', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest('submitted_at')->paginate($perPage)->withQueryString();
+    }
+
     public function findById(int $id): ?ContactSubmission
     {
         return ContactSubmission::find($id);

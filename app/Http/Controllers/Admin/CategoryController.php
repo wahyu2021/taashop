@@ -17,10 +17,13 @@ class CategoryController extends Controller
         protected CategoryService $categoryService
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $filters = $request->only(['search', 'type']);
+
         return Inertia::render('Admin/Category/Index', [
-            'categories' => $this->categoryService->getAllCategories()
+            'categories' => $this->categoryService->getFilteredCategoriesForAdmin($filters),
+            'filters' => $filters
         ]);
     }
 
