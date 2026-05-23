@@ -12,7 +12,7 @@ export default function LatestNews({ news }: Props) {
     if (news.length === 0) return null;
 
     return (
-        <section className="py-24 bg-white">
+        <section className="py-24 bg-stone-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
@@ -39,7 +39,7 @@ export default function LatestNews({ news }: Props) {
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
                             </Link>
-                            <div className="p-8 flex flex-col flex-grow">
+                            <div className="p-8 flex flex-col grow">
                                 <div className="flex items-center gap-2 text-stone-400 text-[10px] font-bold uppercase tracking-widest mb-4">
                                     <Calendar size={12} className="text-orange-600" />
                                     {item.published_at ? format(new Date(item.published_at), 'dd MMMM yyyy', { locale: id }) : 'Coming Soon'}
@@ -49,7 +49,7 @@ export default function LatestNews({ news }: Props) {
                                         {item.title}
                                     </Link>
                                 </h3>
-                                <p className="text-stone-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+                                <p className="text-stone-500 text-sm leading-relaxed mb-6 line-clamp-3 grow">
                                     {item.summary}
                                 </p>
                                 <Link 

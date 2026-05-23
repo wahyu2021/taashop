@@ -42,28 +42,29 @@ export default function Home({
             <Hero 
                 title={site_settings?.hero_title ?? undefined} 
                 description={site_settings?.hero_description ?? undefined} 
-                whatsappUrl={whatsappUrl} 
+                whatsappUrl={whatsappUrl}
+                heroImageUrl={site_settings?.hero_image ?? undefined}
             />
 
-            {/* 2. How to Order */}
-            <HowToOrder />
-
-            {/* 3. Key Benefits */}
+            {/* 2. Trust Bar — Key Benefits */}
             <KeyBenefits />
 
-            {/* 4. Material Showcase */}
-            <MaterialShowcase materials={materials} />
-
-            {/* 5. Featured Products */}
+            {/* 3. Featured Products */}
             <FeaturedProducts products={featured_products} />
 
-            {/* 6. Portfolio Highlights */}
+            {/* 4. Portfolio Highlights */}
             <PortfolioShowcase portfolios={latest_portfolios} />
 
-            {/* 7. Testimonials (New) */}
+            {/* 5. Material Showcase */}
+            <MaterialShowcase materials={materials} />
+
+            {/* 6. How to Order */}
+            <HowToOrder />
+
+            {/* 7. Testimonials */}
             <Testimonials testimonials={testimonials} />
 
-            {/* 8. FAQ Section (New) */}
+            {/* 8. FAQ Section */}
             <FAQSection faqs={faqs} />
 
             {/* 9. Latest News */}

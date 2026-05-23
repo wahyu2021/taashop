@@ -7,30 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Testimonial extends Model implements HasMedia
+class Partner extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'customer_name',
-        'customer_title',
-        'content',
-        'rating',
-        'is_published',
-        'order_priority'
+        'name',
+        'is_active',
     ];
 
     protected $casts = [
-        'is_published' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('avatar')
-            ->singleFile()
-            ->useFallbackUrl('/images/placeholder.svg');
-
-        $this->addMediaCollection('proof')
+        $this->addMediaCollection('logo')
             ->singleFile()
             ->useFallbackUrl('/images/placeholder.svg');
     }

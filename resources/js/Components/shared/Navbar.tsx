@@ -1,8 +1,8 @@
 import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Menu, X, ChevronRight, ShoppingCart } from 'lucide-react';
-import { Button, buttonVariants } from '@/Components/ui/button';
+import { buttonVariants } from '@/Components/ui/button';
 import { cn } from '@/lib/utils';
 
 export default function Navbar() {
@@ -26,106 +26,161 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
+    const closeMenu = useCallback(() => setIsOpen(false), []);
+
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}`;
 
     return (
-        <nav
-            className={cn(
-                'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out',
-                scrolled 
-                    ? 'bg-white/80 backdrop-blur-md border-b border-stone-200 py-3' 
-                    : 'bg-transparent py-5'
-            )}
-        >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2">
-                        {site_settings?.site_logo ? (
-                            <img 
-                                src={site_settings.site_logo} 
-                                alt={site_settings?.site_name || 'Taashop'} 
-                                className="h-8 w-auto object-contain sm:h-10" 
-                            />
-                        ) : (
-                            <span className="text-xl font-black uppercase tracking-tighter text-stone-900 sm:text-2xl">
-                                TAA<span className="text-orange-600">SHOP</span>
-                            </span>
-                        )}
-                    </Link>
+        <>
+            <nav
+                className={cn(
+                    'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out backdrop-blur-md',
+                    scrolled 
+                        ? 'bg-white/90 border-b border-stone-200 py-3 shadow-sm' 
+                        : 'bg-white/70 py-4',
+                    isOpen && 'bg-white shadow-sm'
+                )}
+            >
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center">
+                        {/* Logo */}
+                        <Link href="/" className="flex items-center gap-2 relative z-50">
+                            {site_settings?.site_logo ? (
+                                <img 
+                                    src={site_settings.site_logo} 
+                                    alt={site_settings?.site_name || 'Taashop'} 
+                                    className="h-8 w-auto object-contain sm:h-10" 
+                                />
+                            ) : (
+                                <span className="text-xl font-black uppercase tracking-tighter text-stone-900 sm:text-2xl">
+                                    TAA<span className="text-orange-600">SHOP</span>
+                                </span>
+                            )}
+                        </Link>
 
-                    {/* Desktop Links */}
-                    <div className="hidden md:flex items-center gap-8">
-                        {navLinks.map((link) => (
+                        {/* Desktop Links */}
+                        <div className="hidden md:flex items-center gap-8">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className="text-sm font-bold uppercase tracking-wider text-stone-700 hover:text-orange-600 transition-colors"
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* Desktop Action Button */}
+                        <div className="hidden md:block">
+                            <a 
+                                href={whatsappUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className={cn(
+                                    buttonVariants({ variant: 'default' }),
+                                    "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-6 rounded-none shadow-lg shadow-orange-600/20 h-10"
+                                )}
+                            >
+                                <ShoppingCart className="w-4 h-4 mr-2" />
+                                Order Sekarang
+                            </a>
+                        </div>
+
+                        {/* Mobile Toggle */}
+                        <button
+                            className="md:hidden relative z-50 w-10 h-10 flex items-center justify-center text-stone-900 focus:outline-none"
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-label={isOpen ? 'Tutup Menu' : 'Buka Menu'}
+                        >
+                            <div className="relative w-6 h-5">
+                                <span className={cn(
+                                    "absolute left-0 w-6 h-0.5 bg-stone-900 transition-all duration-300 ease-in-out",
+                                    isOpen ? "top-2 rotate-45" : "top-0"
+                                )} />
+                                <span className={cn(
+                                    "absolute left-0 top-2 w-6 h-0.5 bg-stone-900 transition-all duration-300 ease-in-out",
+                                    isOpen ? "opacity-0 translate-x-2" : "opacity-100"
+                                )} />
+                                <span className={cn(
+                                    "absolute left-0 w-6 h-0.5 bg-stone-900 transition-all duration-300 ease-in-out",
+                                    isOpen ? "top-2 -rotate-45" : "top-4"
+                                )} />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Mobile Menu Overlay */}
+            <div
+                className={cn(
+                    'fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 md:hidden',
+                    isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                )}
+                onClick={closeMenu}
+            />
+
+            {/* Mobile Menu Panel */}
+            <div
+                className={cn(
+                    'fixed top-0 right-0 z-40 w-full sm:w-80 h-full bg-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden',
+                    isOpen ? 'translate-x-0' : 'translate-x-full'
+                )}
+            >
+                <div className="flex flex-col pt-24 pb-10 px-6 h-full overflow-y-auto">
+                    {/* Nav Links */}
+                    <div className="flex flex-col gap-1">
+                        {navLinks.map((link, index) => (
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="text-sm font-bold uppercase tracking-wider text-stone-700 hover:text-orange-600 transition-colors"
+                                onClick={closeMenu}
+                                className={cn(
+                                    "flex justify-between items-center py-4 px-4 text-lg font-black uppercase tracking-tight text-stone-900 hover:bg-stone-50 hover:text-orange-600 transition-all duration-200 border-b border-stone-100 last:border-none",
+                                    "transform transition-all duration-300 ease-out",
+                                    isOpen 
+                                        ? "translate-x-0 opacity-100" 
+                                        : "translate-x-8 opacity-0",
+                                )}
+                                style={{ transitionDelay: isOpen ? `${index * 50 + 100}ms` : '0ms' }}
                             >
                                 {link.name}
+                                <ChevronRight size={18} className="text-orange-600" />
                             </Link>
                         ))}
                     </div>
 
-                    {/* Action Button */}
-                    <div className="hidden md:block">
+                    {/* WhatsApp CTA */}
+                    <div className="mt-auto pt-8">
                         <a 
                             href={whatsappUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
+                            onClick={closeMenu}
                             className={cn(
-                                buttonVariants({ variant: 'default' }),
-                                "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-6 rounded-none shadow-lg shadow-orange-600/20 h-10"
+                                buttonVariants({ variant: 'default', size: 'lg' }),
+                                "w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest py-7 rounded-none flex items-center justify-center h-auto"
                             )}
                         >
-                            <ShoppingCart className="w-4 h-4 mr-2" />
-                            Order Sekarang
+                            <ShoppingCart className="w-5 h-5 mr-3" />
+                            Order via WhatsApp
                         </a>
                     </div>
-
-                    {/* Mobile Toggle */}
-                    <button
-                        className="md:hidden p-2 text-stone-900 focus:outline-none"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {isOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
                 </div>
             </div>
-
-            {/* Mobile Menu */}
-            <div
-                className={cn(
-                    'fixed inset-0 top-18 bg-white z-40 transition-transform duration-300 ease-in-out md:hidden',
-                    isOpen ? 'translate-x-0' : 'translate-x-full'
-                )}
-            >
-                <div className="flex flex-col p-6 gap-6 h-full overflow-y-auto">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            onClick={() => setIsOpen(false)}
-                            className="text-2xl font-black uppercase tracking-tight text-stone-900 flex justify-between items-center border-b border-stone-100 pb-4"
-                        >
-                            {link.name}
-                            <ChevronRight className="text-orange-600" />
-                        </Link>
-                    ))}
-                    <a 
-                        href={whatsappUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={cn(
-                            buttonVariants({ variant: 'default', size: 'lg' }),
-                            "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest mt-auto mb-10 py-8 rounded-none flex items-center justify-center h-auto"
-                        )}
-                    >
-                        <ShoppingCart className="w-5 h-5 mr-3" />
-                        Order via WhatsApp
-                    </a>
-                </div>
-            </div>
-        </nav>
+        </>
     );
 }

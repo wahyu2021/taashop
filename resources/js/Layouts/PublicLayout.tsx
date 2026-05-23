@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect } from 'react';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import Navbar from '@/Components/shared/Navbar';
 import Footer from '@/Components/shared/Footer';
@@ -23,16 +23,11 @@ export default function PublicLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-orange-600 selection:text-white">
-            <Head>
-                <title>{site_settings?.site_name || 'Taashop'}</title>
-                <meta name="description" content={site_settings?.site_description || 'Taashop - Premium Jersey & Sablon'} />
-            </Head>
-
             {/* Navigation */}
             <Navbar />
 
             {/* Main Content */}
-            <main className="pt-20">
+            <main className="pt-18">
                 {children}
             </main>
 

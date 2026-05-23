@@ -62,6 +62,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Eloquent\TestimonialRepository::class
         );
 
+        $this->app->bind(
+            \App\Repositories\Contracts\PartnerRepositoryInterface::class,
+            \App\Repositories\Eloquent\PartnerRepository::class
+        );
+
         $this->app->singleton(\App\Services\DashboardService::class);
     }
 

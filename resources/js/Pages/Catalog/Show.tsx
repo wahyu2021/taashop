@@ -1,8 +1,9 @@
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { PageProps, ProductData } from '@/types';
-import { Button } from '@/Components/ui/button';
+import { Button, buttonVariants } from '@/Components/ui/button';
 import { ArrowLeft, ShoppingCart, Share2, CheckCircle2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Props {
     product: ProductData;
@@ -40,7 +41,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                                 <img 
                                     src={product.image_url || '/images/placeholder-product.jpg'} 
                                     alt={product.title} 
-                                    className="w-full h-auto object-cover aspect-square sm:aspect-video lg:aspect-[4/5]"
+                                    className="w-full h-auto object-cover aspect-square sm:aspect-video lg:aspect-4/5"
                                 />
                             </div>
                         </div>

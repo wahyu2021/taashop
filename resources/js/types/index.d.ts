@@ -121,6 +121,15 @@ export interface FAQData {
     answer: string;
 }
 
+// ─── Partner ────────────────────────────────────────────
+
+export interface PartnerData {
+    id: number | null;
+    name: string;
+    is_active: boolean;
+    logo_url: string | null;
+}
+
 // ─── Testimonial ────────────────────────────────────────
 
 export interface TestimonialData {

@@ -38,6 +38,6 @@ class Portfolio extends Model implements HasMedia
     {
         $this->addMediaCollection('image')
             ->singleFile()
-            ->useFallbackUrl('https://via.placeholder.com/600x400?text=Portfolio+Image');
+            ->useFallbackUrl('/images/placeholder.svg');
     }
 }

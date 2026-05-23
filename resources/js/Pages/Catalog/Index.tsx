@@ -2,7 +2,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { PageProps, ProductData, CategoryData, PaginatedData } from '@/types';
 import { Input } from '@/Components/ui/input';
-import { Button } from '@/Components/ui/button';
+import { Button, buttonVariants } from '@/Components/ui/button';
 import { Search, Filter, ArrowRight, Grid, List as ListIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -104,7 +104,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                             {products.data.map((product) => (
                                 <div key={product.id} className="group flex flex-col h-full bg-white border border-stone-100 hover:border-orange-200 transition-all duration-300">
-                                    <Link href={route('catalog.show', product.slug)} className="aspect-[4/5] overflow-hidden bg-stone-100 relative">
+                                    <Link href={route('catalog.show', product.slug)} className="aspect-4/5 overflow-hidden bg-stone-100 relative">
                                         <img 
                                             src={product.image_url || '/images/placeholder-product.jpg'} 
                                             alt={product.title} 
@@ -116,13 +116,13 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                             </span>
                                         </div>
                                     </Link>
-                                    <div className="p-6 flex flex-col flex-grow">
+                                    <div className="p-6 flex flex-col grow">
                                         <div className="flex justify-between items-start mb-2">
                                             <span className="text-orange-600 text-[10px] font-black uppercase tracking-widest">
                                                 {product.category?.name || 'Uncategorized'}
                                             </span>
                                         </div>
-                                        <h3 className="text-lg font-black uppercase tracking-tight text-stone-900 mb-4 line-clamp-2 leading-tight flex-grow">
+                                        <h3 className="text-lg font-black uppercase tracking-tight text-stone-900 mb-4 line-clamp-2 leading-tight grow">
                                             <Link href={route('catalog.show', product.slug)} className="hover:text-orange-600 transition-colors">
                                                 {product.title}
                                             </Link>

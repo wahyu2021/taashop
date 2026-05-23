@@ -2,23 +2,27 @@ import { Star, Shield, Zap, Clock } from 'lucide-react';
 
 export default function KeyBenefits() {
     const benefits = [
-        { icon: <Star />, title: 'Kualitas Premium', desc: 'Menggunakan bahan terbaik yang nyaman dan tahan lama.' },
-        { icon: <Shield />, title: 'Garansi Hasil', desc: 'Kami menjamin setiap detail sesuai dengan pesanan Anda.' },
-        { icon: <Zap />, title: 'Proses Cepat', desc: 'Produksi efisien tanpa mengurangi kualitas akhir.' },
-        { icon: <Clock />, title: 'Tepat Waktu', desc: 'Komitmen pengiriman sesuai jadwal yang disepakati.' },
+        { icon: <Star size={20} />, title: 'Kualitas Premium' },
+        { icon: <Shield size={20} />, title: 'Garansi Hasil' },
+        { icon: <Zap size={20} />, title: 'Proses Cepat' },
+        { icon: <Clock size={20} />, title: 'Tepat Waktu' },
     ];
 
     return (
-        <section className="py-24 bg-stone-50">
+        <section className="bg-stone-900 border-y border-stone-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-stone-800">
                     {benefits.map((benefit, i) => (
-                        <div key={i} className="group">
-                            <div className="w-16 h-16 bg-white border border-stone-200 flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
+                        <div 
+                            key={i} 
+                            className="flex items-center gap-3 py-5 sm:py-6 px-4 sm:px-6 group cursor-default"
+                        >
+                            <div className="text-orange-500 shrink-0 group-hover:scale-110 transition-transform duration-300">
                                 {benefit.icon}
                             </div>
-                            <h3 className="text-xl font-black uppercase tracking-tight mb-3 text-stone-900">{benefit.title}</h3>
-                            <p className="text-stone-500 text-sm leading-relaxed">{benefit.desc}</p>
+                            <span className="text-white text-xs sm:text-sm font-black uppercase tracking-wider">
+                                {benefit.title}
+                            </span>
                         </div>
                     ))}
                 </div>
