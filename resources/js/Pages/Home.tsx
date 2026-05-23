@@ -1,11 +1,12 @@
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, usePage } from '@inertiajs/react';
-import { PageProps, ProductData, PortfolioData, NewsData, MaterialData, FAQData, TestimonialData } from '@/types';
+import { PageProps, ProductData, PortfolioData, NewsData, MaterialData, FAQData, TestimonialData, PartnerData } from '@/types';
 
 // Home Feature Components
 import Hero from '@/Components/features/home/Hero';
 import HowToOrder from '@/Components/features/home/HowToOrder';
 import KeyBenefits from '@/Components/features/home/KeyBenefits';
+import PartnerLogos from '@/Components/features/home/PartnerLogos';
 import MaterialShowcase from '@/Components/features/home/MaterialShowcase';
 import FeaturedProducts from '@/Components/features/home/FeaturedProducts';
 import PortfolioShowcase from '@/Components/features/home/PortfolioShowcase';
@@ -21,6 +22,7 @@ interface Props {
     materials: MaterialData[];
     faqs: FAQData[];
     testimonials: TestimonialData[];
+    partners: PartnerData[];
 }
 
 export default function Home({ 
@@ -29,7 +31,8 @@ export default function Home({
     latest_news, 
     materials,
     faqs,
-    testimonials
+    testimonials,
+    partners
 }: Props) {
     const { site_settings } = usePage<PageProps>().props;
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}`;
@@ -49,7 +52,10 @@ export default function Home({
             {/* 2. Trust Bar — Key Benefits */}
             <KeyBenefits />
 
-            {/* 3. Featured Products */}
+            {/* 3. Partner Logos */}
+            <PartnerLogos partners={partners} />
+
+            {/* 4. Featured Products */}
             <FeaturedProducts products={featured_products} />
 
             {/* 4. Portfolio Highlights */}

@@ -8,6 +8,7 @@ use App\Services\NewsService;
 use App\Services\MaterialService;
 use App\Services\FAQService;
 use App\Services\TestimonialService;
+use App\Services\PartnerService;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,7 +20,8 @@ class HomeController extends Controller
         protected NewsService $newsService,
         protected MaterialService $materialService,
         protected FAQService $faqService,
-        protected TestimonialService $testimonialService
+        protected TestimonialService $testimonialService,
+        protected PartnerService $partnerService
     ) {}
 
     public function index(): Response
@@ -31,6 +33,7 @@ class HomeController extends Controller
             'materials' => $this->materialService->getPublishedMaterials(),
             'faqs' => $this->faqService->getPublishedFAQs(5),
             'testimonials' => $this->testimonialService->getPublishedTestimonials(6),
+            'partners' => $this->partnerService->getActivePartners(),
         ]);
     }
 }
