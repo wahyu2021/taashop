@@ -13,7 +13,8 @@ import {
     User,
     ChevronRight,
     Tag,
-    Image as ImageIcon
+    Image as ImageIcon,
+    FileText
 } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
@@ -22,60 +23,80 @@ export default function AdminLayout({ children }: PropsWithChildren) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const navigation = [
-        { 
-            name: 'Dashboard', 
-            href: route('admin.dashboard'), 
-            icon: LayoutDashboard, 
-            active: route().current('admin.dashboard') || route().current('dashboard') 
+        {
+            group: 'Main',
+            items: [
+                { 
+                    name: 'Dashboard', 
+                    href: route('admin.dashboard'), 
+                    icon: LayoutDashboard, 
+                    active: route().current('admin.dashboard') || route().current('dashboard') 
+                },
+                { 
+                    name: 'Pesan Masuk', 
+                    href: route('admin.inbox.index'), 
+                    icon: Inbox, 
+                    active: route().current('admin.inbox.*') 
+                },
+            ]
         },
-        { 
-            name: 'Produk', 
-            href: route('admin.products.index'), 
-            icon: ShoppingBag, 
-            active: route().current('admin.products.*') 
+        {
+            group: 'Katalog Produk',
+            items: [
+                { 
+                    name: 'Daftar Produk', 
+                    href: route('admin.products.index'), 
+                    icon: ShoppingBag, 
+                    active: route().current('admin.products.*') 
+                },
+                { 
+                    name: 'Kategori', 
+                    href: route('admin.categories.index'), 
+                    icon: Layers, 
+                    active: route().current('admin.categories.*') 
+                },
+                { 
+                    name: 'Material Bahan', 
+                    href: route('admin.materials.index'), 
+                    icon: Package, 
+                    active: route().current('admin.materials.*') 
+                },
+                { 
+                    name: 'Paket Harga', 
+                    href: route('admin.packages.index'), 
+                    icon: Tag, 
+                    active: route().current('admin.packages.*') 
+                },
+            ]
         },
-        { 
-            name: 'Kategori', 
-            href: route('admin.categories.index'), 
-            icon: Layers, 
-            active: route().current('admin.categories.*') 
+        {
+            group: 'Konten Web',
+            items: [
+                { 
+                    name: 'Portfolio', 
+                    href: route('admin.portfolios.index'), 
+                    icon: ImageIcon, 
+                    active: route().current('admin.portfolios.*') 
+                },
+                { 
+                    name: 'Berita & Artikel', 
+                    href: route('admin.news.index'), 
+                    icon: FileText, 
+                    active: route().current('admin.news.*') 
+                },
+            ]
         },
-        { 
-            name: 'Portfolio', 
-            href: route('admin.portfolios.index'), 
-            icon: ImageIcon, 
-            active: route().current('admin.portfolios.*') 
-        },
-        { 
-            name: 'Berita & Artikel', 
-            href: route('admin.news.index'), 
-            icon: FileText, 
-            active: route().current('admin.news.*') 
-        },
-        { 
-            name: 'Material Bahan', 
-            href: route('admin.materials.index'), 
-            icon: Package, 
-            active: route().current('admin.materials.*') 
-        },
-        { 
-            name: 'Paket Harga', 
-            href: route('admin.packages.index'), 
-            icon: Tag, 
-            active: route().current('admin.packages.*') 
-        },
-        { 
-            name: 'Pesan Masuk', 
-            href: route('admin.inbox.index'), 
-            icon: Inbox, 
-            active: route().current('admin.inbox.*') 
-        },
-        { 
-            name: 'Pengaturan', 
-            href: route('admin.settings.index'), 
-            icon: Settings, 
-            active: route().current('admin.settings.*') 
-        },
+        {
+            group: 'Sistem',
+            items: [
+                { 
+                    name: 'Pengaturan', 
+                    href: route('admin.settings.index'), 
+                    icon: Settings, 
+                    active: route().current('admin.settings.*') 
+                },
+            ]
+        }
     ];
 
     return (
@@ -111,40 +132,49 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-                        {navigation.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className={`
-                                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                    ${item.active 
-                                        ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20' 
-                                        : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}
-                                `}
-                            >
-                                <item.icon className={`w-4 h-4 ${item.active ? 'text-primary-foreground' : 'text-stone-500'}`} />
-                                {item.name}
-                            </Link>
+                    <nav className="flex-1 px-4 py-6 space-y-8 overflow-y-auto custom-scrollbar">
+                        {navigation.map((group) => (
+                            <div key={group.group} className="space-y-2">
+                                <h3 className="px-3 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">
+                                    {group.group}
+                                </h3>
+                                <div className="space-y-1">
+                                    {group.items.map((item) => (
+                                        <Link
+                                            key={item.name}
+                                            href={item.href}
+                                            className={`
+                                                flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200
+                                                ${item.active 
+                                                    ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' 
+                                                    : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}
+                                            `}
+                                        >
+                                            <item.icon className={`w-4 h-4 ${item.active ? 'text-primary-foreground' : 'text-stone-400 group-hover:text-primary'}`} />
+                                            {item.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
                     </nav>
 
                     {/* Sidebar Footer */}
-                    <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/30">
+                    <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/20">
                         <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-sidebar border border-sidebar-border shadow-sm mb-4">
                             <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                                 <User className="w-5 h-5" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-bold text-sidebar-foreground truncate">{user.name}</p>
-                                <p className="text-[10px] text-stone-500 truncate uppercase tracking-wider font-semibold">Administrator</p>
+                                <p className="text-sm font-black text-sidebar-foreground truncate">{user.name}</p>
+                                <p className="text-[9px] text-stone-400 truncate uppercase tracking-widest font-bold italic">Administrator</p>
                             </div>
                         </div>
                         <Link
                             href={route('logout')}
                             method="post"
                             as="button"
-                            className="flex items-center gap-3 w-full px-3 py-2.5 text-sm font-semibold text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                            className="flex items-center gap-3 w-full px-3 py-2.5 text-sm font-black text-destructive hover:bg-destructive/10 rounded-lg transition-colors uppercase tracking-widest text-[10px]"
                         >
                             <LogOut className="w-4 h-4" />
                             Keluar
@@ -166,31 +196,31 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                         </button>
                         
                         <div className="hidden lg:flex items-center text-sm text-stone-500 font-medium">
-                            <span className="hover:text-primary transition-colors cursor-default">Admin</span>
+                            <span className="hover:text-primary transition-colors cursor-default font-bold uppercase tracking-widest text-[10px]">Admin</span>
                             <ChevronRight className="w-4 h-4 mx-2 text-stone-300" />
-                            <span className="text-foreground font-bold">
-                                {navigation.find(n => n.active)?.name || 'Panel'}
+                            <span className="text-foreground font-black uppercase tracking-widest text-[10px]">
+                                {navigation.flatMap(g => g.items).find(i => i.active)?.name || 'Panel'}
                             </span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3">
                         <div className="hidden sm:block text-right mr-2">
-                            <p className="text-sm font-bold text-foreground leading-tight">{user.name}</p>
-                            <p className="text-xs text-stone-500">{user.email}</p>
+                            <p className="text-sm font-black text-foreground leading-tight">{user.name}</p>
+                            <p className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">{user.email}</p>
                         </div>
                     </div>
                 </header>
 
                 {/* Content */}
-                <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+                <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto">
                     {children}
                 </main>
 
                 {/* Footer */}
-                <footer className="px-4 py-6 text-center border-t border-border lg:px-8 bg-stone-50/50">
-                    <p className="text-xs text-stone-500 font-medium">
-                        &copy; {new Date().getFullYear()} <span className="text-primary font-bold">Taashop Web</span>. Premium Sporty Management System.
+                <footer className="px-4 py-8 text-center border-t border-border lg:px-8 bg-stone-50/30 mt-auto">
+                    <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.2em]">
+                        &copy; {new Date().getFullYear()} <span className="text-primary">Taashop Web</span> &bull; Premium Sporty Management System
                     </p>
                 </footer>
             </div>

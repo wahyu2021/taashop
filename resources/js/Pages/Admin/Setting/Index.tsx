@@ -177,7 +177,7 @@ export default function Index({ groupedSettings }: Props) {
                                     {/* Guidance Section */}
                                     <div className="xl:col-span-1">
                                         <div className="sticky top-24 space-y-6">
-                                            <Card className="border-2 border-primary/10 bg-primary/[0.02] shadow-none overflow-hidden rounded-2xl">
+                                            <Card className="border-2 border-primary/10 bg-primary/2 shadow-none overflow-hidden rounded-2xl">
                                                 <CardHeader className="bg-primary/5 border-b border-primary/10 py-4">
                                                     <CardTitle className="text-xs font-black flex items-center gap-2 text-primary uppercase tracking-widest">
                                                         <Info className="w-4 h-4 text-primary" />
