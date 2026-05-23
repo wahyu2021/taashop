@@ -128,7 +128,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                             </Button>
                         )}
                         <Popover>
-                            <PopoverTrigger asChild>
+                            <PopoverTrigger render={
                                 <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider relative">
                                     <Filter className="w-4 h-4 mr-2" />
                                     Filter
@@ -136,7 +136,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                                         <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
                                     )}
                                 </Button>
-                            </PopoverTrigger>
+                            } />
                             <PopoverContent className="w-64 p-4 space-y-6" align="end">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Status</label>
