@@ -5,14 +5,10 @@ import {
     Plus, 
     Pencil, 
     Trash2, 
-    Package, 
-    ExternalLink,
-    Search,
     Image as ImageIcon
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -23,6 +19,8 @@ import {
 } from "@/Components/ui/table";
 import { useState } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import AdminToolbar from '@/Components/shared/AdminToolbar';
+import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
@@ -60,21 +58,11 @@ export default function Index({ materials }: Props) {
                 }
             />
 
-            {/* Toolbar Section */}
-            <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
-                        <Input 
-                            type="text" 
-                            placeholder="Cari material..." 
-                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <AdminToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Cari material..."
+            />
 
             {/* Materials Table */}
             <Card className="border-none shadow-sm overflow-hidden">
@@ -94,7 +82,7 @@ export default function Index({ materials }: Props) {
                                     <TableRow key={material.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden flex-shrink-0">
+                                                <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
                                                     {material.image_url ? (
                                                         <img src={material.image_url} alt={material.name} className="w-full h-full object-cover" />
                                                     ) : (
@@ -105,12 +93,12 @@ export default function Index({ materials }: Props) {
                                                 </div>
                                                 <div>
                                                     <span className="font-bold text-foreground block leading-tight">{material.name}</span>
-                                                    <span className="text-xs text-stone-400 line-clamp-1 max-w-[200px]">{material.summary || '-'}</span>
+                                                    <span className="text-xs text-stone-400 line-clamp-1 max-w-50">{material.summary || '-'}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <div className="flex flex-wrap gap-1 max-w-[300px]">
+                                            <div className="flex flex-wrap gap-1 max-w-75">
                                                 {material.features.slice(0, 3).map((feature, i) => (
                                                     <span key={i} className="text-[10px] font-bold border border-stone-200 text-stone-500 bg-stone-50 px-2 py-0.5 rounded-full whitespace-nowrap">
                                                         {feature}
@@ -155,11 +143,7 @@ export default function Index({ materials }: Props) {
                 </CardContent>
             </Card>
 
-            {/* Quick Info Footer */}
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-stone-400 uppercase tracking-widest">
-                <ExternalLink className="w-3 h-3" />
-                <span>Total {filteredMaterials.length} Material Terdaftar</span>
-            </div>
+            <AdminTableFooter count={filteredMaterials.length} label="Material" />
         </AdminLayout>
     );
 }

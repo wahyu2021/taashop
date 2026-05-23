@@ -2,19 +2,13 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { ContactSubmissionData } from '@/types';
 import { 
-    Inbox, 
     Eye, 
     Trash2, 
-    Search, 
-    ExternalLink,
     Mail,
-    Phone,
-    Calendar,
-    ArrowUpRight
+    Phone
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -27,6 +21,8 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import AdminToolbar from '@/Components/shared/AdminToolbar';
+import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
@@ -57,21 +53,11 @@ export default function Index({ submissions }: Props) {
                 description="Pantau dan respon pesan dari calon pelanggan Anda."
             />
 
-            {/* Toolbar Section */}
-            <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
-                        <Input 
-                            type="text" 
-                            placeholder="Cari nama, email, atau subjek..." 
-                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <AdminToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Cari nama, email, atau subjek..."
+            />
 
             {/* Submissions Table */}
             <Card className="border-none shadow-sm overflow-hidden">
@@ -111,7 +97,7 @@ export default function Index({ submissions }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="px-6 py-4">
-                                            <div className="max-w-[250px]">
+                                            <div className="max-w-62.5">
                                                 <p className="text-sm font-bold text-stone-700 truncate">{sub.subject || 'Tanpa Subjek'}</p>
                                                 <p className="text-xs text-stone-400 truncate mt-0.5">{sub.message}</p>
                                             </div>
@@ -160,11 +146,7 @@ export default function Index({ submissions }: Props) {
                 </CardContent>
             </Card>
 
-            {/* Quick Info Footer */}
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-stone-400 uppercase tracking-widest">
-                <ExternalLink className="w-3 h-3" />
-                <span>Total {filteredSubmissions.length} Pesan Masuk</span>
-            </div>
+            <AdminTableFooter count={filteredSubmissions.length} label="Pesan Masuk" />
         </AdminLayout>
     );
 }

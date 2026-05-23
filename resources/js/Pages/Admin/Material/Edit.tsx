@@ -1,22 +1,16 @@
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { 
-    Save, 
-    Package,
-    Plus,
-    X,
-    CheckCircle2,
-    Trash2
-} from 'lucide-react';
+import { Head, useForm } from '@inertiajs/react';
+import { Package, Plus, X, CheckCircle2, Trash2 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Label } from '@/Components/ui/label';
 import { Badge } from '@/Components/ui/badge';
 import { useState } from 'react';
 import { MaterialData } from '@/types';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
 import AdminSectionCard from '@/Components/shared/AdminSectionCard';
-import ImageUploader from '@/Components/shared/ImageUploader';
+import FormField from '@/Components/shared/FormField';
+import FormSelect from '@/Components/shared/FormSelect';
+import FormSidebar from '@/Components/shared/FormSidebar';
 
 interface Props {
     material: MaterialData;
@@ -50,12 +44,12 @@ export default function Edit({ material, statuses }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('admin.materials.update', material.id));
+        post(route('admin.materials.update', material.id!));
     };
 
     const handleDelete = () => {
         if (confirm('Apakah Anda yakin ingin menghapus material ini?')) {
-            destroy(route('admin.materials.destroy', material.id));
+            destroy(route('admin.materials.destroy', material.id!));
         }
     };
 
@@ -83,30 +77,26 @@ export default function Edit({ material, statuses }: Props) {
                 <div className="lg:col-span-2 space-y-6">
                     <AdminSectionCard icon={Package} title="Informasi Dasar">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2 md:col-span-2">
-                                <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-stone-500">Nama Material</Label>
+                            <FormField label="Nama Material" htmlFor="name" error={errors.name} colSpan={2}>
                                 <Input id="name" value={data.name} onChange={e => setData('name', e.target.value)} className="bg-stone-50 border-stone-200" />
-                                {errors.name && <p className="text-xs font-bold text-destructive italic">{errors.name}</p>}
-                            </div>
+                            </FormField>
 
-                            <div className="space-y-2 md:col-span-2">
-                                <Label htmlFor="summary" className="text-xs font-bold uppercase tracking-widest text-stone-500">Ringkasan Singkat</Label>
+                            <FormField label="Ringkasan Singkat" htmlFor="summary" colSpan={2}>
                                 <Input id="summary" value={data.summary} onChange={e => setData('summary', e.target.value)} className="bg-stone-50 border-stone-200" />
-                            </div>
+                            </FormField>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="status" className="text-xs font-bold uppercase tracking-widest text-stone-500">Status</Label>
-                                <select id="status" value={data.status} onChange={e => setData('status', e.target.value)} className="flex h-10 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all">
-                                    {statuses.map(status => (
-                                        <option key={status} value={status.toLowerCase()}>{status}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            <FormField label="Status" htmlFor="status">
+                                <FormSelect
+                                    id="status"
+                                    value={data.status}
+                                    onChange={v => setData('status', v)}
+                                    options={statuses.map(s => ({ value: s.toLowerCase(), label: s }))}
+                                />
+                            </FormField>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="order_priority" className="text-xs font-bold uppercase tracking-widest text-stone-500">Prioritas Urutan</Label>
+                            <FormField label="Prioritas Urutan" htmlFor="order_priority">
                                 <Input id="order_priority" type="number" value={data.order_priority} onChange={e => setData('order_priority', parseInt(e.target.value))} className="bg-stone-50 border-stone-200" />
-                            </div>
+                            </FormField>
                         </div>
                     </AdminSectionCard>
 
@@ -130,17 +120,15 @@ export default function Edit({ material, statuses }: Props) {
                     </AdminSectionCard>
                 </div>
 
-                <div className="space-y-6">
-                    <AdminSectionCard title="Foto Tekstur" className="sticky top-24" headerBg="bg-stone-50">
-                        <ImageUploader value={material.image_url} onChange={(file) => setData('image', file)} error={errors.image} />
-                        <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col gap-3">
-                            <Button type="submit" disabled={processing} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-black h-12 shadow-lg shadow-primary/20">
-                                <Save className="w-5 h-5 mr-2" /> Simpan Perubahan
-                            </Button>
-                            <Button asChild variant="ghost" className="w-full text-stone-400 font-bold"><Link href={route('admin.materials.index')}>Batal</Link></Button>
-                        </div>
-                    </AdminSectionCard>
-                </div>
+                <FormSidebar
+                    imageUrl={material.image_url}
+                    onImageChange={file => setData('image', file)}
+                    imageError={errors.image}
+                    imageTitle="Foto Tekstur"
+                    processing={processing}
+                    submitLabel="Simpan Perubahan"
+                    cancelHref={route('admin.materials.index')}
+                />
             </form>
         </AdminLayout>
     );

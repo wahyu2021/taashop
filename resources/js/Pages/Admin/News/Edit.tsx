@@ -1,18 +1,14 @@
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { 
-    Save, 
-    FileText,
-    Calendar as CalendarIcon,
-    Trash2
-} from 'lucide-react';
+import { Head, useForm } from '@inertiajs/react';
+import { FileText, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Label } from '@/Components/ui/label';
 import { NewsData } from '@/types';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
 import AdminSectionCard from '@/Components/shared/AdminSectionCard';
-import ImageUploader from '@/Components/shared/ImageUploader';
+import FormField from '@/Components/shared/FormField';
+import FormSelect from '@/Components/shared/FormSelect';
+import FormSidebar from '@/Components/shared/FormSidebar';
 
 interface Props {
     news: NewsData;
@@ -33,12 +29,12 @@ export default function Edit({ news, statuses }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('admin.news.update', news.id));
+        post(route('admin.news.update', news.id!));
     };
 
     const handleDelete = () => {
         if (confirm('Hapus berita ini secara permanen?')) {
-            destroy(route('admin.news.destroy', news.id));
+            destroy(route('admin.news.destroy', news.id!));
         }
     };
 
@@ -66,57 +62,51 @@ export default function Edit({ news, statuses }: Props) {
                 <div className="lg:col-span-2 space-y-6">
                     <AdminSectionCard icon={FileText} title="Konten Berita">
                         <div className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="title" className="text-xs font-bold uppercase tracking-widest text-stone-500">Judul Berita</Label>
+                            <FormField label="Judul Berita" htmlFor="title" error={errors.title}>
                                 <Input id="title" value={data.title} onChange={e => setData('title', e.target.value)} className="bg-stone-50 border-stone-200 h-12 text-lg font-bold" />
-                                {errors.title && <p className="text-xs font-bold text-destructive italic">{errors.title}</p>}
-                            </div>
+                            </FormField>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="summary" className="text-xs font-bold uppercase tracking-widest text-stone-500">Ringkasan (Snippet)</Label>
+                            <FormField label="Ringkasan (Snippet)" htmlFor="summary">
                                 <textarea id="summary" value={data.summary} onChange={e => setData('summary', e.target.value)} rows={3} className="flex w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all" />
-                            </div>
+                            </FormField>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="content" className="text-xs font-bold uppercase tracking-widest text-stone-500">Isi Berita Lengkap</Label>
+                            <FormField label="Isi Berita Lengkap" htmlFor="content">
                                 <textarea id="content" value={data.content} onChange={e => setData('content', e.target.value)} rows={15} className="flex w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all leading-relaxed" />
-                            </div>
+                            </FormField>
                         </div>
                     </AdminSectionCard>
                 </div>
 
-                <div className="space-y-6">
+                <FormSidebar
+                    imageUrl={news.image_url}
+                    onImageChange={file => setData('image', file)}
+                    imageError={errors.image}
+                    imageTitle="Gambar Thumbnail"
+                    aspectRatio="aspect-video"
+                    processing={processing}
+                    submitLabel="Simpan Perubahan"
+                    cancelHref={route('admin.news.index')}
+                >
                     <AdminSectionCard title="Status & Jadwal" headerBg="bg-stone-50">
                         <div className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="status" className="text-xs font-bold uppercase tracking-widest text-stone-500">Status</Label>
-                                <select id="status" value={data.status} onChange={e => setData('status', e.target.value)} className="flex h-10 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all">
-                                    {statuses.map(status => (
-                                        <option key={status} value={status.toLowerCase()}>{status}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            <FormField label="Status" htmlFor="status">
+                                <FormSelect
+                                    id="status"
+                                    value={data.status}
+                                    onChange={v => setData('status', v)}
+                                    options={statuses.map(s => ({ value: s.toLowerCase(), label: s }))}
+                                />
+                            </FormField>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="published_at" className="text-xs font-bold uppercase tracking-widest text-stone-500">Tanggal Publikasi</Label>
+                            <FormField label="Tanggal Publikasi" htmlFor="published_at">
                                 <div className="relative">
                                     <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                                     <Input id="published_at" type="datetime-local" value={data.published_at} onChange={e => setData('published_at', e.target.value)} className="bg-stone-50 border-stone-200 pl-10" />
                                 </div>
-                            </div>
+                            </FormField>
                         </div>
                     </AdminSectionCard>
-
-                    <AdminSectionCard title="Gambar Thumbnail" headerBg="bg-stone-50">
-                        <ImageUploader value={news.image_url} onChange={(file) => setData('image', file)} error={errors.image} aspectRatio="aspect-video" />
-                        <div className="mt-8 pt-6 border-t border-stone-100 space-y-3">
-                            <Button type="submit" disabled={processing} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-black h-12 shadow-lg shadow-primary/20">
-                                <Save className="w-5 h-5 mr-2" /> Simpan Perubahan
-                            </Button>
-                            <Button asChild variant="ghost" className="w-full text-stone-400 font-bold"><Link href={route('admin.news.index')}>Batal</Link></Button>
-                        </div>
-                    </AdminSectionCard>
-                </div>
+                </FormSidebar>
             </form>
         </AdminLayout>
     );

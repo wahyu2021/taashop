@@ -5,15 +5,11 @@ import {
     Plus, 
     Pencil, 
     Trash2, 
-    FileText, 
-    ExternalLink,
-    Search,
     Calendar,
     Image as ImageIcon
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -26,6 +22,8 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import AdminToolbar from '@/Components/shared/AdminToolbar';
+import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
@@ -63,21 +61,11 @@ export default function Index({ news }: Props) {
                 }
             />
 
-            {/* Toolbar Section */}
-            <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
-                        <Input 
-                            type="text" 
-                            placeholder="Cari berita atau artikel..." 
-                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <AdminToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Cari berita atau artikel..."
+            />
 
             {/* News Table */}
             <Card className="border-none shadow-sm overflow-hidden">
@@ -97,7 +85,7 @@ export default function Index({ news }: Props) {
                                     <TableRow key={item.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-stone-100 border border-stone-200 overflow-hidden flex-shrink-0">
+                                                <div className="w-16 h-12 rounded-lg bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
                                                     {item.image_url ? (
                                                         <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" />
                                                     ) : (
@@ -106,7 +94,7 @@ export default function Index({ news }: Props) {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <div className="max-w-[300px]">
+                                                <div className="max-w-75">
                                                     <span className="font-bold text-foreground block leading-tight truncate">{item.title}</span>
                                                     <span className="text-[10px] font-mono text-stone-400 line-clamp-1">{item.summary || '-'}</span>
                                                 </div>
@@ -154,11 +142,7 @@ export default function Index({ news }: Props) {
                 </CardContent>
             </Card>
 
-            {/* Quick Info Footer */}
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-stone-400 uppercase tracking-widest">
-                <ExternalLink className="w-3 h-3" />
-                <span>Total {filteredNews.length} Berita & Artikel</span>
-            </div>
+            <AdminTableFooter count={filteredNews.length} label="Berita & Artikel" />
         </AdminLayout>
     );
 }

@@ -11,6 +11,7 @@ import {
     Clock
 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
 import { Label } from '@/Components/ui/label';
 import { ContactSubmissionData } from '@/types';
 import { format } from 'date-fns';
@@ -31,7 +32,7 @@ export default function Show({ submission, statuses }: Props) {
 
     const submitStatus = (e: React.FormEvent) => {
         e.preventDefault();
-        put(route('admin.inbox.update', submission.id));
+        put(route('admin.inbox.update', submission.id!));
     };
 
     const waLink = `https://wa.me/${submission.phone?.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(submission.name)}%2C%20saya%20Admin%20Taashop...`;
@@ -81,18 +82,14 @@ export default function Show({ submission, statuses }: Props) {
 
                         <div className="mt-10 pt-8 border-t border-stone-100 flex flex-wrap gap-4">
                             {submission.phone && (
-                                <Button asChild className="bg-green-600 hover:bg-green-700 text-white font-bold h-12 px-6 shadow-lg shadow-green-200">
-                                    <a href={waLink} target="_blank" rel="noopener noreferrer">
+                                <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold h-12 px-6 rounded-lg shadow-lg shadow-green-200 transition-all">
                                         <Send className="w-5 h-5 mr-2" /> Balas via WhatsApp
                                     </a>
-                                </Button>
                             )}
                             {submission.email && (
-                                <Button variant="outline" asChild className="border-stone-200 text-stone-600 font-bold h-12 px-6">
-                                    <a href={`mailto:${submission.email}`}>
+                                <a href={`mailto:${submission.email}`} className="inline-flex items-center justify-center border border-stone-200 text-stone-600 font-bold h-12 px-6 rounded-lg hover:bg-muted transition-all">
                                         <Mail className="w-5 h-5 mr-2" /> Balas via Email
                                     </a>
-                                </Button>
                             )}
                         </div>
                     </AdminSectionCard>
@@ -127,7 +124,7 @@ export default function Show({ submission, statuses }: Props) {
                                 className="w-full text-destructive hover:text-destructive hover:bg-destructive/10 font-bold text-xs uppercase tracking-widest"
                                 onClick={() => {
                                     if(confirm('Hapus pesan ini secara permanen?')) {
-                                        router.delete(route('admin.inbox.destroy', submission.id));
+                                        router.delete(route('admin.inbox.destroy', submission.id!));
                                     }
                                 }}
                             >

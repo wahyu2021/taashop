@@ -4,7 +4,9 @@ import { PageProps } from '@/types';
 import { DashboardStats } from '@/types/dashboard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Package, Inbox, ShoppingBag, Layers, ArrowUpRight } from 'lucide-react';
+import { Package, Inbox, ShoppingBag, Layers } from 'lucide-react';
+import StatCard from '@/Components/features/dashboard/StatCard';
+import QuickGuide from '@/Components/features/dashboard/QuickGuide';
 
 export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardStats }>) {
     const statCards = [
@@ -59,28 +61,7 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
             {/* Stats Grid */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {statCards.map((stat, index) => (
-                    <Card key={index} className={`border ${stat.border} shadow-sm hover:shadow-md transition-all duration-300 group`}>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-bold text-stone-600 uppercase tracking-wider">
-                                {stat.title}
-                            </CardTitle>
-                            <div className={`p-2.5 rounded-xl ${stat.bg} group-hover:scale-110 transition-transform`}>
-                                <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex items-baseline gap-2">
-                                <div className="text-3xl font-black text-foreground">
-                                    {stat.value}
-                                </div>
-                                <span className="text-xs font-bold text-stone-400">Unit</span>
-                            </div>
-                            <div className="mt-4 flex items-center text-[10px] font-bold text-stone-400 uppercase tracking-widest">
-                                <span>Data Realtime</span>
-                                <ArrowUpRight className="ml-1 h-3 w-3" />
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <StatCard key={index} {...stat} />
                 ))}
             </div>
 
@@ -116,36 +97,7 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
                     </CardContent>
                 </Card>
                 
-                <Card className="border-none shadow-sm bg-primary text-primary-foreground overflow-hidden relative">
-                    <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                        <Package className="w-32 h-32 rotate-12" />
-                    </div>
-                    <CardHeader>
-                        <CardTitle className="text-lg font-bold">Bantuan & Panduan</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <p className="text-sm font-medium leading-relaxed opacity-90">
-                            Gunakan menu di samping untuk mengelola katalog produk, bahan, dan pesan dari pelanggan secara efisien.
-                        </p>
-                        <ul className="text-xs space-y-2 font-bold opacity-80">
-                            <li className="flex items-center gap-2">
-                                <div className="w-1 h-1 rounded-full bg-white" />
-                                Tambah Produk Baru
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <div className="w-1 h-1 rounded-full bg-white" />
-                                Update Harga Paket
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <div className="w-1 h-1 rounded-full bg-white" />
-                                Balas Pesan Pelanggan
-                            </li>
-                        </ul>
-                        <Button className="w-full bg-white text-primary hover:bg-stone-100 font-bold border-none">
-                            Buka Dokumentasi
-                        </Button>
-                    </CardContent>
-                </Card>
+                <QuickGuide />
             </div>
         </AdminLayout>
     );

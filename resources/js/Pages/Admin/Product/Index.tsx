@@ -5,16 +5,13 @@ import {
     Plus, 
     Pencil, 
     Trash2, 
-    ShoppingBag, 
     ExternalLink,
-    Search,
     Filter,
     Star,
     Image as ImageIcon
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import { Badge } from '@/Components/ui/badge';
 import {
     Table,
@@ -26,6 +23,8 @@ import {
 } from "@/Components/ui/table";
 import { useState } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import AdminToolbar from '@/Components/shared/AdminToolbar';
+import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
@@ -63,25 +62,17 @@ export default function Index({ products }: Props) {
                 }
             />
 
-            {/* Toolbar Section */}
-            <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
-                        <Input 
-                            type="text" 
-                            placeholder="Cari produk atau kategori..." 
-                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
+            <AdminToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Cari produk atau kategori..."
+                action={
                     <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider">
                         <Filter className="w-4 h-4 mr-2" />
                         Filter
                     </Button>
-                </CardContent>
-            </Card>
+                }
+            />
 
             {/* Products Table */}
             <Card className="border-none shadow-sm overflow-hidden">
@@ -102,7 +93,7 @@ export default function Index({ products }: Props) {
                                     <TableRow key={product.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden flex-shrink-0">
+                                                <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
                                                     {product.image_url ? (
                                                         <img src={product.image_url} alt={product.title} className="w-full h-full object-cover" />
                                                     ) : (
@@ -171,11 +162,7 @@ export default function Index({ products }: Props) {
                 </CardContent>
             </Card>
 
-            {/* Quick Info Footer */}
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-stone-400 uppercase tracking-widest">
-                <ExternalLink className="w-3 h-3" />
-                <span>Total {filteredProducts.length} Produk Terdaftar</span>
-            </div>
+            <AdminTableFooter count={filteredProducts.length} label="Produk" />
         </AdminLayout>
     );
 }

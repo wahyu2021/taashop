@@ -1,18 +1,14 @@
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { 
-    Save, 
-    ShoppingBag,
-    Star,
-    Trash2
-} from 'lucide-react';
+import { Head, useForm } from '@inertiajs/react';
+import { ShoppingBag, Star, Trash2 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { Label } from '@/Components/ui/label';
 import { CategoryData, ProductData } from '@/types';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
 import AdminSectionCard from '@/Components/shared/AdminSectionCard';
-import ImageUploader from '@/Components/shared/ImageUploader';
+import FormField from '@/Components/shared/FormField';
+import FormSelect from '@/Components/shared/FormSelect';
+import FormSidebar from '@/Components/shared/FormSidebar';
 
 interface Props {
     product: ProductData;
@@ -22,7 +18,7 @@ interface Props {
 
 export default function Edit({ product, categories, statuses }: Props) {
     const { data, setData, post, processing, errors, delete: destroy } = useForm({
-        category_id: product.category?.id.toString() || '',
+        category_id: product.category?.id?.toString() || '',
         title: product.title,
         description: product.description || '',
         is_featured: product.is_featured,
@@ -34,12 +30,12 @@ export default function Edit({ product, categories, statuses }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('admin.products.update', product.id));
+        post(route('admin.products.update', product.id!));
     };
 
     const handleDelete = () => {
         if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-            destroy(route('admin.products.destroy', product.id));
+            destroy(route('admin.products.destroy', product.id!));
         }
     };
 
@@ -64,16 +60,10 @@ export default function Edit({ product, categories, statuses }: Props) {
             />
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
-                {/* Main Form Content */}
                 <div className="lg:col-span-2 space-y-6">
-                    <AdminSectionCard 
-                        icon={ShoppingBag}
-                        title="Informasi Produk"
-                    >
+                    <AdminSectionCard icon={ShoppingBag} title="Informasi Produk">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Title */}
-                            <div className="space-y-2 md:col-span-2">
-                                <Label htmlFor="title" className="text-xs font-bold uppercase tracking-widest text-stone-500">Nama Produk</Label>
+                            <FormField label="Nama Produk" htmlFor="title" error={errors.title} colSpan={2}>
                                 <Input 
                                     id="title"
                                     value={data.title}
@@ -81,45 +71,31 @@ export default function Edit({ product, categories, statuses }: Props) {
                                     placeholder="Contoh: Jersey Esport Custom V1"
                                     className="bg-stone-50 border-stone-200"
                                 />
-                                {errors.title && <p className="text-xs font-bold text-destructive italic">{errors.title}</p>}
-                            </div>
+                            </FormField>
 
-                            {/* Category */}
-                            <div className="space-y-2">
-                                <Label htmlFor="category_id" className="text-xs font-bold uppercase tracking-widest text-stone-500">Kategori</Label>
-                                <select 
+                            <FormField label="Kategori" htmlFor="category_id" error={errors.category_id}>
+                                <FormSelect
                                     id="category_id"
                                     value={data.category_id}
-                                    onChange={e => setData('category_id', e.target.value)}
-                                    className="flex h-10 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
-                                >
-                                    <option value="">Pilih Kategori</option>
-                                    {categories.map(cat => (
-                                        <option key={cat.id} value={cat.id}>{cat.name} ({cat.type === 'package' ? 'Paket' : 'Galeri'})</option>
-                                    ))}
-                                </select>
-                                {errors.category_id && <p className="text-xs font-bold text-destructive italic">{errors.category_id}</p>}
-                            </div>
+                                    onChange={v => setData('category_id', v)}
+                                    placeholder="Pilih Kategori"
+                                    options={categories.map(cat => ({
+                                        value: String(cat.id!),
+                                        label: `${cat.name} (${cat.type === 'package' ? 'Paket' : 'Galeri'})`,
+                                    }))}
+                                />
+                            </FormField>
 
-                            {/* Status */}
-                            <div className="space-y-2">
-                                <Label htmlFor="status" className="text-xs font-bold uppercase tracking-widest text-stone-500">Status</Label>
-                                <select 
+                            <FormField label="Status" htmlFor="status" error={errors.status}>
+                                <FormSelect
                                     id="status"
                                     value={data.status}
-                                    onChange={e => setData('status', e.target.value)}
-                                    className="flex h-10 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
-                                >
-                                    {statuses.map(status => (
-                                        <option key={status} value={status.toLowerCase()}>{status}</option>
-                                    ))}
-                                </select>
-                                {errors.status && <p className="text-xs font-bold text-destructive italic">{errors.status}</p>}
-                            </div>
+                                    onChange={v => setData('status', v)}
+                                    options={statuses.map(s => ({ value: s.toLowerCase(), label: s }))}
+                                />
+                            </FormField>
 
-                            {/* Description */}
-                            <div className="space-y-2 md:col-span-2">
-                                <Label htmlFor="description" className="text-xs font-bold uppercase tracking-widest text-stone-500">Deskripsi Produk</Label>
+                            <FormField label="Deskripsi Produk" htmlFor="description" error={errors.description} colSpan={2}>
                                 <textarea 
                                     id="description"
                                     value={data.description}
@@ -128,17 +104,12 @@ export default function Edit({ product, categories, statuses }: Props) {
                                     placeholder="Jelaskan detail produk, bahan, dan keunggulan..."
                                     className="flex w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
                                 />
-                                {errors.description && <p className="text-xs font-bold text-destructive italic">{errors.description}</p>}
-                            </div>
+                            </FormField>
                         </div>
                     </AdminSectionCard>
 
-                    <AdminSectionCard 
-                        icon={Star}
-                        title="Pengaturan Tambahan"
-                    >
+                    <AdminSectionCard icon={Star} title="Pengaturan Tambahan">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Featured Toggle */}
                             <div className="flex items-center justify-between p-4 rounded-xl bg-stone-50 border border-stone-100">
                                 <div>
                                     <p className="text-sm font-bold text-stone-700">Tampilkan di Unggulan</p>
@@ -153,9 +124,7 @@ export default function Edit({ product, categories, statuses }: Props) {
                                 </button>
                             </div>
 
-                            {/* Order Priority */}
-                            <div className="space-y-2">
-                                <Label htmlFor="order_priority" className="text-xs font-bold uppercase tracking-widest text-stone-500">Prioritas Urutan</Label>
+                            <FormField label="Prioritas Urutan" htmlFor="order_priority" hint="Semakin kecil angkanya, semakin awal munculnya.">
                                 <Input 
                                     id="order_priority"
                                     type="number"
@@ -163,45 +132,20 @@ export default function Edit({ product, categories, statuses }: Props) {
                                     onChange={e => setData('order_priority', parseInt(e.target.value))}
                                     className="bg-stone-50 border-stone-200"
                                 />
-                                <p className="text-[10px] text-stone-400 font-medium italic">Semakin kecil angkanya, semakin awal munculnya.</p>
-                            </div>
+                            </FormField>
                         </div>
                     </AdminSectionCard>
                 </div>
 
-                {/* Sidebar - Image Upload */}
-                <div className="space-y-6">
-                    <AdminSectionCard 
-                        title="Gambar Utama"
-                        className="sticky top-24"
-                        headerBg="bg-stone-50"
-                    >
-                        <ImageUploader 
-                            value={product.image_url}
-                            onChange={(file) => setData('image', file)}
-                            error={errors.image}
-                            description="Klik pada area di atas untuk mengganti gambar produk."
-                        />
-
-                        <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col gap-3">
-                            <Button 
-                                type="submit" 
-                                disabled={processing}
-                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-black h-12 shadow-lg shadow-primary/20"
-                            >
-                                <Save className="w-5 h-5 mr-2" />
-                                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
-                            </Button>
-                            <Button 
-                                asChild
-                                variant="ghost"
-                                className="w-full text-stone-400 font-bold"
-                            >
-                                <Link href={route('admin.products.index')}>Batal</Link>
-                            </Button>
-                        </div>
-                    </AdminSectionCard>
-                </div>
+                <FormSidebar
+                    imageUrl={product.image_url}
+                    onImageChange={file => setData('image', file)}
+                    imageError={errors.image}
+                    imageDescription="Klik pada area di atas untuk mengganti gambar produk."
+                    processing={processing}
+                    submitLabel="Simpan Perubahan"
+                    cancelHref={route('admin.products.index')}
+                />
             </form>
         </AdminLayout>
     );

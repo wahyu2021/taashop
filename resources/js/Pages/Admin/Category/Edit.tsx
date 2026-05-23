@@ -25,12 +25,12 @@ export default function Edit({ category }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put(route('admin.categories.update', category.id));
+        put(route('admin.categories.update', category.id!));
     };
 
     const handleDelete = () => {
         if (confirm('Apakah Anda yakin ingin menghapus kategori ini? Semua produk terkait mungkin akan terpengaruh.')) {
-            destroy(route('admin.categories.destroy', category.id));
+            destroy(route('admin.categories.destroy', category.id!));
         }
     };
 

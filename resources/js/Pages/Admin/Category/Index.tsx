@@ -6,13 +6,10 @@ import {
     Pencil, 
     Trash2, 
     Layers, 
-    ExternalLink,
-    Search,
     Filter
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -23,6 +20,8 @@ import {
 } from "@/Components/ui/table";
 import { useState } from 'react';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
+import AdminToolbar from '@/Components/shared/AdminToolbar';
+import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 
 interface Props {
@@ -59,27 +58,19 @@ export default function Index({ categories }: Props) {
                 }
             />
 
-            {/* Toolbar Section */}
-            <Card className="mb-6 border-none shadow-sm bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 z-10" />
-                        <Input 
-                            type="text" 
-                            placeholder="Cari kategori..." 
-                            className="pl-10 bg-stone-100 border-none focus-visible:ring-primary/20"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
+            <AdminToolbar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Cari kategori..."
+                action={
                     <Button variant="outline" className="border-stone-200 text-stone-600 font-bold text-xs uppercase tracking-wider">
                         <Filter className="w-4 h-4 mr-2" />
                         Filter Tipe
                     </Button>
-                </CardContent>
-            </Card>
+                }
+            />
 
-            {/* Categories Table/List */}
+            {/* Categories Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -146,11 +137,7 @@ export default function Index({ categories }: Props) {
                 </CardContent>
             </Card>
 
-            {/* Quick Info Footer */}
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-stone-400 uppercase tracking-widest">
-                <ExternalLink className="w-3 h-3" />
-                <span>Total {filteredCategories.length} Kategori Terdaftar</span>
-            </div>
+            <AdminTableFooter count={filteredCategories.length} label="Kategori" />
         </AdminLayout>
     );
 }
