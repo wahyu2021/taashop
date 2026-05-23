@@ -9,6 +9,13 @@ use Illuminate\Support\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    public function all(): Collection
+    {
+        return Product::with('category')
+            ->latest()
+            ->get();
+    }
+
     public function getAllPublished(int $limit = null): Collection
     {
         $query = Product::with('category')
@@ -38,5 +45,40 @@ class ProductRepository implements ProductRepositoryInterface
             ->where('slug', $slug)
             ->where('status', ProductStatus::PUBLISHED)
             ->first();
+    }
+
+    public function findById(int $id): ?Product
+    {
+        return Product::find($id);
+    }
+
+    public function create(array $data): Product
+    {
+        $product = Product::create($data);
+
+        if (isset($data['image'])) {
+            $product->addMedia($data['image'])->toMediaCollection('image');
+        }
+
+        return $product;
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $product = $this->findById($id);
+        if (!$product) return false;
+
+        if (isset($data['image'])) {
+            $product->addMedia($data['image'])->toMediaCollection('image');
+        }
+
+        return $product->update($data);
+    }
+
+    public function delete(int $id): bool
+    {
+        $product = $this->findById($id);
+        if (!$product) return false;
+        return $product->delete();
     }
 }

@@ -26,7 +26,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             icon: LayoutDashboard, 
             active: route().current('admin.dashboard') || route().current('dashboard') 
         },
-        { name: 'Produk', href: '#', icon: ShoppingBag, active: false },
+        { 
+            name: 'Produk', 
+            href: route('admin.products.index'), 
+            icon: ShoppingBag, 
+            active: route().current('admin.products.*') 
+        },
         { 
             name: 'Kategori', 
             href: route('admin.categories.index'), 

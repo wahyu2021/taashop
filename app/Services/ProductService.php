@@ -12,6 +12,11 @@ class ProductService
         protected ProductRepositoryInterface $productRepository
     ) {}
 
+    public function getAllProductsForAdmin(): Collection
+    {
+        return ProductData::collect($this->productRepository->all());
+    }
+
     /**
      * @return Collection<int, ProductData>
      */
@@ -37,5 +42,31 @@ class ProductService
         $product = $this->productRepository->findBySlug($slug);
 
         return $product ? ProductData::fromModel($product) : null;
+    }
+
+    public function getProductById(int $id): ?ProductData
+    {
+        $product = $this->productRepository->findById($id);
+
+        return $product ? ProductData::fromModel($product) : null;
+    }
+
+    public function createProduct(array $data)
+    {
+        $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
+        return $this->productRepository->create($data);
+    }
+
+    public function updateProduct(int $id, array $data)
+    {
+        if (isset($data['title'])) {
+            $data['slug'] = \Illuminate\Support\Str::slug($data['title']);
+        }
+        return $this->productRepository->update($id, $data);
+    }
+
+    public function deleteProduct(int $id)
+    {
+        return $this->productRepository->delete($id);
     }
 }
