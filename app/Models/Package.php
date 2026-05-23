@@ -36,6 +36,6 @@ class Package extends Model implements HasMedia
     {
         $this->addMediaCollection('image')
             ->singleFile()
-            ->useFallbackUrl('/images/placeholder-package.jpg');
+            ->useFallbackUrl('https://via.placeholder.com/600x400?text=Package+Image');
     }
 }

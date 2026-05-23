@@ -37,6 +37,6 @@ class Product extends Model implements HasMedia
     {
         $this->addMediaCollection('image')
             ->singleFile()
-            ->useFallbackUrl('/images/placeholder-product.jpg');
+            ->useFallbackUrl('https://via.placeholder.com/600x400?text=Product+Image');
     }
 }

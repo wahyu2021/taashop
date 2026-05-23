@@ -79,10 +79,22 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                     active: route().current('admin.portfolios.*') 
                 },
                 { 
+                    name: 'Testimoni', 
+                    href: route('admin.testimonials.index'), 
+                    icon: Star, 
+                    active: route().current('admin.testimonials.*') 
+                },
+                { 
                     name: 'Berita & Artikel', 
                     href: route('admin.news.index'), 
                     icon: FileText, 
                     active: route().current('admin.news.*') 
+                },
+                { 
+                    name: 'FAQ', 
+                    href: route('admin.faqs.index'), 
+                    icon: HelpCircle, 
+                    active: route().current('admin.faqs.*') 
                 },
             ]
         },

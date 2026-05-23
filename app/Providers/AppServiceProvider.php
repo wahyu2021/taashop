@@ -13,6 +13,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
+            \App\Repositories\Contracts\CategoryRepositoryInterface::class,
+            \App\Repositories\Eloquent\CategoryRepository::class
+        );
+
+        $this->app->bind(
             \App\Repositories\Contracts\ProductRepositoryInterface::class,
             \App\Repositories\Eloquent\ProductRepository::class
         );
@@ -48,20 +53,17 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            \App\Repositories\Contracts\SettingRepositoryInterface::class,
-            \App\Repositories\Eloquent\SettingRepository::class
-        );
-        $this->app->bind(
             \App\Repositories\Contracts\FAQRepositoryInterface::class,
             \App\Repositories\Eloquent\FAQRepository::class
         );
+
         $this->app->bind(
             \App\Repositories\Contracts\TestimonialRepositoryInterface::class,
             \App\Repositories\Eloquent\TestimonialRepository::class
         );
 
         $this->app->singleton(\App\Services\DashboardService::class);
-        }
+    }
 
     /**
      * Bootstrap any application services.
