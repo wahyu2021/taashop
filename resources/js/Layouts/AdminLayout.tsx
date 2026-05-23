@@ -63,7 +63,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             icon: Inbox, 
             active: route().current('admin.inbox.*') 
         },
-        { name: 'Pengaturan', href: '#', icon: Settings, active: false },
+        { 
+            name: 'Pengaturan', 
+            href: route('admin.settings.index'), 
+            icon: Settings, 
+            active: route().current('admin.settings.*') 
+        },
     ];
 
     return (
