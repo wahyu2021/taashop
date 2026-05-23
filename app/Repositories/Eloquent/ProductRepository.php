@@ -36,7 +36,9 @@ class ProductRepository implements ProductRepositoryInterface
             $query->where('is_featured', (bool) $filters['is_featured']);
         }
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return $query->latest()
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 
     public function getAllPublished(int $limit = null): Collection

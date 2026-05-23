@@ -20,7 +20,7 @@ class NewsController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only(['search', 'status']);
+        $filters = $request->only(['search', 'status', 'per_page']);
 
         return Inertia::render('Admin/News/Index', [
             'news' => $this->service->getFilteredNewsForAdmin($filters),

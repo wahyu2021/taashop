@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only(['search', 'type']);
+        $filters = $request->only(['search', 'type', 'per_page']);
 
         return Inertia::render('Admin/Category/Index', [
             'categories' => $this->categoryService->getFilteredCategoriesForAdmin($filters),

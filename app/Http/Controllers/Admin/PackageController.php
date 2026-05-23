@@ -21,7 +21,7 @@ class PackageController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only(['search', 'status', 'print_type']);
+        $filters = $request->only(['search', 'status', 'print_type', 'per_page']);
 
         return Inertia::render('Admin/Package/Index', [
             'packages' => $this->packageService->getFilteredPackagesForAdmin($filters),

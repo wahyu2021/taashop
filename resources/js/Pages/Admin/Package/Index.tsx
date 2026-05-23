@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -38,6 +39,7 @@ interface Props {
         search?: string;
         status?: string;
         print_type?: string;
+        per_page?: string;
     };
     statuses: string[];
     printTypes: { name: string, value: string }[];
@@ -91,7 +93,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
         });
     };
 
-    const hasActiveFilters = filters.status || filters.print_type || filters.search;
+    const hasActiveFilters = filters.status || filters.print_type || filters.search || (filters.per_page && filters.per_page !== '10');
 
     return (
         <AdminLayout>
@@ -113,6 +115,8 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari paket atau tipe produk..."
                 action={
                     <div className="flex items-center gap-2">
@@ -174,7 +178,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {packages.data.length > 0 ? (
+                            {packages.data && packages.data.length > 0 ? (
                                 packages.data.map((pkg) => (
                                     <TableRow key={pkg.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
@@ -239,7 +243,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={packages.meta.total} label="Paket" />
+                <AdminTableFooter count={packages.meta?.total || 0} label="Paket" />
                 <Pagination links={packages.links} />
             </div>
         </AdminLayout>

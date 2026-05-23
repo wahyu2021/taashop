@@ -44,6 +44,7 @@ interface Props {
         search?: string;
         category_id?: string;
         status?: string;
+        per_page?: string;
     };
     statuses: string[];
 }
@@ -87,7 +88,9 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
         });
     };
 
-    const hasActiveFilters = filters.status || filters.category_id || filters.search;
+    const hasActiveFilters = filters.status || filters.category_id || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = portfolios.meta?.total ?? portfolios.total ?? 0;
 
     return (
         <AdminLayout>
@@ -109,6 +112,8 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari portfolio atau klien..."
                 action={
                     <div className="flex items-center gap-2">
@@ -144,7 +149,7 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Kategori</label>
-                                    <select value={filters.category_id || ''} onChange={(e) => updateFilters({ category_id: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold">
+                                    <select value={filters.category_id || ''} onChange={(e) => updateFilters({ category_id: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold focus:ring-primary/20">
                                         <option value="">Semua Kategori</option>
                                         {categories.filter(c => c.type === 'gallery').map(cat => (
                                             <option key={cat.id} value={cat.id!}>{cat.name}</option>
@@ -170,7 +175,7 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {portfolios.data.length > 0 ? (
+                            {portfolios.data && portfolios.data.length > 0 ? (
                                 portfolios.data.map((portfolio) => (
                                     <TableRow key={portfolio.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
@@ -236,7 +241,7 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={portfolios.meta.total} label="Portfolio" />
+                <AdminTableFooter count={totalCount} label="Portfolio" />
                 <Pagination links={portfolios.links} />
             </div>
         </AdminLayout>

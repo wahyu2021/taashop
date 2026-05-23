@@ -41,6 +41,7 @@ interface Props {
     filters: {
         search?: string;
         status?: string;
+        per_page?: string;
     };
     statuses: string[];
 }
@@ -84,7 +85,9 @@ export default function Index({ news, filters, statuses }: Props) {
         });
     };
 
-    const hasActiveFilters = filters.status || filters.search;
+    const hasActiveFilters = filters.status || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = news.meta?.total ?? news.total ?? 0;
 
     return (
         <AdminLayout>
@@ -106,6 +109,8 @@ export default function Index({ news, filters, statuses }: Props) {
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari berita atau artikel..."
                 action={
                     <div className="flex items-center gap-2">
@@ -154,7 +159,7 @@ export default function Index({ news, filters, statuses }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {news.data.length > 0 ? (
+                            {news.data && news.data.length > 0 ? (
                                 news.data.map((item) => (
                                     <TableRow key={item.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
@@ -212,7 +217,7 @@ export default function Index({ news, filters, statuses }: Props) {
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={news.meta.total} label="Berita" />
+                <AdminTableFooter count={totalCount} label="Berita" />
                 <Pagination links={news.links} />
             </div>
         </AdminLayout>

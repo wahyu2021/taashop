@@ -29,7 +29,9 @@ class ContactSubmissionRepository implements ContactSubmissionRepositoryInterfac
             $query->where('status', $filters['status']);
         }
 
-        return $query->latest('submitted_at')->paginate($perPage)->withQueryString();
+        return $query->latest('submitted_at')
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 
     public function findById(int $id): ?ContactSubmission

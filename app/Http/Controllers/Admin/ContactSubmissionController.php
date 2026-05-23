@@ -19,7 +19,7 @@ class ContactSubmissionController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only(['search', 'status']);
+        $filters = $request->only(['search', 'status', 'per_page']);
 
         return Inertia::render('Admin/Inbox/Index', [
             'submissions' => $this->service->getFilteredSubmissions($filters),

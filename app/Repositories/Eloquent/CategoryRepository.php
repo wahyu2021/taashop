@@ -25,7 +25,9 @@ class CategoryRepository implements CategoryRepositoryInterface
             $query->where('type', $filters['type']);
         }
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return $query->latest()
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 
     public function findById(int $id): ?Category

@@ -7,7 +7,7 @@ export interface PaginatedData<T> {
         label: string;
         active: boolean;
     }[];
-    meta: {
+    meta?: {
         current_page: number;
         from: number;
         last_page: number;
@@ -16,6 +16,11 @@ export interface PaginatedData<T> {
         to: number;
         total: number;
     };
+    // Support for flat Laravel pagination structure
+    total?: number;
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
 }
 
 // ─── Auth ───────────────────────────────────────────────

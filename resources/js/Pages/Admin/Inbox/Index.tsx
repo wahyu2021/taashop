@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
 import {
     Table,
     TableBody,
@@ -42,6 +41,7 @@ interface Props {
     filters: {
         search?: string;
         status?: string;
+        per_page?: string;
     };
     statuses: string[];
 }
@@ -85,7 +85,9 @@ export default function Index({ submissions, filters, statuses }: Props) {
         });
     };
 
-    const hasActiveFilters = filters.status || filters.search;
+    const hasActiveFilters = filters.status || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = submissions.meta?.total ?? submissions.total ?? 0;
 
     return (
         <AdminLayout>
@@ -99,6 +101,8 @@ export default function Index({ submissions, filters, statuses }: Props) {
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari nama, email, atau subjek..."
                 action={
                     <div className="flex items-center gap-2">
@@ -148,7 +152,7 @@ export default function Index({ submissions, filters, statuses }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {submissions.data.length > 0 ? (
+                            {submissions.data && submissions.data.length > 0 ? (
                                 submissions.data.map((sub) => (
                                     <TableRow key={sub.id} className={`group border-stone-100 transition-colors ${sub.status === 'new' ? 'bg-primary/5 hover:bg-primary/10' : 'hover:bg-stone-50/50'}`}>
                                         <TableCell className="px-6 py-4">
@@ -217,7 +221,7 @@ export default function Index({ submissions, filters, statuses }: Props) {
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={submissions.meta.total} label="Pesan" />
+                <AdminTableFooter count={totalCount} label="Pesan" />
                 <Pagination links={submissions.links} />
             </div>
         </AdminLayout>

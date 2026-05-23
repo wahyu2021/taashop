@@ -33,7 +33,9 @@ class PackageRepository implements PackageRepositoryInterface
             $query->where('print_type', $filters['print_type']);
         }
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return $query->latest()
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 
     public function getAllPublished(): Collection

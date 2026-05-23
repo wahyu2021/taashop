@@ -33,7 +33,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
             $query->where('status', $filters['status']);
         }
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return $query->latest()
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 
     public function findById(int $id): ?Portfolio

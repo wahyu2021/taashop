@@ -37,6 +37,7 @@ interface Props {
     filters: {
         search?: string;
         type?: string;
+        per_page?: string;
     };
 }
 
@@ -79,7 +80,9 @@ export default function Index({ categories, filters }: Props) {
         });
     };
 
-    const hasActiveFilters = filters.type || filters.search;
+    const hasActiveFilters = filters.type || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = categories.meta?.total ?? categories.total ?? 0;
 
     return (
         <AdminLayout>
@@ -101,15 +104,13 @@ export default function Index({ categories, filters }: Props) {
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari kategori..."
                 action={
                     <div className="flex items-center gap-2">
                         {hasActiveFilters && (
-                            <Button 
-                                variant="ghost" 
-                                onClick={clearFilters}
-                                className="text-xs font-bold text-stone-400 hover:text-destructive"
-                            >
+                            <Button variant="ghost" onClick={clearFilters} className="text-xs font-bold text-stone-400 hover:text-destructive">
                                 <X className="w-3 h-3 mr-1" /> Bersihkan
                             </Button>
                         )}
@@ -125,18 +126,10 @@ export default function Index({ categories, filters }: Props) {
                             </PopoverTrigger>
                             <PopoverContent className="w-56 p-2" align="end">
                                 <div className="space-y-1">
-                                    <Button 
-                                        variant={filters.type === 'gallery' ? 'default' : 'ghost'} 
-                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
-                                        onClick={() => updateFilters({ type: filters.type === 'gallery' ? null : 'gallery' })}
-                                    >
+                                    <Button variant={filters.type === 'gallery' ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ type: filters.type === 'gallery' ? null : 'gallery' })}>
                                         Galeri Portfolio
                                     </Button>
-                                    <Button 
-                                        variant={filters.type === 'package' ? 'default' : 'ghost'} 
-                                        className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9"
-                                        onClick={() => updateFilters({ type: filters.type === 'package' ? null : 'package' })}
-                                    >
+                                    <Button variant={filters.type === 'package' ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ type: filters.type === 'package' ? null : 'package' })}>
                                         Paket Harga
                                     </Button>
                                 </div>
@@ -146,7 +139,6 @@ export default function Index({ categories, filters }: Props) {
                 }
             />
 
-            {/* Categories Table */}
             <Card className="border-none shadow-sm overflow-hidden">
                 <CardContent className="p-0">
                     <Table>
@@ -159,7 +151,7 @@ export default function Index({ categories, filters }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {categories.data.length > 0 ? (
+                            {categories.data && categories.data.length > 0 ? (
                                 categories.data.map((category) => (
                                     <TableRow key={category.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
@@ -188,12 +180,7 @@ export default function Index({ categories, filters }: Props) {
                                                         <Pencil className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10"
-                                                    onClick={() => handleDelete(category.id!)}
-                                                >
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-stone-400 hover:text-destructive hover:bg-destructive/10" onClick={() => handleDelete(category.id!)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -203,11 +190,8 @@ export default function Index({ categories, filters }: Props) {
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={4} className="px-6 py-20 text-center">
-                                        <div className="flex flex-col items-center gap-3">
-                                            <p className="text-stone-500 font-medium italic">Tidak ada kategori ditemukan.</p>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
+                                        <p className="text-stone-500 font-medium italic">Tidak ada kategori ditemukan.</p>
+                                    </TableRow>
                             )}
                         </TableBody>
                     </Table>
@@ -215,7 +199,7 @@ export default function Index({ categories, filters }: Props) {
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={categories.meta.total} label="Kategori" />
+                <AdminTableFooter count={totalCount} label="Kategori" />
                 <Pagination links={categories.links} />
             </div>
         </AdminLayout>

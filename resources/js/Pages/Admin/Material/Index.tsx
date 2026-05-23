@@ -37,6 +37,7 @@ interface Props {
     filters: {
         search?: string;
         status?: string;
+        per_page?: string;
     };
     statuses: string[];
 }
@@ -80,7 +81,9 @@ export default function Index({ materials, filters, statuses }: Props) {
         });
     };
 
-    const hasActiveFilters = filters.status || filters.search;
+    const hasActiveFilters = filters.status || filters.search || (filters.per_page && filters.per_page !== '10');
+    
+    const totalCount = materials.meta?.total ?? materials.total ?? 0;
 
     return (
         <AdminLayout>
@@ -102,6 +105,8 @@ export default function Index({ materials, filters, statuses }: Props) {
             <AdminToolbar
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                perPage={filters.per_page}
+                onPerPageChange={(v) => updateFilters({ per_page: v })}
                 placeholder="Cari material..."
                 action={
                     <div className="flex items-center gap-2">
@@ -155,7 +160,7 @@ export default function Index({ materials, filters, statuses }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
-                            {materials.data.length > 0 ? (
+                            {materials.data && materials.data.length > 0 ? (
                                 materials.data.map((material) => (
                                     <TableRow key={material.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
                                         <TableCell className="px-6 py-4">
@@ -217,7 +222,7 @@ export default function Index({ materials, filters, statuses }: Props) {
             </Card>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-                <AdminTableFooter count={materials.meta.total} label="Material" />
+                <AdminTableFooter count={totalCount} label="Material" />
                 <Pagination links={materials.links} />
             </div>
         </AdminLayout>
