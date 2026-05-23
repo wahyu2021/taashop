@@ -52,6 +52,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                         <TableHead className="w-[80px]">Avatar</TableHead>
                                         <TableHead>Nama Pelanggan</TableHead>
                                         <TableHead>Rating</TableHead>
+                                        <TableHead>Bukti</TableHead>
                                         <TableHead>Konten</TableHead>
                                         <TableHead className="text-right">Aksi</TableHead>
                                     </TableRow>
@@ -63,7 +64,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                                 <TableCell>
                                                     <div className="w-10 h-10 rounded-full bg-stone-100 overflow-hidden border border-stone-200">
                                                         <img 
-                                                            src={item.avatar_url || '/images/placeholder-avatar.jpg'} 
+                                                            src={item.avatar_url || 'https://via.placeholder.com/600x400?text=Avatar'} 
                                                             alt={item.customer_name} 
                                                             className="w-full h-full object-cover"
                                                         />
@@ -78,6 +79,15 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                                         <Star size={14} className="fill-orange-500" />
                                                         <span className="font-bold">{item.rating}</span>
                                                     </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {item.proof_url ? (
+                                                        <div className="w-12 h-8 rounded border border-stone-200 overflow-hidden bg-stone-50">
+                                                            <img src={item.proof_url} alt="Proof" className="w-full h-full object-cover" />
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-[10px] text-stone-300 font-bold uppercase tracking-widest">No Proof</span>
+                                                    )}
                                                 </TableCell>
                                                 <TableCell className="max-w-xs truncate">
                                                     "{item.content}"

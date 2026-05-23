@@ -1,6 +1,6 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm } from '@inertiajs/react';
-import { Save, UserCircle, Star } from 'lucide-react';
+import { Save, UserCircle, Star, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
@@ -21,15 +21,25 @@ export default function Edit({ testimonial }: { testimonial: TestimonialData }) 
         order_priority: 0,
         is_published: true,
         avatar: null as File | null,
+        proof: null as File | null,
     });
 
-    const [preview, setPreview] = useState<string | null>(testimonial.avatar_url);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(testimonial.avatar_url);
+    const [proofPreview, setProofPreview] = useState<string | null>(testimonial.proof_url);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setData('avatar', file);
         if (file) {
-            setPreview(URL.createObjectURL(file));
+            setAvatarPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleProofChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setData('proof', file);
+        if (file) {
+            setProofPreview(URL.createObjectURL(file));
         }
     };
 
@@ -49,8 +59,8 @@ export default function Edit({ testimonial }: { testimonial: TestimonialData }) 
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
-                    <form onSubmit={handleSubmit}>
+                <div className="lg:col-span-2 space-y-8">
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         <AdminSectionCard 
                             icon={UserCircle}
                             title="Profil & Isi Testimoni"
@@ -131,30 +141,58 @@ export default function Edit({ testimonial }: { testimonial: TestimonialData }) 
                                 </div>
                             </div>
                         </AdminSectionCard>
+
+                        <AdminSectionCard 
+                            icon={ImageIcon}
+                            title="Bukti Testimoni (Screenshot Chat/Produk)"
+                        >
+                            <div className="space-y-6">
+                                <div className="aspect-video w-full max-w-md mx-auto bg-stone-50 border-2 border-dashed border-stone-200 rounded-xl overflow-hidden flex items-center justify-center relative group">
+                                    {proofPreview ? (
+                                        <img src={proofPreview} alt="Proof Preview" className="w-full h-full object-contain" />
+                                    ) : (
+                                        <div className="text-center p-6">
+                                            <ImageIcon className="w-12 h-12 text-stone-300 mx-auto mb-2" />
+                                            <p className="text-xs font-bold text-stone-400 uppercase tracking-widest">Pilih Gambar Bukti</p>
+                                        </div>
+                                    )}
+                                    <label className="absolute inset-0 cursor-pointer opacity-0" htmlFor="proof" />
+                                </div>
+                                <input 
+                                    id="proof"
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleProofChange}
+                                />
+                                <p className="text-[10px] text-center text-stone-400 uppercase tracking-widest font-bold">
+                                    Ganti screenshot WhatsApp atau foto produk.
+                                </p>
+                            </div>
+                        </AdminSectionCard>
                     </form>
                 </div>
 
                 <div className="space-y-6">
                     <AdminSectionCard icon={Star} title="Foto Profil">
                         <div className="space-y-4">
-                            <div className="w-32 h-32 mx-auto rounded-full bg-stone-100 border-2 border-dashed border-stone-200 overflow-hidden flex items-center justify-center">
-                                {preview ? (
-                                    <img src={preview} alt="Avatar Preview" className="w-full h-full object-cover" />
+                            <div className="w-32 h-32 mx-auto rounded-full bg-stone-100 border-2 border-dashed border-stone-200 overflow-hidden flex items-center justify-center relative group">
+                                {avatarPreview ? (
+                                    <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover" />
                                 ) : (
                                     <UserCircle className="w-12 h-12 text-stone-300" />
                                 )}
+                                <label className="absolute inset-0 cursor-pointer opacity-0" htmlFor="avatar" />
                             </div>
+                            <input 
+                                id="avatar"
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                            />
                             <div className="text-center">
-                                <Label htmlFor="avatar" className="cursor-pointer bg-stone-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-stone-800 transition-colors">
-                                    Ganti Foto
-                                </Label>
-                                <input 
-                                    id="avatar"
-                                    type="file"
-                                    className="hidden"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
+                                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">Ganti Foto Profil</p>
                             </div>
                         </div>
                     </AdminSectionCard>

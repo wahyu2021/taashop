@@ -31,12 +31,17 @@ class TestimonialController extends Controller
     {
         $data = $request->validated();
         $avatar = $request->file('avatar');
-        unset($data['avatar']);
+        $proof = $request->file('proof');
+        unset($data['avatar'], $data['proof']);
 
         $testimonial = Testimonial::create($data);
 
         if ($avatar) {
             $testimonial->addMedia($avatar)->toMediaCollection('avatar');
+        }
+
+        if ($proof) {
+            $testimonial->addMedia($proof)->toMediaCollection('proof');
         }
 
         return redirect()->route('admin.testimonials.index')
@@ -54,12 +59,17 @@ class TestimonialController extends Controller
     {
         $data = $request->validated();
         $avatar = $request->file('avatar');
-        unset($data['avatar']);
+        $proof = $request->file('proof');
+        unset($data['avatar'], $data['proof']);
 
         $testimonial->update($data);
 
         if ($avatar) {
             $testimonial->addMedia($avatar)->toMediaCollection('avatar');
+        }
+
+        if ($proof) {
+            $testimonial->addMedia($proof)->toMediaCollection('proof');
         }
 
         return redirect()->route('admin.testimonials.index')

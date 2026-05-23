@@ -21,6 +21,7 @@ class UpdateTestimonialRequest extends FormRequest
             'order_priority' => ['required', 'integer', 'min:0'],
             'is_published' => ['required', 'boolean'],
             'avatar' => ['nullable', 'image', 'max:1024'],
+            'proof' => ['nullable', 'image', 'max:2048'],
         ];
     }
 }

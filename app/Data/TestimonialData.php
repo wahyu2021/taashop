@@ -13,6 +13,7 @@ class TestimonialData extends Data
         public string $content,
         public int $rating,
         public ?string $avatar_url,
+        public ?string $proof_url,
     ) {}
 
     public static function fromModel(\App\Models\Testimonial $testimonial): self
@@ -24,6 +25,7 @@ class TestimonialData extends Data
             content: $testimonial->content,
             rating: $testimonial->rating,
             avatar_url: $testimonial->getFirstMediaUrl('avatar'),
+            proof_url: $testimonial->getFirstMediaUrl('proof'),
         );
     }
 }

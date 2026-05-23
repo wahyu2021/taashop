@@ -39,6 +39,16 @@ export default function Testimonials({ testimonials }: Props) {
                                 "{item.content}"
                             </p>
 
+                            {item.proof_url && (
+                                <div className="mb-8 p-1 bg-stone-50 border border-stone-100 rounded-lg overflow-hidden">
+                                    <img 
+                                        src={item.proof_url} 
+                                        alt="Bukti Testimoni" 
+                                        className="w-full h-auto aspect-video object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
+                                    />
+                                </div>
+                            )}
+
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 rounded-full bg-stone-100 overflow-hidden border-2 border-white shadow-md">
                                     <img 

@@ -40,8 +40,8 @@ export default function Home({
 
             {/* 1. Hero Section */}
             <Hero 
-                title={site_settings?.hero_title} 
-                description={site_settings?.hero_description} 
+                title={site_settings?.hero_title ?? undefined} 
+                description={site_settings?.hero_description ?? undefined} 
                 whatsappUrl={whatsappUrl} 
             />
 

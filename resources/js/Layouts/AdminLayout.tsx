@@ -14,7 +14,9 @@ import {
     ChevronRight,
     Tag,
     Image as ImageIcon,
-    FileText
+    FileText,
+    Star,
+    HelpCircle
 } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 

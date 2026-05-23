@@ -29,5 +29,9 @@ class Testimonial extends Model implements HasMedia
         $this->addMediaCollection('avatar')
             ->singleFile()
             ->useFallbackUrl('https://via.placeholder.com/600x400?text=Avatar');
+
+        $this->addMediaCollection('proof')
+            ->singleFile()
+            ->useFallbackUrl('https://via.placeholder.com/600x400?text=Proof');
     }
 }
