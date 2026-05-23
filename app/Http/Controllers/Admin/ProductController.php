@@ -7,8 +7,9 @@ use App\Models\Product;
 use App\Services\ProductService;
 use App\Services\CategoryService;
 use App\Enums\ProductStatus;
+use App\Http\Requests\Admin\Product\StoreProductRequest;
+use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -34,19 +35,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_featured' => 'required|boolean',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $this->productService->createProduct($validated);
+        $this->productService->createProduct($request->validated());
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Produk berhasil ditambahkan.');
@@ -61,19 +52,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_featured' => 'required|boolean',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $this->productService->updateProduct($product->id, $validated);
+        $this->productService->updateProduct($product->id, $request->validated());
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Produk berhasil diperbarui.');

@@ -7,8 +7,9 @@ use App\Models\Package;
 use App\Services\PackageService;
 use App\Enums\ProductStatus;
 use App\Enums\PrintType;
+use App\Http\Requests\Admin\Package\StorePackageRequest;
+use App\Http\Requests\Admin\Package\UpdatePackageRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,21 +34,9 @@ class PackageController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StorePackageRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'product_type' => 'required|string|max:255',
-            'includes' => 'nullable|string|max:255',
-            'print_type' => ['nullable', new Enum(PrintType::class)],
-            'min_price' => 'required|numeric|min:0',
-            'max_price' => 'required|numeric|min:0|gte:min_price',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $this->packageService->createPackage($validated);
+        $this->packageService->createPackage($request->validated());
 
         return redirect()->route('admin.packages.index')
             ->with('success', 'Paket berhasil ditambahkan.');
@@ -62,21 +51,9 @@ class PackageController extends Controller
         ]);
     }
 
-    public function update(Request $request, Package $package)
+    public function update(UpdatePackageRequest $request, Package $package)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'product_type' => 'required|string|max:255',
-            'includes' => 'nullable|string|max:255',
-            'print_type' => ['nullable', new Enum(PrintType::class)],
-            'min_price' => 'required|numeric|min:0',
-            'max_price' => 'required|numeric|min:0|gte:min_price',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $this->packageService->updatePackage($package->id, $validated);
+        $this->packageService->updatePackage($package->id, $request->validated());
 
         return redirect()->route('admin.packages.index')
             ->with('success', 'Paket berhasil diperbarui.');

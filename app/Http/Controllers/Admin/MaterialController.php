@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Material;
 use App\Services\MaterialService;
 use App\Enums\ProductStatus;
+use App\Http\Requests\Admin\Material\StoreMaterialRequest;
+use App\Http\Requests\Admin\Material\UpdateMaterialRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,20 +32,9 @@ class MaterialController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreMaterialRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'summary' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-            'features' => 'nullable|array',
-            'features.*' => 'required|string|max:255',
-        ]);
-
-        $this->materialService->createMaterial($validated);
+        $this->materialService->createMaterial($request->validated());
 
         return redirect()->route('admin.materials.index')
             ->with('success', 'Material berhasil ditambahkan.');
@@ -58,20 +48,9 @@ class MaterialController extends Controller
         ]);
     }
 
-    public function update(Request $request, Material $material)
+    public function update(UpdateMaterialRequest $request, Material $material)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'summary' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'order_priority' => 'required|integer|min:0',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => 'nullable|image|max:2048',
-            'features' => 'nullable|array',
-            'features.*' => 'required|string|max:255',
-        ]);
-
-        $this->materialService->updateMaterial($material->id, $validated);
+        $this->materialService->updateMaterial($material->id, $request->validated());
 
         return redirect()->route('admin.materials.index')
             ->with('success', 'Material berhasil diperbarui.');
