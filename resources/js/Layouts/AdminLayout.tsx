@@ -27,7 +27,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
             active: route().current('admin.dashboard') || route().current('dashboard') 
         },
         { name: 'Produk', href: '#', icon: ShoppingBag, active: false },
-        { name: 'Kategori', href: '#', icon: Layers, active: false },
+        { 
+            name: 'Kategori', 
+            href: route('admin.categories.index'), 
+            icon: Layers, 
+            active: route().current('admin.categories.*') 
+        },
         { name: 'Material Bahan', href: '#', icon: Package, active: false },
         { name: 'Pesan Masuk', href: '#', icon: Inbox, active: false },
         { name: 'Pengaturan', href: '#', icon: Settings, active: false },

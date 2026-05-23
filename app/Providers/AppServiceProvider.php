@@ -27,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Eloquent\PackageRepository::class
         );
 
+        $this->app->bind(
+            \App\Repositories\Contracts\CategoryRepositoryInterface::class,
+            \App\Repositories\Eloquent\CategoryRepository::class
+        );
+
         $this->app->singleton(\App\Services\DashboardService::class);
     }
 
