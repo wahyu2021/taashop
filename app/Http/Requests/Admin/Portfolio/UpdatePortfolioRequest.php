@@ -23,7 +23,7 @@ class UpdatePortfolioRequest extends FormRequest
             'project_date' => ['nullable', 'date'],
             'order_priority' => ['required', 'integer', 'min:0'],
             'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

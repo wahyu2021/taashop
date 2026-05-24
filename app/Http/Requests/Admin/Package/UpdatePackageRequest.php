@@ -25,7 +25,7 @@ class UpdatePackageRequest extends FormRequest
             'max_price' => ['required', 'numeric', 'min:0', 'gte:min_price'],
             'order_priority' => ['required', 'integer', 'min:0'],
             'status' => ['required', new Enum(ProductStatus::class)],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

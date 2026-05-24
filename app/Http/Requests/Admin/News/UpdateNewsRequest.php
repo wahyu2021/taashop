@@ -22,7 +22,7 @@ class UpdateNewsRequest extends FormRequest
             'status' => ['required', new Enum(ProductStatus::class)],
             'published_at' => ['nullable', 'date'],
             'order_priority' => ['required', 'integer', 'min:0'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

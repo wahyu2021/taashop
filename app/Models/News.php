@@ -33,4 +33,18 @@ class News extends Model implements HasMedia
             ->singleFile()
             ->useFallbackUrl('/images/placeholder.svg');
     }
+
+    public function registerMediaConversions(\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->quality(80)
+            ->nonQueued();
+
+        $this->addMediaConversion('thumb')
+            ->width(400)
+            ->height(400)
+            ->sharpen(10)
+            ->nonQueued();
+    }
 }

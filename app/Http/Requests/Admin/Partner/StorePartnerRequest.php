@@ -16,7 +16,7 @@ class StorePartnerRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
-            'logo' => ['required', 'image', 'max:2048'],
+            'logo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

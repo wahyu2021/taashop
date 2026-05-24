@@ -16,7 +16,7 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
-            'logo' => ['nullable', 'image', 'max:2048'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

@@ -37,12 +37,22 @@ class SettingService
             }
         }
 
-        // Handle file/image settings
-        foreach ($files as $key => $file) {
-            if ($file instanceof UploadedFile) {
-                $setting = Setting::where('key', $key)->first();
-                if ($setting) {
-                    $setting->addMedia($file)->toMediaCollection('image');
+        // Handle file/image settings with validation
+        if (!empty($files)) {
+            $validator = \Illuminate\Support\Facades\Validator::make(['files' => $files], [
+                'files.*' => ['image', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
+            ]);
+
+            if ($validator->fails()) {
+                throw new \Illuminate\Validation\ValidationException($validator);
+            }
+
+            foreach ($files as $key => $file) {
+                if ($file instanceof UploadedFile) {
+                    $setting = Setting::where('key', $key)->first();
+                    if ($setting) {
+                        $setting->addMedia($file)->toMediaCollection('image');
+                    }
                 }
             }
         }

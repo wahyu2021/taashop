@@ -20,8 +20,8 @@ class UpdateTestimonialRequest extends FormRequest
             'rating' => ['required', 'integer', 'min:1', 'max:5'],
             'order_priority' => ['required', 'integer', 'min:0'],
             'is_published' => ['required', 'boolean'],
-            'avatar' => ['nullable', 'image', 'max:1024'],
-            'proof' => ['nullable', 'image', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:1024'],
+            'proof' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }
