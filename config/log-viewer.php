@@ -1,8 +1,5 @@
 <?php
 
-use Opcodes\LogViewer\Enums\SortingMethod;
-use Opcodes\LogViewer\Enums\SortingOrder;
-use Opcodes\LogViewer\Enums\Theme;
 use Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer;
 use Opcodes\LogViewer\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
@@ -331,6 +328,13 @@ return [
     |--------------------------------------------------------------------------
     | The prefix for log files inside Laravel's `storage/logs` folder.
     | Log Viewer does not show the full path to these files in the UI,
+    | but only the filename prefixed with this value.
+    |
+    */
+
+    'root_folder_prefix' => 'root',
+];
+the UI,
     | but only the filename prefixed with this value.
     |
     */
