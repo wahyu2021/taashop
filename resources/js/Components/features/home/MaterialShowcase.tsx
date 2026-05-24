@@ -22,28 +22,38 @@ export default function MaterialShowcase({ materials }: Props) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                     {materials.map((material) => (
-                        <div key={material.id} className="group relative bg-stone-50 border border-stone-100 p-8 hover:bg-stone-900 transition-all duration-500 overflow-hidden">
+                        <div key={material.id} className="group relative bg-stone-50 border border-stone-100 hover:bg-stone-900 transition-all duration-500 overflow-hidden flex flex-col">
                             {/* Decorative Background Icon/Text */}
-                            <div className="absolute -right-4 -bottom-4 text-8xl font-black text-stone-200/50 group-hover:text-orange-600/10 transition-colors pointer-events-none uppercase italic">
+                            <div className="absolute -right-4 -bottom-4 text-6xl font-black text-stone-200/50 group-hover:text-orange-600/10 transition-colors pointer-events-none uppercase italic z-0">
                                 {material.name.substring(0, 2)}
                             </div>
 
-                            <div className="relative z-10">
-                                <h3 className="text-2xl font-black text-stone-900 group-hover:text-white uppercase tracking-tight mb-4 transition-colors">
+                            {/* Material Image */}
+                            <div className="relative w-full aspect-square overflow-hidden bg-stone-200">
+                                <img 
+                                    src={material.image_url || '/images/placeholder.svg'} 
+                                    alt={material.name} 
+                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                                />
+                            </div>
+
+                            {/* Material Info */}
+                            <div className="relative z-10 p-6 flex flex-col grow">
+                                <h3 className="text-xl font-black text-stone-900 group-hover:text-white uppercase tracking-tight mb-3 transition-colors">
                                     {material.name}
                                 </h3>
-                                <p className="text-stone-500 group-hover:text-stone-400 text-sm leading-relaxed mb-6 transition-colors">
+                                <p className="text-stone-500 group-hover:text-stone-400 text-xs leading-relaxed mb-6 transition-colors line-clamp-3">
                                     {material.summary}
                                 </p>
                                 
                                 {material.features && material.features.length > 0 && (
-                                    <ul className="space-y-3">
-                                        {material.features.map((feature, idx) => (
-                                            <li key={idx} className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-stone-600 group-hover:text-stone-300 transition-colors">
-                                                <CheckCircle2 size={16} className="text-orange-600" />
-                                                {feature}
+                                    <ul className="space-y-2 mt-auto">
+                                        {material.features.slice(0, 3).map((feature, idx) => (
+                                            <li key={idx} className="flex items-start gap-2 text-[10px] font-bold uppercase tracking-widest text-stone-600 group-hover:text-stone-300 transition-colors">
+                                                <CheckCircle2 size={14} className="text-orange-600 shrink-0 mt-0.5" />
+                                                <span className="leading-tight">{feature}</span>
                                             </li>
                                         ))}
                                     </ul>

@@ -3,6 +3,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { Package, Plus, X, CheckCircle2, Trash2 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
+import { Textarea } from '@/Components/ui/textarea';
 import { Badge } from '@/Components/ui/badge';
 import { useState } from 'react';
 import { MaterialData } from '@/types';
@@ -83,6 +84,16 @@ export default function Edit({ material, statuses }: Props) {
 
                             <FormField label="Ringkasan Singkat" htmlFor="summary" colSpan={2}>
                                 <Input id="summary" value={data.summary} onChange={e => setData('summary', e.target.value)} className="bg-stone-50 border-stone-200" />
+                            </FormField>
+
+                            <FormField label="Deskripsi Lengkap" htmlFor="description" colSpan={2}>
+                                <Textarea 
+                                    id="description" 
+                                    value={data.description} 
+                                    onChange={e => setData('description', e.target.value)} 
+                                    placeholder="Tuliskan deskripsi lengkap mengenai bahan/material ini..." 
+                                    className="bg-stone-50 border-stone-200 min-h-[120px]" 
+                                />
                             </FormField>
 
                             <FormField label="Status" htmlFor="status">

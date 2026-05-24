@@ -101,10 +101,10 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
             <section className="py-16">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     {products.data.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                             {products.data.map((product) => (
                                 <div key={product.id} className="group flex flex-col h-full bg-white border border-stone-100 hover:border-orange-200 transition-all duration-300">
-                                    <Link href={route('catalog.show', product.slug)} className="aspect-4/5 overflow-hidden bg-stone-100 relative">
+                                    <Link href={route('catalog.show', product.slug)} className="aspect-[4/5] overflow-hidden bg-stone-100 relative">
                                         <img 
                                             src={product.image_url || '/images/placeholder.svg'} 
                                             alt={product.title} 
@@ -158,7 +158,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                     key={i}
                                     href={link.url || '#'}
                                     className={cn(
-                                        "w-12 h-12 flex items-center justify-center text-sm font-black transition-all border",
+                                        "w-10 h-10 flex items-center justify-center text-sm font-black transition-all border",
                                         link.active 
                                             ? "bg-stone-900 border-stone-900 text-white" 
                                             : "bg-white border-stone-200 text-stone-600 hover:border-stone-900",

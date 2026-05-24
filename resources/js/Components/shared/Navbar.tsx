@@ -56,18 +56,17 @@ export default function Navbar() {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center">
                         {/* Logo */}
-                        <Link href="/" className="flex items-center gap-2 relative z-50">
-                            {site_settings?.site_logo ? (
+                        <Link href="/" className="flex items-center gap-3 relative z-50">
+                            {site_settings?.site_logo && (
                                 <img 
                                     src={site_settings.site_logo} 
-                                    alt={site_settings?.site_name || 'Taashop'} 
+                                    alt="Logo" 
                                     className="h-8 w-auto object-contain sm:h-10" 
                                 />
-                            ) : (
-                                <span className="text-xl font-black uppercase tracking-tighter text-stone-900 sm:text-2xl">
-                                    TAA<span className="text-orange-600">SHOP</span>
-                                </span>
                             )}
+                            <span className="text-xl font-black uppercase tracking-tighter text-stone-900 sm:text-2xl">
+                                TAA<span className="text-orange-600">SHOP</span>
+                            </span>
                         </Link>
 
                         {/* Desktop Links */}

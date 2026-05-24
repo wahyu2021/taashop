@@ -137,9 +137,9 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                 <div className="flex flex-col h-full">
                     {/* Sidebar Header */}
                     <div className="flex items-center justify-between h-16 px-6 border-b border-sidebar-border">
-                        <Link href={route('admin.dashboard')} className="flex items-center gap-2">
-                            <ApplicationLogo className="w-8 h-8 fill-primary" />
-                            <span className="text-xl font-bold text-sidebar-foreground tracking-tight">
+                        <Link href={route('admin.dashboard')} className="flex items-center gap-3">
+                            <ApplicationLogo className="h-8 w-auto object-contain" />
+                            <span className="text-xl font-black text-sidebar-foreground tracking-tighter uppercase">
                                 TAA<span className="text-primary">SHOP</span>
                             </span>
                         </Link>

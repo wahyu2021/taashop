@@ -34,25 +34,25 @@ export default function CatalogShow({ product, related_products }: Props) {
 
             <section className="py-12 sm:py-20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-20">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
                         {/* Product Image */}
-                        <div className="lg:col-span-7">
+                        <div className="lg:col-span-5">
                             <div className="bg-stone-100 border border-stone-200 sticky top-32">
                                 <img 
                                     src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 
-                                    className="w-full h-auto object-cover aspect-square sm:aspect-video lg:aspect-4/5"
+                                    className="w-full h-auto object-cover aspect-square"
                                 />
                             </div>
                         </div>
 
                         {/* Product Info */}
-                        <div className="lg:col-span-5 space-y-10">
+                        <div className="lg:col-span-7 space-y-8 sm:space-y-10">
                             <div>
                                 <span className="inline-block bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 mb-6">
                                     {product.category?.name || 'Katalog Taashop'}
                                 </span>
-                                <h1 className="text-4xl sm:text-5xl font-black text-stone-900 uppercase tracking-tighter leading-tight mb-6">
+                                <h1 className="text-3xl sm:text-5xl font-black text-stone-900 uppercase tracking-tighter leading-tight mb-6">
                                     {product.title}
                                 </h1>
                                 <div className="flex flex-wrap gap-4 text-xs font-bold uppercase tracking-widest text-stone-500">
@@ -86,7 +86,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                                     rel="noopener noreferrer"
                                     className={cn(
                                         buttonVariants({ variant: 'default' }),
-                                        "w-full bg-stone-900 hover:bg-black text-white font-black uppercase tracking-widest py-8 rounded-none text-lg h-auto shadow-xl flex items-center justify-center"
+                                        "w-full bg-stone-900 hover:bg-black text-white font-black uppercase tracking-widest py-6 rounded-none text-base h-auto shadow-xl flex items-center justify-center"
                                     )}
                                 >
                                     <ShoppingCart className="w-6 h-6 mr-3" />
@@ -146,3 +146,4 @@ export default function CatalogShow({ product, related_products }: Props) {
         </PublicLayout>
     );
 }
+

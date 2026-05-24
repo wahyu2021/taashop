@@ -12,18 +12,17 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     {/* Brand Section */}
                     <div className="space-y-6">
-                        <Link href="/" className="inline-block">
-                            {site_settings?.site_logo ? (
+                        <Link href="/" className="flex items-center gap-3">
+                            {site_settings?.site_logo && (
                                 <img 
                                     src={site_settings.site_logo} 
-                                    alt={site_settings?.site_name || 'Taashop'} 
+                                    alt="Logo" 
                                     className="h-10 w-auto object-contain brightness-0 invert" 
                                 />
-                            ) : (
-                                <span className="text-3xl font-black uppercase tracking-tighter">
-                                    TAA<span className="text-orange-600">SHOP</span>
-                                </span>
                             )}
+                            <span className="text-3xl font-black uppercase tracking-tighter">
+                                TAA<span className="text-orange-600">SHOP</span>
+                            </span>
                         </Link>
                         <p className="text-stone-400 text-sm leading-relaxed max-w-xs">
                             {site_settings?.hero_description || 'Taashop menyediakan layanan pembuatan jersey dan sablon kustom berkualitas premium untuk tim dan komunitas Anda.'}

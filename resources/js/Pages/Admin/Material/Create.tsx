@@ -3,6 +3,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { Package, Plus, X, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
+import { Textarea } from '@/Components/ui/textarea';
 import { Badge } from '@/Components/ui/badge';
 import { useState } from 'react';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
@@ -18,7 +19,7 @@ interface Props {
 export default function Create({ statuses }: Props) {
     const [newFeature, setNewFeature] = useState('');
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({   
         name: '',
         summary: '',
         description: '',
@@ -48,7 +49,7 @@ export default function Create({ statuses }: Props) {
         <AdminLayout>
             <Head title="Tambah Material Baru" />
 
-            <AdminFormHeader 
+            <AdminFormHeader
                 backHref={route('admin.materials.index')}
                 backText="Kembali ke Daftar"
                 title="Tambah Material"
@@ -66,8 +67,17 @@ export default function Create({ statuses }: Props) {
                                 <Input id="summary" value={data.summary} onChange={e => setData('summary', e.target.value)} placeholder="Ringkasan 1 baris untuk katalog..." className="bg-stone-50 border-stone-200" />
                             </FormField>
 
-                            <FormField label="Status" htmlFor="status">
-                                <FormSelect
+                            <FormField label="Deskripsi Lengkap" htmlFor="description" colSpan={2}>
+                                <Textarea 
+                                    id="description" 
+                                    value={data.description} 
+                                    onChange={e => setData('description', e.target.value)} 
+                                    placeholder="Tuliskan deskripsi lengkap mengenai bahan/material ini..." 
+                                    className="bg-stone-50 border-stone-200 min-h-[120px]" 
+                                />
+                            </FormField>
+
+                            <FormField label="Status" htmlFor="status">                                <FormSelect
                                     id="status"
                                     value={data.status}
                                     onChange={v => setData('status', v)}
