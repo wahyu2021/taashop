@@ -20,5 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $e, \Illuminate\Http\Request $request) {
+            if (! app()->environment('local') && in_array($e->getStatusCode(), [500, 503, 404, 403, 419])) {
+                return \Inertia\Inertia::render('Error', ['status' => $e->getStatusCode()])
+                    ->toResponse($request)
+                    ->setStatusCode($e->getStatusCode());
+            }
+        });
     })->create();
