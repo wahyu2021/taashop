@@ -17,7 +17,7 @@ export default function Dashboard() {
                     <div className="overflow-hidden bg-card shadow-sm sm:rounded-xl border border-border">
                         <div className="p-8 text-foreground">
                             <h3 className="text-lg font-bold">Selamat Datang!</h3>
-                            <p className="text-stone-500 mt-2 font-medium">Anda telah berhasil masuk ke sistem Taashop.</p>
+                            <p className="text-stone-500 mt-2 font-medium">Anda telah berhasil masuk ke sistem Taaashop.</p>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'contact_email',
-                'value' => 'admin@taashop.com',
+                'value' => 'admin@taaashop.com',
                 'label' => 'Email Kontak',
                 'type' => 'text',
                 'group' => 'contact',
@@ -57,7 +57,7 @@ class SettingSeeder extends Seeder
             // Social Media Group
             [
                 'key' => 'instagram_url',
-                'value' => 'https://instagram.com/taashop',
+                'value' => 'https://instagram.com/taaashop',
                 'label' => 'Instagram URL',
                 'type' => 'url',
                 'group' => 'social',
@@ -65,7 +65,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'facebook_url',
-                'value' => 'https://facebook.com/taashop',
+                'value' => 'https://facebook.com/taaashop',
                 'label' => 'Facebook URL',
                 'type' => 'url',
                 'group' => 'social',
@@ -73,7 +73,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'tiktok_url',
-                'value' => 'https://tiktok.com/@taashop',
+                'value' => 'https://tiktok.com/@taaashop',
                 'label' => 'TikTok URL',
                 'type' => 'url',
                 'group' => 'social',

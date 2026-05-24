@@ -35,7 +35,7 @@ export default function Show({ submission, statuses }: Props) {
         put(route('admin.inbox.update', submission.id!));
     };
 
-    const waLink = `https://wa.me/${submission.phone?.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(submission.name)}%2C%20saya%20Admin%20Taashop...`;
+    const waLink = `https://wa.me/${submission.phone?.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(submission.name)}%2C%20saya%20Admin%20Taaashop...`;
 
     return (
         <AdminLayout>

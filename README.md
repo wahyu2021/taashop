@@ -1,6 +1,6 @@
-# Taashop Web - Company Profile & Katalog Custom
+# Taaashop Web - Company Profile & Katalog Custom
 
-Taashop Web adalah platform Company Profile dan Katalog Produk modern yang dirancang khusus untuk bisnis sablon dan jersey kustom. Proyek ini merupakan hasil *rebuild* dari arsitektur lama ke sistem **Modern Monolith** yang lebih efisien, aman, dan mudah dikelola.
+Taaashop Web adalah platform Company Profile dan Katalog Produk modern yang dirancang khusus untuk bisnis sablon dan jersey kustom. Proyek ini merupakan hasil *rebuild* dari arsitektur lama ke sistem **Modern Monolith** yang lebih efisien, aman, dan mudah dikelola.
 
 ## 🚀 Fitur Utama
 - **Landing Page Modern**: Hero section dinamis, showcase layanan, dan keunggulan bisnis.
@@ -40,4 +40,4 @@ Kami sangat menghargai kontribusi dari tim. Sebelum memulai, harap baca **[Pandu
 Jika Anda menemukan celah keamanan, harap laporkan secara privat melalui prosedur yang ada di **[SECURITY.md](./SECURITY.md)**.
 
 ## 📄 Lisensi
-Proyek ini dilindungi oleh lisensi **Proprietary** milik Taashop. Lihat file [LICENSE](./LICENSE) untuk detail lebih lanjut.
+Proyek ini dilindungi oleh lisensi **Proprietary** milik Taaashop. Lihat file [LICENSE](./LICENSE) untuk detail lebih lanjut.

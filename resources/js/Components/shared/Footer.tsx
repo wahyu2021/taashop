@@ -21,11 +21,11 @@ export default function Footer() {
                                 />
                             )}
                             <span className="text-3xl font-black uppercase tracking-tighter">
-                                TAA<span className="text-orange-600">SHOP</span>
+                                TAAA<span className="text-orange-600">SHOP</span>
                             </span>
                         </Link>
                         <p className="text-stone-400 text-sm leading-relaxed max-w-xs">
-                            {site_settings?.hero_description || 'Taashop menyediakan layanan pembuatan jersey dan sablon kustom berkualitas premium untuk tim dan komunitas Anda.'}
+                            {site_settings?.hero_description || 'Taaashop menyediakan layanan pembuatan jersey dan sablon kustom berkualitas premium untuk tim dan komunitas Anda.'}
                         </p>
                         <div className="flex items-center gap-4">
                             {site_settings?.social_instagram && (
@@ -58,7 +58,7 @@ export default function Footer() {
                             {[
                                 { name: 'Katalog Produk', href: '/catalog' },
                                 { name: 'Portfolio Kami', href: '/portfolio' },
-                                { name: 'Tentang Taashop', href: '/about' },
+                                { name: 'Tentang Taaashop', href: '/about' },
                                 { name: 'Cara Pemesanan', href: '/how-to-order' },
                                 { name: 'Hubungi Kami', href: '/contact' },
                             ].map((item) => (
@@ -105,7 +105,7 @@ export default function Footer() {
                                     <MapPin size={20} />
                                 </div>
                                 <p className="text-stone-400 text-sm leading-relaxed">
-                                    {site_settings?.contact_address || 'Jl. Raya Taashop No. 123, Kota Sablon, Indonesia'}
+                                    {site_settings?.contact_address || 'Jl. Raya Taaashop No. 123, Kota Sablon, Indonesia'}
                                 </p>
                             </li>
                             <li className="flex gap-4 items-center">
@@ -121,7 +121,7 @@ export default function Footer() {
                                     <Mail size={20} />
                                 </div>
                                 <p className="text-stone-400 text-sm">
-                                    {site_settings?.contact_email || 'hello@taashop.com'}
+                                    {site_settings?.contact_email || 'hello@taaashop.com'}
                                 </p>
                             </li>
                         </ul>
@@ -131,10 +131,10 @@ export default function Footer() {
                 {/* Bottom Footer */}
                 <div className="pt-10 border-t border-stone-900 flex flex-col md:flex-row justify-between items-center gap-6">
                     <p className="text-stone-500 text-xs">
-                        © {year} {site_settings?.site_name || 'Taashop'}. All rights reserved.
+                        © {year} {site_settings?.site_name || 'Taaashop'}. All rights reserved.
                     </p>
                     <p className="text-stone-500 text-xs flex items-center gap-1">
-                        Designed with ❤️ by <span className="text-stone-300 font-bold">Taashop Team</span>
+                        Designed with ❤️ by <span className="text-stone-300 font-bold">Taaashop Team</span>
                     </p>
                 </div>
             </div>

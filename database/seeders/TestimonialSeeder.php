@@ -13,7 +13,7 @@ class TestimonialSeeder extends Seeder
             [
                 'customer_name' => 'Budi Santoso',
                 'customer_title' => 'Kapten FC Maju Jaya',
-                'content' => 'Gila sih hasilnya! Bahannya adem banget buat main siang bolong. Desainnya juga persis banget sama mockup awal. Sukses terus Taashop!',
+                'content' => 'Gila sih hasilnya! Bahannya adem banget buat main siang bolong. Desainnya juga persis banget sama mockup awal. Sukses terus Taaashop!',
                 'rating' => 5,
                 'order_priority' => 1
             ],

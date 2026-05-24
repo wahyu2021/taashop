@@ -140,7 +140,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                         <Link href={route('admin.dashboard')} className="flex items-center gap-3">
                             <ApplicationLogo className="h-8 w-auto object-contain" />
                             <span className="text-xl font-black text-sidebar-foreground tracking-tighter uppercase">
-                                TAA<span className="text-primary">SHOP</span>
+                                TAAA<span className="text-primary">SHOP</span>
                             </span>
                         </Link>
                         <button 
@@ -240,10 +240,11 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                 {/* Footer */}
                 <footer className="px-4 py-8 text-center border-t border-border lg:px-8 bg-stone-50/30 mt-auto">
                     <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.2em]">
-                        &copy; {new Date().getFullYear()} <span className="text-primary">Taashop Web</span> &bull; Premium Sporty Management System
+                        &copy; {new Date().getFullYear()} <span className="text-primary">Taaashop Web</span> &bull; Premium Sporty Management System
                     </p>
                 </footer>
             </div>
         </div>
     );
 }
+

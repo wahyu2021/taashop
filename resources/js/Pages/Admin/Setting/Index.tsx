@@ -59,7 +59,7 @@ export default function Index({ groupedSettings }: Props) {
                             Pengaturan
                         </h1>
                         <p className="text-stone-500 mt-1 font-medium text-sm">
-                            Konfigurasi global untuk konten <span className="text-primary font-bold">Taashop Web</span>.
+                            Konfigurasi global untuk konten <span className="text-primary font-bold">Taaashop Web</span>.
                         </p>
                     </div>
                     

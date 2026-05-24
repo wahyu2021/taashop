@@ -85,7 +85,7 @@ export default function Index({ partners, filters }: Props) {
 
             <AdminPageHeader 
                 title="Partner & Klien"
-                description="Kelola daftar logo partner atau klien yang sudah mempercayai Taashop."
+                description="Kelola daftar logo partner atau klien yang sudah mempercayai Taaashop."
                 action={
                     <Link href={route('admin.partners.create')}>
                         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">

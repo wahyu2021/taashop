@@ -1,7 +1,7 @@
-# Analisis Proyek Web: Taashop
+# Analisis Proyek Web: Taaashop
 
 ## 1. Ringkasan Eksekutif
-Proyek **Taashop** adalah sebuah aplikasi web yang dibangun untuk platform e-commerce atau profil perusahaan yang menjual jersey dan *apparel* kustom (kemungkinan besar berfokus pada jersey olahraga dan kaos). Proyek ini menggunakan arsitektur modern berbasis **Next.js (App Router)** yang terintegrasi dengan **Sanity CMS** untuk manajemen konten yang dinamis (Headless CMS).
+Proyek **Taaashop** adalah sebuah aplikasi web yang dibangun untuk platform e-commerce atau profil perusahaan yang menjual jersey dan *apparel* kustom (kemungkinan besar berfokus pada jersey olahraga dan kaos). Proyek ini menggunakan arsitektur modern berbasis **Next.js (App Router)** yang terintegrasi dengan **Sanity CMS** untuk manajemen konten yang dinamis (Headless CMS).
 
 ---
 
@@ -69,7 +69,7 @@ Aplikasi ini mendefinisikan beberapa entitas yang sangat komprehensif di dalam C
 
 ## 5. Fitur Utama (*Key Features*)
 
-Berdasarkan struktur kodenya, berikut adalah fitur utama yang menonjol pada proyek Taashop:
+Berdasarkan struktur kodenya, berikut adalah fitur utama yang menonjol pada proyek Taaashop:
 
 ### A. *Landing Page* Dinamis (Halaman Utama)
 Halaman depan menggunakan struktur modular dengan optimasi *Lazy Loading* (kelas `.section-lazy`) untuk menjaga performa skor yang tinggi, yang mencakup:
@@ -91,4 +91,4 @@ Proyek ini mengimplementasikan lapisan keamanan tingkat lanjut untuk endpoint *s
 ---
 
 ## 6. Kesimpulan
-Proyek **Taashop Web** adalah sebuah sistem yang sudah diarsiteki dengan sangat kokoh, menggabungkan kecepatan pengiriman halaman statis dari Next.js, manajemen UI modern (*Tailwind + Radix*), kontrol konten yang 100% dinamis melalui Sanity, serta dasbor kustom tersendiri yang dilengkapi dengan pelacakan *page views* yang mandiri.
+Proyek **Taaashop Web** adalah sebuah sistem yang sudah diarsiteki dengan sangat kokoh, menggabungkan kecepatan pengiriman halaman statis dari Next.js, manajemen UI modern (*Tailwind + Radix*), kontrol konten yang 100% dinamis melalui Sanity, serta dasbor kustom tersendiri yang dilengkapi dengan pelacakan *page views* yang mandiri.

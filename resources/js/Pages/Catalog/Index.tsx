@@ -36,7 +36,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
 
     return (
         <PublicLayout>
-            <Head title="Katalog Produk - Taashop" />
+            <Head title="Katalog Produk - Taaashop" />
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20">

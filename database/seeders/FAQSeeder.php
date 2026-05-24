@@ -11,7 +11,7 @@ class FAQSeeder extends Seeder
     {
         $faqs = [
             [
-                'question' => 'Berapa minimal order di Taashop?',
+                'question' => 'Berapa minimal order di Taaashop?',
                 'answer' => 'Minimal order untuk pembuatan jersey kustom adalah 12 pcs (1 lusin) per desain. Untuk sablon satuan, silakan hubungi admin kami.',
                 'order_priority' => 1
             ],

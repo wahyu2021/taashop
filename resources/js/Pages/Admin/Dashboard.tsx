@@ -54,7 +54,7 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
                     Halo, {auth.user.name}! 👋
                 </h1>
                 <p className="text-stone-500 mt-1 font-medium">
-                    Selamat datang kembali di panel manajemen <span className="text-primary font-bold">Taashop</span>.
+                    Selamat datang kembali di panel manajemen <span className="text-primary font-bold">Taaashop</span>.
                 </p>
             </div>
 

@@ -13,11 +13,11 @@ interface Props {
 export default function CatalogShow({ product, related_products }: Props) {
     const { site_settings } = usePage<PageProps>().props;
 
-    const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taashop, saya tertarik dengan produk: ${product.title}. Bisa minta info lebih lanjut?`;
+    const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya tertarik dengan produk: ${product.title}. Bisa minta info lebih lanjut?`;
 
     return (
         <PublicLayout>
-            <Head title={`${product.title} - Katalog Taashop`} />
+            <Head title={`${product.title} - Katalog Taaashop`} />
 
             {/* Breadcrumb / Back */}
             <div className="bg-stone-50 border-b border-stone-200">
@@ -50,7 +50,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                         <div className="lg:col-span-7 space-y-8 sm:space-y-10">
                             <div>
                                 <span className="inline-block bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 mb-6">
-                                    {product.category?.name || 'Katalog Taashop'}
+                                    {product.category?.name || 'Katalog Taaashop'}
                                 </span>
                                 <h1 className="text-3xl sm:text-5xl font-black text-stone-900 uppercase tracking-tighter leading-tight mb-6">
                                     {product.title}

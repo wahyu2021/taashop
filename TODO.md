@@ -1,4 +1,4 @@
-# Taashop Web Rebuild - Roadmap & TODO List
+# Taaashop Web Rebuild - Roadmap & TODO List
 
 File ini berfungsi sebagai panduan langkah-demi-langkah dan pelacakan progres project.
 

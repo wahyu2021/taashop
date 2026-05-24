@@ -43,7 +43,7 @@ const settingGroupConfig: Record<string, GroupConfig> = {
     branding: {
         icon: Fingerprint,
         label: 'Branding & Identitas',
-        description: 'Logo dan favicon yang merepresentasikan identitas brand Taashop.',
+        description: 'Logo dan favicon yang merepresentasikan identitas brand Taaashop.',
         tips: [
             'Gunakan logo format PNG/SVG dengan latar transparan.',
             'Favicon sebaiknya berukuran minimal 512x512px.',

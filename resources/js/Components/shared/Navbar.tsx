@@ -65,7 +65,7 @@ export default function Navbar() {
                                 />
                             )}
                             <span className="text-xl font-black uppercase tracking-tighter text-stone-900 sm:text-2xl">
-                                TAA<span className="text-orange-600">SHOP</span>
+                                TAAA<span className="text-orange-600">SHOP</span>
                             </span>
                         </Link>
 

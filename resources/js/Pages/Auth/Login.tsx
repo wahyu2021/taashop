@@ -84,7 +84,7 @@ export default function Login({
                                     className="bg-stone-950 border-stone-800 text-white rounded-none h-12 focus-visible:ring-orange-600 focus-visible:border-orange-600 transition-all pl-4"
                                     autoComplete="username"
                                     onChange={(e) => setData('email', e.target.value)}
-                                    placeholder="admin@taashop.com"
+                                    placeholder="admin@taaashop.com"
                                     required
                                 />
                             </div>
@@ -163,7 +163,7 @@ export default function Login({
             {/* Side Branding (Desktop Only) */}
             <div className="absolute left-10 bottom-10 hidden lg:block select-none opacity-5 pointer-events-none">
                 <span className="text-9xl font-black text-white uppercase tracking-tighter italic">
-                    TAASHOP
+                    TAAASHOP
                 </span>
             </div>
         </div>

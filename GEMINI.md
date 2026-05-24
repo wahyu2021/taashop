@@ -1,8 +1,8 @@
-# Project Context: Taashop Web (Rebuild & Redesign)
+# Project Context: Taaashop Web (Rebuild & Redesign)
 
 ## 1. Identitas Project
 
-Taashop adalah website Company Profile & Katalog untuk bisnis sablon dan jersey kustom.
+Taaashop adalah website Company Profile & Katalog untuk bisnis sablon dan jersey kustom.
 Project ini adalah proses **Rebuild & Redesign** dari arsitektur lama (Next.js + Sanity) menjadi sistem Monolith modern dengan Custom Admin Panel (tanpa layanan CMS pihak ketiga).
 
 ## 2. Tech Stack & Environment
@@ -11,20 +11,20 @@ Project ini adalah proses **Rebuild & Redesign** dari arsitektur lama (Next.js +
 - **Frontend Server-Side Routing:** Inertia.js
 - **Frontend UI:** React.js 19 (Functional Components & Hooks)
 - **Styling:** Tailwind CSS + shadcn/ui + Lucide React
-- **Database:** MySQL (`db_taashop`)
+- **Database:** MySQL (`db_taaashop`)
 - **Autentikasi Admin:** Laravel Session (menggunakan Laravel Breeze)
 - **Media Management:** Spatie MediaLibrary (WebP, Responsive Images)
 - **Data Layer:** Spatie Laravel Data (DTO for Type-Safety)
 
 ## 3. Direktori & Referensi Legacy (SANGAT PENTING)
 
-- **Project Baru (Kerja di sini):** `D:\Coding\taashop-web`
-- **Project Lama (Hanya untuk referensi):** `D:\Coding\taashop-web-legacy`
+- **Project Baru (Kerja di sini):** `D:\Coding\taaashop-web`
+- **Project Lama (Hanya untuk referensi):** `D:\Coding\taaashop-web-legacy`
 - **ATURAN DESAIN:** Jangan menyalin mentah-mentah desain/CSS dari project lama. Gunakan project lama **hanya** untuk memahami alur fitur, melihat skema data (Sanity Schema), dan mengambil aset (gambar/logo). Buatkan UI/UX baru yang lebih fresh, modern, premium, dan clean menggunakan komponen `shadcn/ui`.
 
 ## 4. UI Design System (Brand Identity)
 
-Berdasarkan analisis logo legacy, identitas visual Taashop mengusung tema **"Premium Sporty & Energetic"**.
+Berdasarkan analisis logo legacy, identitas visual Taaashop mengusung tema **"Premium Sporty & Energetic"**.
 
 ### A. Palet Warna (Color Palette)
 - **Primary (Orange):** `#EF8313` (Main action, Highlights, Brand identity).

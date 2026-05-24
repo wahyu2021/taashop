@@ -37,7 +37,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                             {title || 'Bikin Jersey Impianmu Jadi Nyata'}
                         </h1>
                         <p className="text-stone-400 text-md sm:text-lg max-w-xl mb-6 leading-relaxed">
-                            {description || 'Taashop hadir sebagai partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.'}
+                            {description || 'Taaashop hadir sebagai partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.'}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0">
                             <Link 
@@ -74,7 +74,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
             {/* Vertical Text Decor */}
             <div className="absolute right-0 bottom-0 hidden xl:block select-none opacity-[0.03] pointer-events-none transform translate-x-1/4">
                 <span className="text-[25rem] font-black text-white uppercase tracking-tighter leading-none italic">
-                    TAASHOP
+                    TAAASHOP
                 </span>
             </div>
         </section>

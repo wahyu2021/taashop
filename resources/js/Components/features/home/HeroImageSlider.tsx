@@ -32,7 +32,8 @@ export default function HeroImageSlider({ heroImageUrl }: HeroImageSliderProps) 
                 <img 
                     key={index}
                     src={src} 
-                    alt={`Taashop Jersey ${index + 1}`} 
+                    alt={`Taaashop Jersey ${index + 1}`} 
+
                     className={cn(
                         "absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-opacity duration-1000 ease-in-out",
                         currentImageIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"

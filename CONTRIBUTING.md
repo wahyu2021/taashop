@@ -1,6 +1,6 @@
-# Panduan Kontribusi Taashop Web
+# Panduan Kontribusi Taaashop Web
 
-Pertama-tama, terima kasih telah meluangkan waktu untuk berkontribusi di Taashop Web! Kontribusi dari Anda sangat berarti bagi pengembangan proyek ini.
+Pertama-tama, terima kasih telah meluangkan waktu untuk berkontribusi di Taaashop Web! Kontribusi dari Anda sangat berarti bagi pengembangan proyek ini.
 
 Dokumen ini berfungsi sebagai panduan standar untuk berkontribusi. Gunakan penilaian terbaik Anda, dan jangan ragu untuk mengusulkan perubahan pada dokumen ini melalui *pull request*.
 
@@ -20,7 +20,7 @@ Dengan berpartisipasi dalam proyek ini, Anda diharapkan untuk menjunjung tinggi 
 
 ## Ringkasan Tech Stack
 
-Taashop Web dibangun sebagai aplikasi **Modern Monolith** yang berfokus pada *type-safety* dan pengalaman pengembang yang mulus.
+Taaashop Web dibangun sebagai aplikasi **Modern Monolith** yang berfokus pada *type-safety* dan pengalaman pengembang yang mulus.
 
 - **Backend**: Laravel 12 (PHP 8.2+)
 - **Frontend**: React.js 19 (TypeScript)
@@ -36,7 +36,7 @@ Untuk menjalankan proyek secara lokal, pastikan Anda telah menginstal PHP 8.2+, 
 1. **Clone repository:**
    ```bash
    git clone <repository-url>
-   cd taashop-web
+   cd taaashop-web
    ```
 
 2. **Instal dependensi PHP dan Node:**

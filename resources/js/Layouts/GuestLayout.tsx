@@ -9,7 +9,7 @@ export default function Guest({ children }: PropsWithChildren) {
                 <Link href="/" className="flex flex-col items-center gap-4">
                     <ApplicationLogo className="h-20 w-auto object-contain" />
                     <span className="text-3xl font-black uppercase tracking-tighter text-stone-900">
-                        TAA<span className="text-orange-600">SHOP</span>
+                        TAAA<span className="text-orange-600">SHOP</span>
                     </span>
                 </Link>
             </div>

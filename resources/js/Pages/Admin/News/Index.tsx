@@ -95,7 +95,7 @@ export default function Index({ news, filters, statuses }: Props) {
 
             <AdminPageHeader 
                 title="Berita & Artikel"
-                description="Kelola konten edukasi, promo, dan update terbaru Taashop."
+                description="Kelola konten edukasi, promo, dan update terbaru Taaashop."
                 action={
                     <Link href={route('admin.news.create')}>
                         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 shadow-lg shadow-primary/20 transition-all active:scale-95">

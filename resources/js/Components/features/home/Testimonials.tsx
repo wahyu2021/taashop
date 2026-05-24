@@ -20,7 +20,7 @@ export default function Testimonials({ testimonials }: Props) {
                         Suara <span className="text-orange-600">Pelanggan</span>
                     </h2>
                     <p className="text-stone-500 text-lg">
-                        Kepuasan Anda adalah prioritas kami. Lihat apa yang mereka katakan tentang layanan Taashop.
+                        Kepuasan Anda adalah prioritas kami. Lihat apa yang mereka katakan tentang layanan Taaashop.
                     </p>
                 </div>
 

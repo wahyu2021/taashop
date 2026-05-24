@@ -1,6 +1,6 @@
 # Changelog
 
-Semua perubahan penting pada proyek **Taashop Web** akan dicatat dalam file ini.
+Semua perubahan penting pada proyek **Taaashop Web** akan dicatat dalam file ini.
 
 Format ini berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/),
 dan proyek ini mengikuti [Semantic Versioning](https://semver.org/lang/id/).
@@ -8,7 +8,7 @@ dan proyek ini mengikuti [Semantic Versioning](https://semver.org/lang/id/).
 ## [1.0.0] - 2026-05-23
 
 ### Added
-- Inisialisasi proyek Taashop Web dengan Laravel 12 & React 19.
+- Inisialisasi proyek Taaashop Web dengan Laravel 12 & React 19.
 - Integrasi Inertia.js untuk routing server-side.
 - Setup UI dengan Tailwind CSS & shadcn/ui.
 - Menambahkan file `GEMINI.md` sebagai panduan konteks proyek.
