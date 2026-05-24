@@ -302,7 +302,7 @@ return [
         'per_page' => 25,
 
         // Color scheme for the Log Viewer. Other options: `System`, `Light`, `Dark`
-        'theme' => Theme::System,
+        'theme' => 'System',
 
         // Whether to enable `Shorter Stack Traces` option by default
         'shorter_stack_traces' => false,
@@ -328,13 +328,6 @@ return [
     |--------------------------------------------------------------------------
     | The prefix for log files inside Laravel's `storage/logs` folder.
     | Log Viewer does not show the full path to these files in the UI,
-    | but only the filename prefixed with this value.
-    |
-    */
-
-    'root_folder_prefix' => 'root',
-];
-the UI,
     | but only the filename prefixed with this value.
     |
     */
