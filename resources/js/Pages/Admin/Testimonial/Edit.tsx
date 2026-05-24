@@ -45,7 +45,7 @@ export default function Edit({ testimonial }: { testimonial: TestimonialData }) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('admin.testimonials.update', testimonial.id));
+        post(route('admin.testimonials.update', testimonial.id!) as unknown as string);
     };
 
     return (

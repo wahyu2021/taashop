@@ -17,6 +17,8 @@ interface FormSidebarProps {
     imageDescription?: string;
     /** Image aspect ratio class */
     aspectRatio?: string;
+    /** Image object fit class (e.g., "object-cover", "object-contain") */
+    imageObjectFit?: string;
     /** Submit button processing state */
     processing: boolean;
     /** Submit button label */
@@ -34,6 +36,7 @@ export default function FormSidebar({
     imageTitle = 'Gambar Utama',
     imageDescription,
     aspectRatio,
+    imageObjectFit,
     processing,
     submitLabel,
     cancelHref,
@@ -53,6 +56,7 @@ export default function FormSidebar({
                     error={imageError}
                     description={imageDescription}
                     aspectRatio={aspectRatio}
+                    objectFit={imageObjectFit}
                 />
 
                 <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col gap-3">

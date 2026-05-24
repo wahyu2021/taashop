@@ -15,6 +15,8 @@ interface Props {
     description?: string;
     /** Tailwind aspect ratio class (e.g., "aspect-square", "aspect-video") */
     aspectRatio?: string;
+    /** Image object fit class (e.g., "object-cover", "object-contain") */
+    objectFit?: string;
     /** Validation error message, if any */
     error?: string;
     /** Optional additional class names for the container */
@@ -35,6 +37,7 @@ export default function ImageUploader({
     label, 
     description, 
     aspectRatio = "aspect-square",
+    objectFit = "object-cover",
     error,
     className
 }: Props) {
@@ -91,7 +94,7 @@ export default function ImageUploader({
                     <>
                         <img 
                             src={preview} 
-                            className="w-full h-full object-cover animate-in fade-in zoom-in-95 duration-300" 
+                            className={cn("w-full h-full animate-in fade-in zoom-in-95 duration-300", objectFit)} 
                             alt="Upload preview" 
                         />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">

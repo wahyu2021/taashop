@@ -81,8 +81,8 @@ export default function Edit({ partner }: Props) {
                     onImageChange={file => setData('logo', file)}
                     imageError={errors.logo}
                     imageTitle="Logo Partner"
-                    aspectRatio="aspect-[3/2]"
-                    imageObjectFit="contain"
+                    aspectRatio="aspect-video"
+                    imageObjectFit="object-contain"
                     processing={processing}
                     submitLabel="Simpan Perubahan"
                     cancelHref={route('admin.partners.index')}

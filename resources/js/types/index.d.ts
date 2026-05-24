@@ -139,6 +139,7 @@ export interface TestimonialData {
     content: string;
     rating: number;
     avatar_url: string | null;
+    proof_url: string | null;
 }
 
 // ─── News ───────────────────────────────────────────────
