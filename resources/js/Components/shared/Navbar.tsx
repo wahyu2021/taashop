@@ -11,11 +11,11 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
 
     const navLinks = [
-        { name: 'Beranda', href: '/' },
-        { name: 'Katalog', href: '/catalog' },
-        { name: 'Portfolio', href: '/portfolio' },
-        { name: 'Tentang Kami', href: '/about' },
-        { name: 'Kontak', href: '/contact' },
+        { name: 'Beranda', href: '/', active: route().current('home') },
+        { name: 'Katalog', href: '/catalog', active: route().current('catalog.*') },
+        { name: 'Portfolio', href: '/portfolio', active: route().current('portfolio.*') },
+        { name: 'Tentang Kami', href: '/about', active: route().current('about') },
+        { name: 'Kontak', href: '/contact', active: route().current('contact') },
     ];
 
     useEffect(() => {
@@ -75,9 +75,16 @@ export default function Navbar() {
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-sm font-bold uppercase tracking-wider text-stone-700 hover:text-orange-600 transition-colors"
+                                    className={cn(
+                                        "text-sm font-bold uppercase tracking-wider transition-colors relative group",
+                                        link.active ? "text-orange-600" : "text-stone-700 hover:text-orange-600"
+                                    )}
                                 >
                                     {link.name}
+                                    <span className={cn(
+                                        "absolute -bottom-1 left-0 h-0.5 bg-orange-600 transition-all duration-300",
+                                        link.active ? "w-full" : "w-0 group-hover:w-full"
+                                    )} />
                                 </Link>
                             ))}
                         </div>
@@ -148,7 +155,8 @@ export default function Navbar() {
                                 href={link.href}
                                 onClick={closeMenu}
                                 className={cn(
-                                    "flex justify-between items-center py-4 px-4 text-lg font-black uppercase tracking-tight text-stone-900 hover:bg-stone-50 hover:text-orange-600 transition-all duration-200 border-b border-stone-100 last:border-none",
+                                    "flex justify-between items-center py-4 px-4 text-lg font-black uppercase tracking-tight transition-all duration-200 border-b border-stone-100 last:border-none",
+                                    link.active ? "bg-orange-50 text-orange-600" : "text-stone-900 hover:bg-stone-50 hover:text-orange-600",
                                     "transform transition-all duration-300 ease-out",
                                     isOpen 
                                         ? "translate-x-0 opacity-100" 
@@ -157,7 +165,7 @@ export default function Navbar() {
                                 style={{ transitionDelay: isOpen ? `${index * 50 + 100}ms` : '0ms' }}
                             >
                                 {link.name}
-                                <ChevronRight size={18} className="text-orange-600" />
+                                <ChevronRight size={18} className={cn("transition-transform", link.active ? "text-orange-600 rotate-90" : "text-stone-300")} />
                             </Link>
                         ))}
                     </div>
