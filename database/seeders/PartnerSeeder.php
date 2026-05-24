@@ -22,7 +22,7 @@ class PartnerSeeder extends Seeder
         ];
 
         foreach ($partners as $partnerData) {
-            Partner::create($partnerData);
+            Partner::updateOrCreate(['name' => $partnerData['name']], $partnerData);
         }
     }
 }

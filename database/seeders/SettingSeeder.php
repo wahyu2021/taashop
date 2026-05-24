@@ -108,7 +108,16 @@ class SettingSeeder extends Seeder
         ];
 
         foreach ($settings as $setting) {
-            Setting::updateOrCreate(['key' => $setting['key']], $setting);
+            $settingModel = Setting::updateOrCreate(['key' => $setting['key']], $setting);
+            
+            // Auto-load logo and favicon if they exist in public images
+            if ($setting['key'] === 'site_logo' && file_exists(public_path('images/logo.svg'))) {
+                if ($settingModel->getMedia('image')->isEmpty()) {
+                    $settingModel->addMedia(public_path('images/logo.svg'))
+                        ->preservingOriginal()
+                        ->toMediaCollection('image');
+                }
+            }
         }
     }
 }
