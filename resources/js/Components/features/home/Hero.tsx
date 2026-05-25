@@ -50,24 +50,20 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                                 Lihat Katalog
                                 <ChevronRight className="ml-2 w-5 h-5" />
                             </Link>
-                            <a 
-                                href={whatsappUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className={cn(
-                                    buttonVariants({ variant: 'outline' }),
-                                    "border-stone-700 text-white hover:bg-stone-900 font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto flex items-center justify-center"
-                                )}
+                            <button 
+                                type="button"
+                                onClick={() => window.open(whatsappUrl, '_blank', 'noopener,noreferrer')}
+                                className="inline-flex items-center justify-center border border-stone-700 bg-transparent text-white hover:bg-stone-900 hover:text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto transition-colors cursor-pointer"
                             >
                                 Konsultasi Gratis
-                            </a>
+                            </button>
                         </div>
                     </div>
 
                     {/* Right: Visual Area (Auto Slider) */}
                     <div className="relative hidden lg:flex items-center justify-center">
                         <HeroImageSlider heroImageUrl={heroImageUrl} />
-                    </div>
+                    </div>  
                 </div>
             </div>
 
