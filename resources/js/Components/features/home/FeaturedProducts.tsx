@@ -30,7 +30,7 @@ export default function FeaturedProducts({ products }: Props) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {products.map((product) => (
                         <div key={product.id} className="group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-                            <div className="aspect-[4/5] overflow-hidden relative">
+                            <div className="aspect-4/5 overflow-hidden relative">
                                 <img 
                                     src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 

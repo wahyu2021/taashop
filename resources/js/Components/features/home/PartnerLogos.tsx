@@ -22,8 +22,8 @@ export default function PartnerLogos({ partners }: Props) {
                 
                 <div className="relative overflow-hidden">
                     {/* Gradient Overlays for smooth fade effect */}
-                    <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-linear-to-r from-white to-transparent pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-linear-to-l from-white to-transparent pointer-events-none" />
 
                     <motion.div 
                         className="flex items-center gap-x-10 md:gap-x-16 whitespace-nowrap"
@@ -34,7 +34,7 @@ export default function PartnerLogos({ partners }: Props) {
                         {duplicatedPartners.map((partner, index) => (
                             <div 
                                 key={`${partner.id}-${index}`} 
-                                className="flex-shrink-0 h-10 md:h-14 flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                                className="shrink-0 h-10 md:h-14 flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                             >
                                 {partner.logo_url ? (
                                     <img 

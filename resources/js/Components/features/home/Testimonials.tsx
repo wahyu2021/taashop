@@ -26,8 +26,8 @@ export default function Testimonials({ testimonials }: Props) {
 
                 <div className="relative overflow-hidden">
                     {/* Gradient Overlays for smooth fade effect */}
-                    <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-stone-50 to-transparent pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-stone-50 to-transparent pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-linear-to-r from-stone-50 to-transparent pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-linear-to-l from-stone-50 to-transparent pointer-events-none" />
 
                     <motion.div 
                         className="flex items-stretch gap-x-8 whitespace-normal"
@@ -43,7 +43,7 @@ export default function Testimonials({ testimonials }: Props) {
                         {duplicatedTestimonials.map((item, index) => (
                             <div 
                                 key={`${item.id}-${index}`} 
-                                className="w-[350px] flex-shrink-0 bg-white p-10 border border-stone-100 shadow-sm relative group hover:border-orange-200 transition-all duration-300"
+                                className="w-87.5 shrink-0 bg-white p-10 border border-stone-100 shadow-sm relative group hover:border-orange-200 transition-all duration-300"
                             >
                                 <Quote className="absolute top-6 right-6 text-stone-100 group-hover:text-orange-100 transition-colors w-12 h-12" />
                                 
@@ -72,7 +72,7 @@ export default function Testimonials({ testimonials }: Props) {
                                 )}
 
                                 <div className="flex items-center gap-4 mt-auto">
-                                    <div className="w-12 h-12 flex-shrink-0 rounded-full bg-stone-100 overflow-hidden border-2 border-white shadow-md">
+                                    <div className="w-12 h-12 shrink-0 rounded-full bg-stone-100 overflow-hidden border-2 border-white shadow-md">
                                         <img 
                                             src={item.avatar_url || '/images/placeholder.svg'} 
                                             alt={item.customer_name} 

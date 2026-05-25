@@ -29,7 +29,7 @@ export default function PortfolioShowcase({ portfolios }: Props) {
                             alt={item.title} 
                             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-orange-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <div className="absolute inset-0 bg-linear-to-t from-orange-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                             <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                 <p className="text-white text-[10px] font-black uppercase tracking-widest mb-1">
                                     {item.client_name || 'Project'}
