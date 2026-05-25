@@ -14,7 +14,8 @@ export default function Navbar() {
         { name: 'Beranda', href: '/', active: route().current('home') },
         { name: 'Katalog', href: '/catalog', active: route().current('catalog.*') },
         { name: 'Portfolio', href: '/portfolio', active: route().current('portfolio.*') },
-        { name: 'Tentang Kami', href: '/about', active: route().current('about') },
+        { name: 'Tentang', href: '/about', active: route().current('about') },
+        { name: 'FAQ', href: '/faq', active: route().current('faq') },
         { name: 'Kontak', href: '/contact', active: route().current('contact') },
     ];
 
