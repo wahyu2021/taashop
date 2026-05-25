@@ -59,7 +59,7 @@ export default function Footer() {
                                 { name: 'Katalog Produk', href: '/catalog' },
                                 { name: 'Portfolio Kami', href: '/portfolio' },
                                 { name: 'Tentang Taaashop', href: '/about' },
-                                { name: 'Cara Pemesanan', href: '/how-to-order' },
+                                { name: 'Bantuan & FAQ', href: '/faq' },
                                 { name: 'Hubungi Kami', href: '/contact' },
                             ].map((item) => (
                                 <li key={item.name}>
@@ -79,10 +79,10 @@ export default function Footer() {
                         <h4 className="text-lg font-black uppercase tracking-wider mb-8 text-orange-600">Informasi</h4>
                         <ul className="space-y-4">
                             {[
-                                { name: 'Kebijakan Privasi', href: '/privacy' },
-                                { name: 'Syarat & Ketentuan', href: '/terms' },
-                                { name: 'FAQ', href: '/faq' },
-                                { name: 'Cek Status Pesanan', href: '/order-status' },
+                                { name: 'Bantuan (FAQ)', href: '/faq' },
+                                { name: 'Konsultasi Pesanan', href: '/contact' },
+                                { name: 'Profil Perusahaan', href: '/about' },
+                                { name: 'Login Admin', href: '/login' },
                             ].map((item) => (
                                 <li key={item.name}>
                                     <Link 
