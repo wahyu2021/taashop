@@ -57,4 +57,16 @@ class PortfolioService
     {
         return PortfolioData::collect($this->repository->getPublished($limit));
     }
+
+    public function getFilteredPortfoliosForPublic(array $filters = [], int $perPage = 12)
+    {
+        $paginator = $this->repository->getFilteredPublished($filters, $perPage);
+        return PortfolioData::collect($paginator);
+    }
+
+    public function getPortfolioDetail(string $slug): ?PortfolioData
+    {
+        $portfolio = $this->repository->findBySlug($slug);
+        return $portfolio ? PortfolioData::fromModel($portfolio) : null;
+    }
 }

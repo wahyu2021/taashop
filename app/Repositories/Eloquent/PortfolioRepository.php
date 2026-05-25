@@ -43,6 +43,11 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         return Portfolio::with('category')->find($id);
     }
 
+    public function findBySlug(string $slug): ?Portfolio
+    {
+        return Portfolio::with('category')->where('slug', $slug)->where('status', ProductStatus::PUBLISHED)->first();
+    }
+
     public function create(array $data): Portfolio
     {
         $portfolio = Portfolio::create($data);
@@ -85,5 +90,27 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         }
 
         return $query->get();
+    }
+
+    public function getFilteredPublished(array $filters = [], int $perPage = 12)
+    {
+        $query = Portfolio::with('category')
+            ->where('status', ProductStatus::PUBLISHED);
+
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('title', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('client_name', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        return $query->orderBy('order_priority', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->paginate($filters['per_page'] ?? $perPage)
+            ->withQueryString();
     }
 }

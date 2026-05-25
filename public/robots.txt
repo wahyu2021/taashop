@@ -1,2 +1,27 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Block admin panel and internal system routes
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /profile
+
+# Block authentication routes
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /email/
+Disallow: /reset-password/
+
+# Block system and build directories
+Disallow: /build/
+Disallow: /vendor/
+Disallow: /storage/
+
+# Allow indexing for main content
+Allow: /catalog/
+Allow: /portfolio/
+Allow: /images/
+
+# Host sitemap (uncomment and update once sitemap is generated)
+# Sitemap: https://taaashop.com/sitemap.xml
