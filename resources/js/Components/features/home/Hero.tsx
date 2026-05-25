@@ -53,7 +53,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                             <button 
                                 type="button"
                                 onClick={() => window.open(whatsappUrl, '_blank', 'noopener,noreferrer')}
-                                className="inline-flex items-center justify-center border border-stone-700 bg-transparent text-white hover:bg-stone-900 hover:text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto transition-colors cursor-pointer"
+                                className="inline-flex items-center justify-center bg-transparent border border-stone-700 text-white hover:bg-stone-900 hover:text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto transition-colors cursor-pointer"
                             >
                                 Konsultasi Gratis
                             </button>
