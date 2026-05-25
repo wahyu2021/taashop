@@ -82,7 +82,6 @@ export default function Footer() {
                                 { name: 'Bantuan (FAQ)', href: '/faq' },
                                 { name: 'Konsultasi Pesanan', href: '/contact' },
                                 { name: 'Profil Perusahaan', href: '/about' },
-                                { name: 'Login Admin', href: '/login' },
                             ].map((item) => (
                                 <li key={item.name}>
                                     <Link 
