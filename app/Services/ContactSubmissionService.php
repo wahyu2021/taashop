@@ -44,4 +44,11 @@ class ContactSubmissionService
     {
         return ContactSubmissionData::collect($this->repository->getLatest($limit));
     }
+
+    public function createSubmission(array $data)
+    {
+        // Force initial status to UNREAD for security/consistency
+        $data['status'] = \App\Enums\SubmissionStatus::UNREAD;
+        return $this->repository->create($data);
+    }
 }

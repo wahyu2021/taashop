@@ -14,6 +14,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', [PublicPageController::class, 'about'])->name('about');
 Route::get('/faq', [PublicPageController::class, 'faq'])->name('faq');
+Route::get('/contact', [PublicPageController::class, 'contact'])->name('contact');
+Route::post('/contact', [PublicPageController::class, 'submitContact'])->name('contact.submit');
 
 Route::prefix('catalog')->name('catalog.')->group(function () {
     Route::get('/', [PublicProductController::class, 'index'])->name('index');
