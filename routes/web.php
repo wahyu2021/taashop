@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -16,6 +16,8 @@ Route::get('/about', [PublicPageController::class, 'about'])->name('about');
 Route::get('/faq', [PublicPageController::class, 'faq'])->name('faq');
 Route::get('/contact', [PublicPageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PublicPageController::class, 'submitContact'])->name('contact.submit');
+Route::get('/privacy', [PublicPageController::class, 'privacy'])->name('privacy');
+Route::get('/terms', [PublicPageController::class, 'terms'])->name('terms');
 
 Route::prefix('catalog')->name('catalog.')->group(function () {
     Route::get('/', [PublicProductController::class, 'index'])->name('index');

@@ -33,6 +33,16 @@ class PublicPageController extends Controller
         return Inertia::render('Information/Contact');
     }
 
+    public function privacy(): Response
+    {
+        return Inertia::render('Information/Privacy');
+    }
+
+    public function terms(): Response
+    {
+        return Inertia::render('Information/Terms');
+    }
+
     public function submitContact(Request $request): RedirectResponse
     {
         $validated = $request->validate([
