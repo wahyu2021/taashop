@@ -30,7 +30,6 @@ export default function Contact() {
             preserveScroll: true,
             onSuccess: () => {
                 reset();
-                toast.success('Pesan Anda berhasil dikirim! Tim kami akan segera merespons.');
             },
         });
     };
