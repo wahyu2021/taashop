@@ -43,7 +43,7 @@ interface Props {
         status?: string;
         per_page?: string;
     };
-    statuses: string[];
+    statuses: { name: string, value: string }[];
 }
 
 export default function Index({ submissions, filters, statuses }: Props) {
@@ -124,11 +124,11 @@ export default function Index({ submissions, filters, statuses }: Props) {
                             <PopoverContent className="w-56 p-2" align="end">
                                 <div className="space-y-1">
                                     {statuses.map(s => {
-                                        const val = s.toLowerCase();
+                                        const val = s.value;
                                         const active = filters.status === val;
                                         return (
                                             <Button key={val} variant={active ? 'default' : 'ghost'} className="w-full justify-start text-[10px] font-black uppercase tracking-widest h-9" onClick={() => updateFilters({ status: active ? null : val })}>
-                                                {s}
+                                                {s.name}
                                             </Button>
                                         );
                                     })}

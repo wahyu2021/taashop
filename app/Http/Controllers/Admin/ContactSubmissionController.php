@@ -24,7 +24,10 @@ class ContactSubmissionController extends Controller
         return Inertia::render('Admin/Inbox/Index', [
             'submissions' => $this->service->getFilteredSubmissions($filters),
             'filters' => $filters,
-            'statuses' => SubmissionStatus::cases()
+            'statuses' => collect(SubmissionStatus::cases())->map(fn($s) => [
+                'name' => $s->label(),
+                'value' => $s->value
+            ])
         ]);
     }
 
@@ -37,7 +40,10 @@ class ContactSubmissionController extends Controller
 
         return Inertia::render('Admin/Inbox/Show', [
             'submission' => $this->service->getSubmissionById($inbox->id),
-            'statuses' => SubmissionStatus::cases()
+            'statuses' => collect(SubmissionStatus::cases())->map(fn($s) => [
+                'name' => $s->label(),
+                'value' => $s->value
+            ])
         ]);
     }
 
