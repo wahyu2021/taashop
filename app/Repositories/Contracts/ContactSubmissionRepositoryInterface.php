@@ -13,4 +13,5 @@ interface ContactSubmissionRepositoryInterface
     public function updateStatus(int $id, string $status): bool;
     public function delete(int $id): bool;
     public function getLatest(int $limit = 5): Collection;
+    public function create(array $data): ContactSubmission;
 }

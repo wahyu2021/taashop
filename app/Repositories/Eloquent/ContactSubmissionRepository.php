@@ -59,4 +59,9 @@ class ContactSubmissionRepository implements ContactSubmissionRepositoryInterfac
     {
         return ContactSubmission::latest('submitted_at')->limit($limit)->get();
     }
+
+    public function create(array $data): ContactSubmission
+    {
+        return ContactSubmission::create($data);
+    }
 }
