@@ -47,8 +47,8 @@ class ContactSubmissionService
 
     public function createSubmission(array $data)
     {
-        // Force initial status to UNREAD for security/consistency
-        $data['status'] = \App\Enums\SubmissionStatus::UNREAD;
+        // Force initial status to NEW for security/consistency
+        $data['status'] = \App\Enums\SubmissionStatus::NEW;
         return $this->repository->create($data);
     }
 }
