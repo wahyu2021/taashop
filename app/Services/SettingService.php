@@ -79,7 +79,7 @@ class SettingService
 
         foreach ($settings as $setting) {
             if ($setting->type === 'image') {
-                $siteSettings[$setting->key] = $setting->getFirstMediaUrl('image');
+                $siteSettings[$setting->key] = $setting->getFirstMediaUrl('image', 'webp') ?: $setting->getFirstMediaUrl('image');
             } else {
                 $siteSettings[$setting->key] = $setting->value;
             }

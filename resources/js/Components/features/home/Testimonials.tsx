@@ -66,6 +66,7 @@ export default function Testimonials({ testimonials }: Props) {
                                         <img 
                                             src={item.proof_url} 
                                             alt="Bukti Testimoni" 
+                                            loading="lazy"
                                             className="w-full h-auto aspect-video object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
                                         />
                                     </div>
@@ -76,6 +77,7 @@ export default function Testimonials({ testimonials }: Props) {
                                         <img 
                                             src={item.avatar_url || '/images/placeholder.svg'} 
                                             alt={item.customer_name} 
+                                            loading="lazy"
                                             className="w-full h-full object-cover"
                                         />
                                     </div>

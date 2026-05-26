@@ -36,10 +36,33 @@ export default function Home({
 }: Props) {
     const { site_settings } = usePage<PageProps>().props;
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}`;
+    
+    // SEO Data Fallbacks
+    const metaTitle = site_settings?.hero_title ? `${site_settings.hero_title} | Taaashop` : 'Taaashop - Premium Jersey & Sablon Custom';
+    const metaDescription = site_settings?.hero_description || 'Taaashop adalah partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
 
     return (
         <PublicLayout>
-            <Head title="Home - Premium Jersey & Sablon" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta name="keywords" content="jersey custom, sablon kaos, vendor jersey, jersey printing, sablon premium, taaashop" />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+
+                {/* Twitter */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* 1. Hero Section */}
             <Hero 

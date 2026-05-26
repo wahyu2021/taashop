@@ -40,6 +40,7 @@ export default function PartnerLogos({ partners }: Props) {
                                     <img 
                                         src={partner.logo_url} 
                                         alt={partner.name} 
+                                        loading="lazy"
                                         className="max-h-full w-auto object-contain" 
                                         title={partner.name}
                                     />

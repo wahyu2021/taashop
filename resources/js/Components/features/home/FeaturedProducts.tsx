@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 import { ProductData } from '@/types';
+import { motion } from 'framer-motion';
 
 interface Props {
     products: ProductData[];
@@ -11,7 +12,13 @@ export default function FeaturedProducts({ products }: Props) {
 
     return (
         <section className="py-24 bg-stone-50 overflow-hidden">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex justify-between items-end">
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5 }}
+                className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex justify-between items-end"
+            >
                 <div>
                     <h2 className="text-4xl sm:text-5xl font-black text-stone-900 uppercase tracking-tighter mb-4">
                         Produk <span className="text-orange-600">Terbaik</span>
@@ -24,16 +31,24 @@ export default function FeaturedProducts({ products }: Props) {
                     Semua Produk
                     <ArrowRight size={18} />
                 </Link>
-            </div>
+            </motion.div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {products.map((product) => (
-                        <div key={product.id} className="group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 sm:overflow-visible sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {products.map((product, index) => (
+                        <motion.div 
+                            key={product.id} 
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="shrink-0 w-[85vw] sm:w-auto snap-center group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
+                        >
                             <div className="aspect-4/5 overflow-hidden relative">
                                 <img 
                                     src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 
+                                    loading="lazy"
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 {product.category && (
@@ -55,7 +70,7 @@ export default function FeaturedProducts({ products }: Props) {
                                     Lihat Detail <ArrowRight size={14} />
                                 </Link>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>

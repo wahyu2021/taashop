@@ -9,9 +9,9 @@ export default function HeroImageSlider({ heroImageUrl }: HeroImageSliderProps) 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const slideImages = [
-        heroImageUrl || '/images/hero-jersey.png',
-        '/images/hero-jersey-2.png',
-        '/images/hero-jersey-3.png',
+        heroImageUrl || '/images/hero-jersey.webp',
+        '/images/hero-jersey-2.webp',
+        '/images/hero-jersey-3.webp',
     ];
 
     useEffect(() => {
