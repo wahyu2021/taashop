@@ -19,6 +19,7 @@ import {
     HelpCircle
 } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AdminLayout({ children }: PropsWithChildren) {
     const user = usePage().props.auth.user;
@@ -233,9 +234,15 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                 </header>
 
                 {/* Content */}
-                <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto">
+                <motion.main 
+                    key={usePage().url}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className="flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto"
+                >
                     {children}
-                </main>
+                </motion.main>
 
                 {/* Footer */}
                 <footer className="px-4 py-8 text-center border-t border-border lg:px-8 bg-stone-50/30 mt-auto">
