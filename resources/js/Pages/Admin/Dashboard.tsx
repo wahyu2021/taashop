@@ -7,6 +7,7 @@ import { Button } from '@/Components/ui/button';
 import { Package, Inbox, ShoppingBag, Layers } from 'lucide-react';
 import StatCard from '@/Components/features/dashboard/StatCard';
 import QuickGuide from '@/Components/features/dashboard/QuickGuide';
+import { motion } from 'framer-motion';
 
 export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardStats }>) {
     const statCards = [
@@ -49,24 +50,42 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
             <Head title="Admin Dashboard" />
 
             {/* Welcome Section */}
-            <div className="mb-8">
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8"
+            >
                 <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
                     Halo, {auth.user.name}! 👋
                 </h1>
                 <p className="text-stone-500 mt-1 font-medium">
                     Selamat datang kembali di panel manajemen <span className="text-primary font-bold">Taaashop</span>.
                 </p>
-            </div>
+            </motion.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {statCards.map((stat, index) => (
-                    <StatCard key={index} {...stat} />
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        whileHover={{ scale: 1.02 }}
+                    >
+                        <StatCard {...stat} />
+                    </motion.div>
                 ))}
             </div>
 
             {/* Quick Actions / Activity */}
-            <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3"
+            >
                 <Card className="lg:col-span-2 border-none shadow-sm overflow-hidden bg-white/50 backdrop-blur-sm">
                     <CardHeader className="border-b border-stone-100 bg-stone-50/50">
                         <CardTitle className="text-lg font-bold flex items-center gap-2">
@@ -98,7 +117,7 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
                 </Card>
                 
                 <QuickGuide />
-            </div>
+            </motion.div>
         </AdminLayout>
     );
 }
