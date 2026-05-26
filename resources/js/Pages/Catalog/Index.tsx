@@ -1,5 +1,5 @@
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { PageProps, ProductData, CategoryData, PaginatedData } from '@/types';
 import { Input } from '@/Components/ui/input';
 import { Button, buttonVariants } from '@/Components/ui/button';
@@ -18,6 +18,7 @@ interface Props {
 }
 
 export default function CatalogIndex({ products, categories, filters }: Props) {
+    const { site_settings } = usePage<PageProps>().props;
     const [search, setSearch] = useState(filters.search || '');
     const [selectedCategory, setSelectedCategory] = useState(filters.category_id || '');
     const debouncedSearch = useDebounce(search, 500);
@@ -34,9 +35,26 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
         );
     };
 
+    const metaTitle = 'Katalog Produk | Taaashop';
+    const metaDescription = site_settings?.hero_description || 'Pilih berbagai kategori produk kustom yang kami sediakan untuk kebutuhan tim Anda.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title="Katalog Produk - Taaashop" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20">
@@ -108,6 +126,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                         <img 
                                             src={product.image_url || '/images/placeholder.svg'} 
                                             alt={product.title} 
+                                            loading="lazy"
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-stone-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

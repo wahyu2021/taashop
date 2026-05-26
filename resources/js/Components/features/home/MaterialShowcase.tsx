@@ -32,12 +32,12 @@ export default function MaterialShowcase({ materials }: Props) {
 
                             {/* Material Image */}
                             <div className="relative w-full aspect-square overflow-hidden bg-stone-200">
-                                <img 
-                                    src={material.image_url || '/images/placeholder.svg'} 
-                                    alt={material.name} 
+                                <img
+                                    src={material.image_url || '/images/placeholder.svg'}
+                                    alt={material.name}
+                                    loading="lazy"
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                                />
-                            </div>
+                                />                            </div>
 
                             {/* Material Info */}
                             <div className="relative z-10 p-6 flex flex-col grow">

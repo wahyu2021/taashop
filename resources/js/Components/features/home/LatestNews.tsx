@@ -33,12 +33,12 @@ export default function LatestNews({ news }: Props) {
                     {news.map((item) => (
                         <div key={item.id} className="group flex flex-col h-full bg-white border border-stone-100 hover:border-stone-200 transition-all">
                             <Link href={`/news/${item.slug}`} className="aspect-video overflow-hidden bg-stone-100 relative">
-                                <img 
-                                    src={item.image_url || '/images/placeholder.svg'} 
-                                    alt={item.title} 
+                                <img
+                                    src={item.image_url || '/images/placeholder.svg'}
+                                    alt={item.title}
+                                    loading="lazy"
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                            </Link>
+                                />                            </Link>
                             <div className="p-8 flex flex-col grow">
                                 <div className="flex items-center gap-2 text-stone-400 text-[10px] font-bold uppercase tracking-widest mb-4">
                                     <Calendar size={12} className="text-orange-600" />

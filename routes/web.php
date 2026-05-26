@@ -6,9 +6,7 @@ use App\Http\Controllers\PublicProductController;
 use App\Http\Controllers\PublicPortfolioController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

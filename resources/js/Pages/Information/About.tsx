@@ -27,9 +27,26 @@ export default function About() {
         }
     ];
 
+    const metaTitle = 'Tentang Kami | Taaashop';
+    const metaDescription = 'Taaashop adalah partner strategis dalam menciptakan pakaian olahraga yang merepresentasikan kebanggaan dan semangat juang tim Anda.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title="Tentang Kami - Taaashop" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20 relative overflow-hidden">

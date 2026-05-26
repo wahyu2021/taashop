@@ -36,9 +36,26 @@ export default function Contact() {
 
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya ingin berkonsultasi mengenai pembuatan jersey.`;
 
+    const metaTitle = 'Hubungi Kami | Taaashop';
+    const metaDescription = 'Punya pertanyaan seputar produk, pemesanan, atau ingin konsultasi desain? Tim kami siap membantu Anda kapan saja.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title="Hubungi Kami - Taaashop" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20 relative overflow-hidden">

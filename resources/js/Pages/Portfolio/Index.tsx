@@ -1,6 +1,6 @@
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Head, Link, router } from '@inertiajs/react';
-import { CategoryData, PaginatedData, PortfolioData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CategoryData, PaginatedData, PortfolioData, PageProps } from '@/types';
 import { Input } from '@/Components/ui/input';
 import { Button } from '@/Components/ui/button';
 import { Search, ArrowRight, Grid, List as ListIcon } from 'lucide-react';
@@ -19,6 +19,7 @@ interface Props {
 }
 
 export default function PortfolioIndex({ portfolios, categories, filters }: Props) {
+    const { site_settings } = usePage<PageProps>().props;
     const [search, setSearch] = useState(filters.search || '');
     const [selectedCategory, setSelectedCategory] = useState(filters.category_id || '');
     const debouncedSearch = useDebounce(search, 500);
@@ -35,9 +36,26 @@ export default function PortfolioIndex({ portfolios, categories, filters }: Prop
         );
     };
 
+    const metaTitle = 'Galeri Portofolio | Taaashop';
+    const metaDescription = 'Lihat hasil nyata produksi jersey dan sablon kustom berkualitas premium untuk berbagai klien kami.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title="Portofolio - Hasil Karya Taaashop" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20">
@@ -117,6 +135,7 @@ export default function PortfolioIndex({ portfolios, categories, filters }: Prop
                                         <img
                                             src={portfolio.image_url || '/images/placeholder.svg'}
                                             alt={portfolio.title}
+                                            loading="lazy"
                                             className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                                         />
                                         <div className="absolute top-4 right-4 bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 shadow-md">

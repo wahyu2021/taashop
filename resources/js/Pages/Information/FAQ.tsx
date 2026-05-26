@@ -14,9 +14,26 @@ export default function FAQ({ faqs }: Props) {
     const { site_settings } = usePage<PageProps>().props;
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya ada pertanyaan sebelum membuat pesanan.`;
 
+    const metaTitle = 'FAQ & Cara Pemesanan | Taaashop';
+    const metaDescription = 'Panduan lengkap langkah pemesanan serta jawaban dari pertanyaan yang sering ditanyakan oleh pelanggan kami.';
+    const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title="Bantuan & Cara Pemesanan - Taaashop" />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Page Header */}
             <section className="bg-stone-950 py-20 relative overflow-hidden">

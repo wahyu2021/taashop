@@ -15,9 +15,26 @@ export default function CatalogShow({ product, related_products }: Props) {
 
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya tertarik dengan produk: ${product.title}. Bisa minta info lebih lanjut?`;
 
+    const metaTitle = `${product.title} | Katalog Taaashop`;
+    const metaDescription = product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 160) : 'Detail produk Taaashop.';
+    const metaImage = product.image_url || site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
+
     return (
         <PublicLayout>
-            <Head title={`${product.title} - Katalog Taaashop`} />
+            <Head>
+                <title>{metaTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:title" content={metaTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:image" content={metaImage} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={window.location.href} />
+                <meta property="twitter:title" content={metaTitle} />
+                <meta property="twitter:description" content={metaDescription} />
+                <meta property="twitter:image" content={metaImage} />
+            </Head>
 
             {/* Breadcrumb / Back */}
             <div className="bg-stone-50 border-b border-stone-200">
@@ -41,6 +58,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                                 <img 
                                     src={product.image_url || '/images/placeholder.svg'} 
                                     alt={product.title} 
+                                    loading="lazy"
                                     className="w-full h-auto object-cover aspect-square"
                                 />
                             </div>
@@ -131,6 +149,7 @@ export default function CatalogShow({ product, related_products }: Props) {
                                     <img 
                                         src={item.image_url || '/images/placeholder.svg'} 
                                         alt={item.title} 
+                                        loading="lazy"
                                         className="w-full h-full object-cover transition-transform group-hover:scale-105"
                                     />
                                 </div>
@@ -146,4 +165,3 @@ export default function CatalogShow({ product, related_products }: Props) {
         </PublicLayout>
     );
 }
-

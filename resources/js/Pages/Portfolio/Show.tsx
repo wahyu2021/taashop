@@ -137,6 +137,7 @@ export default function PortfolioShow({ portfolio, related_portfolios }: Props) 
                                     <img 
                                         src={item.image_url || '/images/placeholder.svg'} 
                                         alt={item.title}
+                                        loading="lazy"
                                         className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-linear-to-t from-black/90 to-transparent flex items-end p-6">
