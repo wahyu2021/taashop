@@ -38,7 +38,7 @@ export default function Home({
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}`;
     
     // SEO Data Fallbacks
-    const metaTitle = site_settings?.hero_title ? `${site_settings.hero_title} | Taaashop` : 'Taaashop - Premium Jersey & Sablon Custom';
+    const metaTitle = site_settings?.hero_title ? `${site_settings.hero_title} | Taaashop` : 'Premium Jersey & Sablon Custom | Taaashop';
     const metaDescription = site_settings?.hero_description || 'Taaashop adalah partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.';
     const metaImage = site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
 
