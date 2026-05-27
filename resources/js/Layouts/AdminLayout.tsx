@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState, useEffect } from 'react';
 import { 
     LayoutDashboard, 
     ShoppingBag, 
@@ -20,10 +20,23 @@ import {
 } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Toaster } from '@/Components/ui/sonner';
+import { toast } from 'sonner';
+import { PageProps } from '@/types';
 
 export default function AdminLayout({ children }: PropsWithChildren) {
-    const user = usePage().props.auth.user;
+    const { auth, flash } = usePage<PageProps>().props;
+    const user = auth.user;
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success);
+        }
+        if (flash.error) {
+            toast.error(flash.error);
+        }
+    }, [flash]);
 
     const navigation = [
         {
@@ -324,6 +337,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                     </p>
                 </footer>
             </div>
+            <Toaster position="top-right" richColors />
         </div>
     );
 }
