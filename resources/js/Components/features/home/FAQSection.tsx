@@ -6,14 +6,13 @@ import {
     AccordionTrigger,
 } from "@/Components/ui/accordion";
 import { HelpCircle } from 'lucide-react';
+import EmptyState from '@/Components/shared/EmptyState';
 
 interface Props {
     faqs: FAQData[];
 }
 
 export default function FAQSection({ faqs }: Props) {
-    if (faqs.length === 0) return null;
-
     return (
         <section className="py-24 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,22 +31,31 @@ export default function FAQSection({ faqs }: Props) {
                     </div>
 
                     <div className="bg-stone-50 p-8 sm:p-12 border border-stone-100">
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                            {faqs.map((faq) => (
-                                <AccordionItem 
-                                    key={faq.id} 
-                                    value={`item-${faq.id}`}
-                                    className="border-b border-stone-200 last:border-none"
-                                >
-                                    <AccordionTrigger className="text-left font-black uppercase tracking-tight text-stone-900 hover:text-orange-600 transition-colors py-4">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-stone-600 leading-relaxed text-sm pb-6">
-                                        {faq.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
+                        {faqs.length > 0 ? (
+                            <Accordion type="single" collapsible className="w-full space-y-4">
+                                {faqs.map((faq) => (
+                                    <AccordionItem 
+                                        key={faq.id} 
+                                        value={`item-${faq.id}`}
+                                        className="border-b border-stone-200 last:border-none"
+                                    >
+                                        <AccordionTrigger className="text-left font-black uppercase tracking-tight text-stone-900 hover:text-orange-600 transition-colors py-4">
+                                            {faq.question}
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-stone-600 leading-relaxed text-sm pb-6">
+                                            {faq.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        ) : (
+                            <EmptyState 
+                                title="FAQ Sedang Disiapkan"
+                                message="Pusat bantuan kami sedang diperbarui dengan informasi terbaru. Silakan hubungi kami langsung jika ada pertanyaan mendesak."
+                                icon={HelpCircle}
+                                className="bg-white border-stone-100 border-none py-10"
+                            />
+                        )}
                     </div>
                 </div>
             </div>

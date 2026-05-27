@@ -1,15 +1,14 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { ProductData } from '@/types';
 import { motion } from 'framer-motion';
+import EmptyState from '@/Components/shared/EmptyState';
 
 interface Props {
     products: ProductData[];
 }
 
 export default function FeaturedProducts({ products }: Props) {
-    if (products.length === 0) return null;
-
     return (
         <section className="py-24 bg-stone-50 overflow-hidden">
             <motion.div 
@@ -27,52 +26,63 @@ export default function FeaturedProducts({ products }: Props) {
                         Pilih berbagai kategori produk kustom yang kami sediakan untuk kebutuhan tim Anda.
                     </p>
                 </div>
-                <Link href="/catalog" className="hidden sm:flex items-center gap-2 text-sm font-black uppercase tracking-widest text-orange-600 hover:text-stone-900 transition-colors">
-                    Semua Produk
-                    <ArrowRight size={18} />
-                </Link>
+                {products.length > 0 && (
+                    <Link href="/catalog" className="hidden sm:flex items-center gap-2 text-sm font-black uppercase tracking-widest text-orange-600 hover:text-stone-900 transition-colors">
+                        Semua Produk
+                        <ArrowRight size={18} />
+                    </Link>
+                )}
             </motion.div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 sm:overflow-visible sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    {products.map((product, index) => (
-                        <motion.div 
-                            key={product.id} 
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="shrink-0 w-[85vw] sm:w-auto snap-center group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
-                        >
-                            <div className="aspect-4/5 overflow-hidden relative">
-                                <img 
-                                    src={product.image_url || '/images/placeholder.svg'} 
-                                    alt={product.title} 
-                                    loading="lazy"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                {product.category && (
-                                    <div className="absolute top-4 left-4">
-                                        <span className="bg-stone-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1">
-                                            {product.category.name}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="p-6">
-                                <h3 className="text-lg font-black uppercase tracking-tight mb-2 text-stone-900 truncate">
-                                    {product.title}
-                                </h3>
-                                <Link 
-                                    href={`/catalog/${product.slug}`}
-                                    className="text-orange-600 text-xs font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
-                                >
-                                    Lihat Detail <ArrowRight size={14} />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                {products.length > 0 ? (
+                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 sm:overflow-visible sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        {products.map((product, index) => (
+                            <motion.div 
+                                key={product.id} 
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="shrink-0 w-[85vw] sm:w-auto snap-center group bg-white border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
+                            >
+                                <div className="aspect-4/5 overflow-hidden relative">
+                                    <img 
+                                        src={product.image_url || '/images/placeholder.svg'} 
+                                        alt={product.title} 
+                                        loading="lazy"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    {product.category && (
+                                        <div className="absolute top-4 left-4">
+                                            <span className="bg-stone-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+                                                {product.category.name}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="text-lg font-black uppercase tracking-tight mb-2 text-stone-900 truncate">
+                                        {product.title}
+                                    </h3>
+                                    <Link 
+                                        href={`/catalog/${product.slug}`}
+                                        className="text-orange-600 text-xs font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                                    >
+                                        Lihat Detail <ArrowRight size={14} />
+                                    </Link>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                ) : (
+                    <EmptyState 
+                        title="Katalog Sedang Diperbarui"
+                        message="Kami sedang memperbarui daftar produk unggulan untuk Anda. Silakan cek kembali dalam waktu dekat."
+                        icon={ShoppingBag}
+                        className="bg-white border-stone-100"
+                    />
+                )}
             </div>
         </section>
     );
