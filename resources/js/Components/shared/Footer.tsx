@@ -28,9 +28,9 @@ export default function Footer() {
                             {site_settings?.hero_description || 'Taaashop menyediakan layanan pembuatan jersey dan sablon kustom berkualitas premium untuk tim dan komunitas Anda.'}
                         </p>
                         <div className="flex items-center gap-4">
-                            {site_settings?.social_instagram && (
+                            {site_settings?.instagram_url && (
                                 <a 
-                                    href={site_settings.social_instagram} 
+                                    href={site_settings.instagram_url} 
                                     target="_blank" 
                                     className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-orange-600 transition-colors p-2"
                                     aria-label="Instagram"
@@ -38,14 +38,24 @@ export default function Footer() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                                 </a>
                             )}
-                            {site_settings?.social_tiktok && (
+                            {site_settings?.tiktok_url && (
                                 <a 
-                                    href={site_settings.social_tiktok} 
+                                    href={site_settings.tiktok_url} 
                                     target="_blank" 
                                     className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-orange-600 transition-colors p-2"
                                     aria-label="TikTok"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                                </a>
+                            )}
+                            {site_settings?.facebook_url && (
+                                <a 
+                                    href={site_settings.facebook_url} 
+                                    target="_blank" 
+                                    className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-orange-600 transition-colors p-2"
+                                    aria-label="Facebook"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                                 </a>
                             )}
                         </div>
@@ -106,7 +116,7 @@ export default function Footer() {
                                     <MapPin size={20} />
                                 </div>
                                 <p className="text-stone-400 text-sm leading-relaxed">
-                                    {site_settings?.contact_address || 'Jl. Raya Taaashop No. 123, Kota Sablon, Indonesia'}
+                                    {site_settings?.office_address || 'Jl. Raya Taaashop No. 123, Kota Sablon, Indonesia'}
                                 </p>
                             </li>
                             <li className="flex gap-4 items-center">
@@ -114,7 +124,7 @@ export default function Footer() {
                                     <Phone size={20} />
                                 </div>
                                 <p className="text-stone-400 text-sm">
-                                    {site_settings?.contact_whatsapp || '+62 812 3456 7890'}
+                                    {site_settings?.whatsapp_number || '+62 812 3456 7890'}
                                 </p>
                             </li>
                             <li className="flex gap-4 items-center">
