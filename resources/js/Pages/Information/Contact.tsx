@@ -34,7 +34,7 @@ export default function Contact() {
         });
     };
 
-    const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya ingin berkonsultasi mengenai pembuatan jersey.`;
+    const whatsappUrl = `https://wa.me/${site_settings?.whatsapp_number?.replace(/\D/g, '')}?text=Halo Taaashop, saya ingin berkonsultasi mengenai pembuatan jersey.`;
 
     const metaTitle = 'Hubungi Kami | Taaashop';
     const metaDescription = 'Punya pertanyaan seputar produk, pemesanan, atau ingin konsultasi desain? Tim kami siap membantu Anda kapan saja.';
@@ -108,7 +108,7 @@ export default function Contact() {
                                             rel="noopener noreferrer"
                                             className="inline-flex font-bold text-green-600 hover:text-green-700 text-sm uppercase tracking-widest transition-colors"
                                         >
-                                            {site_settings?.contact_whatsapp || 'Chat Sekarang'}
+                                            {site_settings?.whatsapp_number || 'Chat Sekarang'}
                                         </a>
                                     </div>
                                 </div>
@@ -121,8 +121,8 @@ export default function Contact() {
                                     <div>
                                         <h4 className="font-black text-stone-900 uppercase tracking-tight mb-1">Telepon</h4>
                                         <p className="text-stone-500 text-sm mb-1">Hubungi kami secara langsung</p>
-                                        <a href={`tel:${site_settings?.contact_phone}`} className="font-bold text-stone-900 hover:text-orange-600 transition-colors">
-                                            {site_settings?.contact_phone || '-'}
+                                        <a href={`tel:${site_settings?.whatsapp_number}`} className="font-bold text-stone-900 hover:text-orange-600 transition-colors">
+                                            {site_settings?.whatsapp_number || '-'}
                                         </a>
                                     </div>
                                 </div>
