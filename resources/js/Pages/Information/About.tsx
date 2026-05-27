@@ -59,7 +59,7 @@ export default function About() {
                         <span className="inline-block bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1 mb-4">
                             Kisah Kami
                         </span>
-                        <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
                             Membangun <span className="text-orange-600">Identitas</span> Tim Anda
                         </h1>
                         <p className="text-stone-400 text-lg">
@@ -92,8 +92,8 @@ export default function About() {
                         <div className="relative">
                             <div className="aspect-[4/3] bg-stone-100 overflow-hidden shadow-2xl relative z-10 border border-stone-200">
                                 <img 
-                                    src="/images/placeholder.svg" 
-                                    alt="Proses Produksi Taaashop" 
+                                    src="/images/banner.webp" 
+                                    alt="Dedikasi Kualitas Taaashop" 
                                     className="w-full h-full object-cover"
                                 />
                             </div>
