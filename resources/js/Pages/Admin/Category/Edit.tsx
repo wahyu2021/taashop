@@ -12,6 +12,8 @@ import { Label } from '@/Components/ui/label';
 import { CategoryData } from '@/types';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
 import AdminSectionCard from '@/Components/shared/AdminSectionCard';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     category: CategoryData;
@@ -23,15 +25,21 @@ export default function Edit({ category }: Props) {
         type: category.type,
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('admin.categories.update', category.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus kategori ini? Semua produk terkait mungkin akan terpengaruh.')) {
-            destroy(route('admin.categories.destroy', category.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.categories.destroy', category.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -151,6 +159,14 @@ export default function Edit({ category }: Props) {
                     </AdminSectionCard>
                 </div>
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Kategori?"
+                description="Kategori yang dihapus mungkin mempengaruhi data produk atau galeri yang terkait. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

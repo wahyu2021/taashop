@@ -14,16 +14,31 @@ import { Plus, Edit, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     faqs: FAQData[];
 }
 
 export default function FAQIndex({ faqs }: Props) {
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
+
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus FAQ ini?')) {
-            router.delete(route('admin.faqs.destroy', id), {
-                onSuccess: () => toast.success('FAQ berhasil dihapus'),
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.faqs.destroy', deletingId), {
+                onSuccess: () => {
+                    toast.success('FAQ berhasil dihapus');
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                },
             });
         }
     };
@@ -59,8 +74,13 @@ export default function FAQIndex({ faqs }: Props) {
                         </TableHeader>
                         <TableBody>
                             {faqs.length > 0 ? (
-                                faqs.map((faq) => (
-                                    <TableRow key={faq.id}>
+                                faqs.map((faq, index) => (
+                                    <motion.tr 
+                                        key={faq.id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                    >
                                         <TableCell className="font-medium">
                                             #{faq.id}
                                         </TableCell>
@@ -86,7 +106,7 @@ export default function FAQIndex({ faqs }: Props) {
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -99,6 +119,14 @@ export default function FAQIndex({ faqs }: Props) {
                     </Table>
                 </div>
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus FAQ?"
+                description="FAQ yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

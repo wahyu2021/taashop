@@ -19,6 +19,8 @@ import { id } from 'date-fns/locale';
 import AdminFormHeader from '@/Components/shared/AdminFormHeader';
 import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import StatusBadge from '@/Components/shared/StatusBadge';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     submission: ContactSubmissionData;
@@ -30,9 +32,21 @@ export default function Show({ submission, statuses }: Props) {
         status: submission.status,
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const submitStatus = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('admin.inbox.update', submission.id!));
+    };
+
+    const handleDelete = () => {
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        router.delete(route('admin.inbox.destroy', submission.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     const waLink = `https://wa.me/${submission.phone?.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(submission.name)}%2C%20saya%20Admin%20Taaashop...`;
@@ -122,11 +136,7 @@ export default function Show({ submission, statuses }: Props) {
                             <Button 
                                 variant="ghost" 
                                 className="w-full text-destructive hover:text-destructive hover:bg-destructive/10 font-bold text-xs uppercase tracking-widest"
-                                onClick={() => {
-                                    if(confirm('Hapus pesan ini secara permanen?')) {
-                                        router.delete(route('admin.inbox.destroy', submission.id!));
-                                    }
-                                }}
+                                onClick={handleDelete}
                             >
                                 <Trash2 className="w-4 h-4 mr-2" /> Hapus Pesan
                             </Button>
@@ -144,6 +154,14 @@ export default function Show({ submission, statuses }: Props) {
                     </Card>
                 </div>
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Pesan?"
+                description="Pesan yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

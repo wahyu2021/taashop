@@ -12,6 +12,7 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     material: MaterialData;
@@ -32,6 +33,8 @@ export default function Edit({ material, statuses }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const addFeature = () => {
         if (newFeature.trim()) {
             setData('features', [...data.features, newFeature.trim()]);
@@ -49,9 +52,13 @@ export default function Edit({ material, statuses }: Props) {
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus material ini?')) {
-            destroy(route('admin.materials.destroy', material.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.materials.destroy', material.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -141,6 +148,14 @@ export default function Edit({ material, statuses }: Props) {
                     cancelHref={route('admin.materials.index')}
                 />
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Material?"
+                description="Data material ini akan dihapus permanen. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

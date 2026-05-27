@@ -9,6 +9,8 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     package: PackageData;
@@ -30,15 +32,21 @@ export default function Edit({ package: pkg, statuses, printTypes }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('admin.packages.update', pkg.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus paket harga ini?')) {
-            destroy(route('admin.packages.destroy', pkg.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.packages.destroy', pkg.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -125,6 +133,14 @@ export default function Edit({ package: pkg, statuses, printTypes }: Props) {
                     cancelHref={route('admin.packages.index')}
                 />
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Paket Harga?"
+                description="Data paket harga ini akan dihapus permanen. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

@@ -31,6 +31,8 @@ import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 import Pagination from '@/Components/shared/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     categories: PaginatedData<CategoryData>;
@@ -45,10 +47,22 @@ export default function Index({ categories, filters }: Props) {
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const debouncedSearch = useDebounce(searchQuery, 500);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
-            router.delete(route('admin.categories.destroy', id));
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.categories.destroy', deletingId), {
+                onFinish: () => {
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -165,8 +179,14 @@ export default function Index({ categories, filters }: Props) {
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
                             {categories.data && categories.data.length > 0 ? (
-                                categories.data.map((category) => (
-                                    <TableRow key={category.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
+                                categories.data.map((category, index) => (
+                                    <motion.tr 
+                                        key={category.id} 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="hover:bg-stone-50/50 transition-colors group border-stone-100"
+                                    >
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
@@ -203,7 +223,7 @@ export default function Index({ categories, filters }: Props) {
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -221,6 +241,14 @@ export default function Index({ categories, filters }: Props) {
                 <AdminTableFooter count={totalCount} label="Kategori" />
                 <Pagination links={categories.links} />
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Kategori?"
+                description="Kategori yang dihapus mungkin mempengaruhi data produk atau galeri yang terkait. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

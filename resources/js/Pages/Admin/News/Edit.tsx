@@ -9,6 +9,8 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     news: NewsData;
@@ -27,15 +29,21 @@ export default function Edit({ news, statuses }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('admin.news.update', news.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Hapus berita ini secara permanen?')) {
-            destroy(route('admin.news.destroy', news.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.news.destroy', news.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -108,6 +116,14 @@ export default function Edit({ news, statuses }: Props) {
                     </AdminSectionCard>
                 </FormSidebar>
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Berita?"
+                description="Berita atau artikel yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

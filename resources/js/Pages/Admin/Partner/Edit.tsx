@@ -9,6 +9,8 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     partner: PartnerData;
@@ -22,15 +24,21 @@ export default function Edit({ partner }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('admin.partners.update', partner.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus partner ini?')) {
-            destroy(route('admin.partners.destroy', partner.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.partners.destroy', partner.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -88,6 +96,14 @@ export default function Edit({ partner }: Props) {
                     cancelHref={route('admin.partners.index')}
                 />
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Partner?"
+                description="Data partner ini akan dihapus permanen. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

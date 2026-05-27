@@ -9,6 +9,8 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     portfolio: PortfolioData;
@@ -29,15 +31,21 @@ export default function Edit({ portfolio, categories, statuses }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('admin.portfolios.update', portfolio.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus portfolio ini?')) {
-            destroy(route('admin.portfolios.destroy', portfolio.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.portfolios.destroy', portfolio.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -124,6 +132,14 @@ export default function Edit({ portfolio, categories, statuses }: Props) {
                     cancelHref={route('admin.portfolios.index')}
                 />
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Portfolio?"
+                description="Portfolio yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

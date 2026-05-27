@@ -9,6 +9,8 @@ import AdminSectionCard from '@/Components/shared/AdminSectionCard';
 import FormField from '@/Components/shared/FormField';
 import FormSelect from '@/Components/shared/FormSelect';
 import FormSidebar from '@/Components/shared/FormSidebar';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     product: ProductData;
@@ -28,15 +30,21 @@ export default function Edit({ product, categories, statuses }: Props) {
         _method: 'put',
     });
 
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('admin.products.update', product.id!));
     };
 
     const handleDelete = () => {
-        if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-            destroy(route('admin.products.destroy', product.id!));
-        }
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        destroy(route('admin.products.destroy', product.id!), {
+            onFinish: () => setIsConfirmOpen(false)
+        });
     };
 
     return (
@@ -147,6 +155,14 @@ export default function Edit({ product, categories, statuses }: Props) {
                     cancelHref={route('admin.products.index')}
                 />
             </form>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Produk?"
+                description="Produk yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

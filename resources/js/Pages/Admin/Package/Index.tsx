@@ -32,6 +32,8 @@ import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 import Pagination from '@/Components/shared/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     packages: PaginatedData<PackageData>;
@@ -49,10 +51,22 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const debouncedSearch = useDebounce(searchQuery, 500);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus paket harga ini?')) {
-            router.delete(route('admin.packages.destroy', id));
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.packages.destroy', deletingId), {
+                onFinish: () => {
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -156,8 +170,8 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                                     <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Tipe Print</label>
                                     <select value={filters.print_type || ''} onChange={(e) => updateFilters({ print_type: e.target.value || null })} className="w-full bg-stone-50 border-stone-200 rounded-lg text-xs font-bold focus:ring-primary/20 transition-all">
                                         <option value="">Semua Tipe</option>
-                                        {printTypes.map(pt => (
-                                            <option key={pt.value} value={pt.value}>{pt.name}</option>
+                                        {printTypes.map((pt, index) => (
+                                            <option key={`${pt.value}-${index}`} value={pt.value}>{pt.name}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -181,8 +195,14 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
                             {packages.data && packages.data.length > 0 ? (
-                                packages.data.map((pkg) => (
-                                    <TableRow key={pkg.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
+                                packages.data.map((pkg, index) => (
+                                    <motion.tr 
+                                        key={pkg.id} 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="hover:bg-stone-50/50 transition-colors group border-stone-100"
+                                    >
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
@@ -230,7 +250,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -248,6 +268,14 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
                 <AdminTableFooter count={totalCount} label="Paket" />
                 <Pagination links={packages.links} />
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Paket Harga?"
+                description="Data paket harga ini akan dihapus permanen. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

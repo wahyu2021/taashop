@@ -35,6 +35,8 @@ import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 import Pagination from '@/Components/shared/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     portfolios: PaginatedData<PortfolioData>;
@@ -52,10 +54,22 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const debouncedSearch = useDebounce(searchQuery, 500);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus portfolio ini?')) {
-            router.delete(route('admin.portfolios.destroy', id));
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.portfolios.destroy', deletingId), {
+                onFinish: () => {
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -175,8 +189,14 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
                             {portfolios.data && portfolios.data.length > 0 ? (
-                                portfolios.data.map((portfolio) => (
-                                    <TableRow key={portfolio.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
+                                portfolios.data.map((portfolio, index) => (
+                                    <motion.tr 
+                                        key={portfolio.id} 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="hover:bg-stone-50/50 transition-colors group border-stone-100"
+                                    >
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-16 h-12 rounded-lg bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
@@ -225,7 +245,7 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -243,6 +263,14 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
                 <AdminTableFooter count={totalCount} label="Portfolio" />
                 <Pagination links={portfolios.links} />
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Portfolio?"
+                description="Portfolio yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

@@ -14,16 +14,31 @@ import { Plus, Edit, Trash2, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminPageHeader from '@/Components/shared/AdminPageHeader';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
+import { useState } from 'react';
 
 interface Props {
     testimonials: TestimonialData[];
 }
 
 export default function TestimonialIndex({ testimonials }: Props) {
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
+
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus testimoni ini?')) {
-            router.delete(route('admin.testimonials.destroy', id), {
-                onSuccess: () => toast.success('Testimoni berhasil dihapus'),
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.testimonials.destroy', deletingId), {
+                onSuccess: () => {
+                    toast.success('Testimoni berhasil dihapus');
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                },
             });
         }
     };
@@ -61,12 +76,17 @@ export default function TestimonialIndex({ testimonials }: Props) {
                         </TableHeader>
                         <TableBody>
                             {testimonials.length > 0 ? (
-                                testimonials.map((item) => (
-                                    <TableRow key={item.id}>
+                                testimonials.map((item, index) => (
+                                    <motion.tr 
+                                        key={item.id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                    >
                                         <TableCell>
                                             <div className="w-10 h-10 rounded-full bg-stone-100 overflow-hidden border border-stone-200">
                                                 <img 
-                                                    src={item.avatar_url || 'https://via.placeholder.com/600x400?text=Avatar'} 
+                                                    src={item.avatar_url || '/images/placeholder.svg'} 
                                                     alt={item.customer_name} 
                                                     className="w-full h-full object-cover"
                                                 />
@@ -114,7 +134,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -127,6 +147,14 @@ export default function TestimonialIndex({ testimonials }: Props) {
                     </Table>
                 </div>
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Testimoni?"
+                description="Testimoni yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

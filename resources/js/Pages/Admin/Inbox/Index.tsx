@@ -35,6 +35,8 @@ import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 import Pagination from '@/Components/shared/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     submissions: PaginatedData<ContactSubmissionData>;
@@ -50,10 +52,22 @@ export default function Index({ submissions, filters, statuses }: Props) {
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const debouncedSearch = useDebounce(searchQuery, 500);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
-            router.delete(route('admin.inbox.destroy', id));
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.inbox.destroy', deletingId), {
+                onFinish: () => {
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -153,8 +167,14 @@ export default function Index({ submissions, filters, statuses }: Props) {
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
                             {submissions.data && submissions.data.length > 0 ? (
-                                submissions.data.map((sub) => (
-                                    <TableRow key={sub.id} className={`group border-stone-100 transition-colors ${sub.status === 'new' ? 'bg-primary/5 hover:bg-primary/10' : 'hover:bg-stone-50/50'}`}>
+                                submissions.data.map((sub, index) => (
+                                    <motion.tr 
+                                        key={sub.id} 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className={`group border-stone-100 transition-colors ${sub.status === 'new' ? 'bg-primary/5 hover:bg-primary/10' : 'hover:bg-stone-50/50'}`}
+                                    >
                                         <TableCell className="px-6 py-4">
                                             <div className="flex flex-col">
                                                 <span className="font-bold text-foreground flex items-center gap-1">
@@ -206,7 +226,7 @@ export default function Index({ submissions, filters, statuses }: Props) {
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -224,6 +244,14 @@ export default function Index({ submissions, filters, statuses }: Props) {
                 <AdminTableFooter count={totalCount} label="Pesan" />
                 <Pagination links={submissions.links} />
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Pesan?"
+                description="Pesan yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

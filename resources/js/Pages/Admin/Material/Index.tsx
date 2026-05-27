@@ -31,6 +31,8 @@ import AdminTableFooter from '@/Components/shared/AdminTableFooter';
 import StatusBadge from '@/Components/shared/StatusBadge';
 import Pagination from '@/Components/shared/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
+import ConfirmationModal from '@/Components/shared/ConfirmationModal';
 
 interface Props {
     materials: PaginatedData<MaterialData>;
@@ -46,10 +48,22 @@ export default function Index({ materials, filters, statuses }: Props) {
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const debouncedSearch = useDebounce(searchQuery, 500);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Apakah Anda yakin ingin menghapus material ini?')) {
-            router.delete(route('admin.materials.destroy', id));
+        setDeletingId(id);
+        setIsConfirmOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingId) {
+            router.delete(route('admin.materials.destroy', deletingId), {
+                onFinish: () => {
+                    setIsConfirmOpen(false);
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -161,8 +175,14 @@ export default function Index({ materials, filters, statuses }: Props) {
                         </TableHeader>
                         <TableBody className="divide-y divide-stone-100">
                             {materials.data && materials.data.length > 0 ? (
-                                materials.data.map((material) => (
-                                    <TableRow key={material.id} className="hover:bg-stone-50/50 transition-colors group border-stone-100">
+                                materials.data.map((material, index) => (
+                                    <motion.tr 
+                                        key={material.id} 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="hover:bg-stone-50/50 transition-colors group border-stone-100"
+                                    >
                                         <TableCell className="px-6 py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
@@ -207,7 +227,7 @@ export default function Index({ materials, filters, statuses }: Props) {
                                                 </Button>
                                             </div>
                                         </TableCell>
-                                    </TableRow>
+                                    </motion.tr>
                                 ))
                             ) : (
                                 <TableRow>
@@ -225,6 +245,14 @@ export default function Index({ materials, filters, statuses }: Props) {
                 <AdminTableFooter count={totalCount} label="Material" />
                 <Pagination links={materials.links} />
             </div>
+
+            <ConfirmationModal 
+                isOpen={isConfirmOpen}
+                onClose={() => setIsConfirmOpen(false)}
+                onConfirm={confirmDelete}
+                title="Hapus Material?"
+                description="Data material ini akan dihapus permanen. Apakah Anda yakin?"
+            />
         </AdminLayout>
     );
 }

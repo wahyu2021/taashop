@@ -122,19 +122,98 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="min-h-screen bg-background font-sans antialiased text-foreground">
-            {/* Mobile Sidebar Overlay */}
-            {isSidebarOpen && (
-                <div 
-                    className="fixed inset-0 z-40 bg-stone-900/50 lg:hidden backdrop-blur-sm transition-opacity" 
-                    onClick={() => setIsSidebarOpen(false)}
-                />
-            )}
+            {/* Mobile Sidebar Overlay & Menu */}
+            <AnimatePresence>
+                {isSidebarOpen && (
+                    <>
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-40 bg-stone-900/60 lg:hidden backdrop-blur-sm" 
+                            onClick={() => setIsSidebarOpen(false)}
+                        />
+                        <motion.aside 
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '-100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border lg:hidden"
+                        >
+                            <div className="flex flex-col h-full">
+                                {/* Sidebar Header */}
+                                <div className="flex items-center justify-between h-16 px-6 border-b border-sidebar-border">
+                                    <Link href={route('admin.dashboard')} className="flex items-center gap-3">
+                                        <ApplicationLogo className="h-8 w-auto object-contain" />
+                                        <span className="text-xl font-black text-sidebar-foreground tracking-tighter uppercase">
+                                            TAAA<span className="text-primary">SHOP</span>
+                                        </span>
+                                    </Link>
+                                    <button 
+                                        className="p-1 text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
+                                        onClick={() => setIsSidebarOpen(false)}
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
+                                </div>
 
-            {/* Sidebar */}
-            <aside className={`
-                fixed inset-y-0 left-0 z-50 w-64 bg-sidebar border-r border-sidebar-border transform transition-transform duration-300 ease-in-out lg:translate-x-0
-                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-            `}>
+                                {/* Navigation */}
+                                <nav className="flex-1 px-4 py-6 space-y-8 overflow-y-auto custom-scrollbar">
+                                    {navigation.map((group) => (
+                                        <div key={group.group} className="space-y-2">
+                                            <h3 className="px-3 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">
+                                                {group.group}
+                                            </h3>
+                                            <div className="space-y-1">
+                                                {group.items.map((item) => (
+                                                    <Link
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className={`
+                                                            flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200
+                                                            ${item.active 
+                                                                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' 
+                                                                : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}
+                                                        `}
+                                                    >
+                                                        <item.icon className={`w-4 h-4 ${item.active ? 'text-primary-foreground' : 'text-stone-400'}`} />
+                                                        {item.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </nav>
+
+                                {/* Sidebar Footer */}
+                                <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/20">
+                                    <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-sidebar border border-sidebar-border shadow-sm mb-4">
+                                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                            <User className="w-5 h-5" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-black text-sidebar-foreground truncate">{user.name}</p>
+                                            <p className="text-[9px] text-stone-400 truncate uppercase tracking-widest font-bold italic">Administrator</p>
+                                        </div>
+                                    </div>
+                                    <Link
+                                        href={route('logout')}
+                                        method="post"
+                                        as="button"
+                                        className="flex items-center gap-3 w-full px-3 py-2.5 text-sm font-black text-destructive hover:bg-destructive/10 rounded-lg transition-colors uppercase tracking-widest text-[10px]"
+                                    >
+                                        <LogOut className="w-4 h-4" />
+                                        Keluar
+                                    </Link>
+                                </div>
+                            </div>
+                        </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
+
+            {/* Desktop Sidebar (Always Visible on LG) */}
+            <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 bg-sidebar border-r border-sidebar-border lg:flex lg:flex-col">
                 <div className="flex flex-col h-full">
                     {/* Sidebar Header */}
                     <div className="flex items-center justify-between h-16 px-6 border-b border-sidebar-border">
@@ -144,12 +223,6 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                                 TAAA<span className="text-primary">SHOP</span>
                             </span>
                         </Link>
-                        <button 
-                            className="lg:hidden p-1 text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
-                            onClick={() => setIsSidebarOpen(false)}
-                        >
-                            <X className="w-5 h-5" />
-                        </button>
                     </div>
 
                     {/* Navigation */}
@@ -171,7 +244,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                                                     : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}
                                             `}
                                         >
-                                            <item.icon className={`w-4 h-4 ${item.active ? 'text-primary-foreground' : 'text-stone-400 group-hover:text-primary'}`} />
+                                            <item.icon className={`w-4 h-4 ${item.active ? 'text-primary-foreground' : 'text-stone-400'}`} />
                                             {item.name}
                                         </Link>
                                     ))}
