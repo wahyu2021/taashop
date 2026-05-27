@@ -135,6 +135,12 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="min-h-screen bg-background font-sans antialiased text-foreground">
+            <Head>
+                {site_settings?.site_favicon && (
+                    <link rel="icon" href={site_settings.site_favicon} />
+                )}
+            </Head>
+
             {/* Mobile Sidebar Overlay & Menu */}
             <AnimatePresence>
                 {isSidebarOpen && (

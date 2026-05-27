@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { usePage } from '@inertiajs/react';
+import { usePage, Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import Navbar from '@/Components/shared/Navbar';
 import Footer from '@/Components/shared/Footer';
@@ -43,6 +43,12 @@ export default function PublicLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-orange-600 selection:text-white relative">
+            <Head>
+                {site_settings?.site_favicon && (
+                    <link rel="icon" href={site_settings.site_favicon} />
+                )}
+            </Head>
+
             {/* Navigation */}
             <Navbar />
 
