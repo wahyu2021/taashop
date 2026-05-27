@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, Head } from '@inertiajs/react';
 import { PropsWithChildren, useState, useEffect } from 'react';
 import { 
     LayoutDashboard, 
@@ -25,7 +25,7 @@ import { toast } from 'sonner';
 import { PageProps } from '@/types';
 
 export default function AdminLayout({ children }: PropsWithChildren) {
-    const { auth, flash } = usePage<PageProps>().props;
+    const { auth, flash, site_settings } = usePage<PageProps>().props;
     const user = auth.user;
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
