@@ -100,7 +100,7 @@ export default function Index({ categories, filters }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Kategori" />
+            <Head title="Manajemen Kategori | Admin Taaashop" />
 
             <AdminPageHeader 
                 title="Kategori"

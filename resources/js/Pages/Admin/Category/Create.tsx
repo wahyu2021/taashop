@@ -24,7 +24,7 @@ export default function Create() {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Kategori Baru" />
+            <Head title="Tambah Kategori | Admin Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.categories.index')}

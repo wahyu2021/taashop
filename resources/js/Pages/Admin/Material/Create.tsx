@@ -47,11 +47,10 @@ export default function Create({ statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Material Baru" />
+            <Head title="Tambah Material | Admin Taaashop" />
 
-            <AdminFormHeader
-                backHref={route('admin.materials.index')}
-                backText="Kembali ke Daftar"
+            <AdminFormHeader 
+                backHref={route('admin.materials.index')}                backText="Kembali ke Daftar"
                 title="Tambah Material"
             />
 

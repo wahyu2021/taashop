@@ -43,7 +43,7 @@ export default function Edit({ partner }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Partner: ${partner.name}`} />
+            <Head title={`Edit Partner: ${partner.name} | Admin Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.partners.index')}

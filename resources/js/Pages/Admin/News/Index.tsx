@@ -105,7 +105,7 @@ export default function Index({ news, filters, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Berita & Artikel" />
+            <Head title="Manajemen Berita | Admin Taaashop" />
 
             <AdminPageHeader 
                 title="Berita & Artikel"

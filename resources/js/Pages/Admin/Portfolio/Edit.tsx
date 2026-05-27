@@ -50,7 +50,7 @@ export default function Edit({ portfolio, categories, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Portfolio: ${portfolio.title}`} />
+            <Head title={`Edit Portfolio: ${portfolio.title} | Admin Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.portfolios.index')}

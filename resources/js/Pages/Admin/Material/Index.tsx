@@ -101,10 +101,10 @@ export default function Index({ materials, filters, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Material Bahan" />
+            <Head title="Manajemen Material | Admin Taaashop" />
 
             <AdminPageHeader 
-                title="Material Bahan"
+                title="Material"
                 description="Kelola berbagai jenis bahan kain dan kualitas sablon yang Anda tawarkan."
                 action={
                     <Link href={route('admin.materials.create')}>

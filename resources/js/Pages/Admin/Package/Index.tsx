@@ -113,7 +113,7 @@ export default function Index({ packages, filters, statuses, printTypes }: Props
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Paket Harga" />
+            <Head title="Manajemen Paket | Admin Taaashop" />
 
             <AdminPageHeader 
                 title="Paket Harga"

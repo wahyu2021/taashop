@@ -45,10 +45,10 @@ export default function FAQIndex({ faqs }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Admin - FAQ" />
+            <Head title="Manajemen FAQ | Admin Taaashop" />
 
-            <AdminPageHeader
-                title="Manajemen FAQ"
+            <AdminPageHeader 
+                title="FAQ"
                 description="Kelola pertanyaan yang sering diajukan oleh pelanggan."
                 action={
                     <Link 

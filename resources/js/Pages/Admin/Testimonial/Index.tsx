@@ -45,7 +45,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Admin - Testimoni" />
+            <Head title="Manajemen Testimoni | Admin Taaashop" />
 
             <AdminPageHeader
                 title="Manajemen Testimoni"

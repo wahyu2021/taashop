@@ -47,7 +47,7 @@ export default function Dashboard({ auth, stats }: PageProps<{ stats: DashboardS
 
     return (
         <AdminLayout>
-            <Head title="Admin Dashboard" />
+            <Head title="Dashboard | Admin Taaashop" />
 
             {/* Welcome Section */}
             <motion.div 

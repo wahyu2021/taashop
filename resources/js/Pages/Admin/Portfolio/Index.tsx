@@ -107,10 +107,10 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Portfolio" />
+            <Head title="Manajemen Portfolio | Admin Taaashop" />
 
             <AdminPageHeader 
-                title="Portfolio Galeri"
+                title="Portfolio"
                 description="Tampilkan hasil jadi produk terbaik Anda kepada calon pelanggan."
                 action={
                     <Link href={route('admin.portfolios.create')}>

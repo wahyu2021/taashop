@@ -51,7 +51,7 @@ export default function Edit({ package: pkg, statuses, printTypes }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Paket: ${pkg.title}`} />
+            <Head title={`Edit Paket: ${pkg.title} | Admin Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.packages.index')}

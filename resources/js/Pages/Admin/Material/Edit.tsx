@@ -63,7 +63,7 @@ export default function Edit({ material, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Material: ${material.name}`} />
+            <Head title={`Edit Material: ${material.name} | Admin Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.materials.index')}

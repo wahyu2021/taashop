@@ -33,7 +33,7 @@ export default function Create({ statuses, printTypes }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Paket Baru" />
+            <Head title="Tambah Paket | Admin Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.packages.index')}
