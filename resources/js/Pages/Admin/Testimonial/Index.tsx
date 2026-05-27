@@ -82,6 +82,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="group"
                                     >
                                         <TableCell>
                                             <div className="w-10 h-10 rounded-full bg-stone-100 overflow-hidden border border-stone-200">
@@ -115,7 +116,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                                             "{item.content}"
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            <div className="flex justify-end gap-2">
+                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Link 
                                                     href={route('admin.testimonials.edit', item.id!) as unknown as string}
                                                     className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), "h-8 w-8")}

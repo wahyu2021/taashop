@@ -80,6 +80,7 @@ export default function FAQIndex({ faqs }: Props) {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="group"
                                     >
                                         <TableCell className="font-medium">
                                             #{faq.id}
@@ -87,7 +88,7 @@ export default function FAQIndex({ faqs }: Props) {
                                         <TableCell className="font-bold text-stone-900">{faq.question}</TableCell>
                                         <TableCell className="max-w-md truncate text-stone-500">{faq.answer}</TableCell>
                                         <TableCell className="text-right">
-                                            <div className="flex justify-end gap-2">
+                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Link 
                                                     href={route('admin.faqs.edit', faq.id!) as unknown as string}
                                                     className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), "h-8 w-8")}
