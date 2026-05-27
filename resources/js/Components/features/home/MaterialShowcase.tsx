@@ -13,10 +13,10 @@ export default function MaterialShowcase({ materials }: Props) {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-6">
                     <div className="max-w-2xl">
-                        <h2 className="text-4xl sm:text-5xl font-black text-stone-900 uppercase tracking-tighter mb-4">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 uppercase tracking-tighter mb-4">
                             Pilihan <span className="text-orange-600">Material</span> Premium
                         </h2>
-                        <p className="text-stone-500 text-lg">
+                        <p className="text-stone-500 text-base md:text-lg">
                             Kami hanya menggunakan bahan kain kualitas terbaik yang telah teruji kenyamanannya untuk performa olahraga maksimal.
                         </p>
                     </div>

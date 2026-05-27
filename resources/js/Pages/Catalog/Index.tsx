@@ -57,13 +57,13 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
             </Head>
 
             {/* Page Header */}
-            <section className="bg-stone-950 py-20">
+            <section className="bg-stone-950 py-16 md:py-24">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl">
-                        <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tighter mb-6">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter mb-6">
                             Katalog <span className="text-orange-600">Produk</span>
                         </h1>
-                        <p className="text-stone-400 text-lg">
+                        <p className="text-stone-400 text-base md:text-lg">
                             Temukan berbagai pilihan jersey dan sablon kustom berkualitas untuk tim Anda.
                         </p>
                     </div>
@@ -71,7 +71,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
             </section>
 
             {/* Filter & Search Bar */}
-            <section className="sticky top-16 z-30 bg-white border-b border-stone-200 shadow-sm">
+            <section className="sticky top-[72px] lg:top-[88px] z-30 bg-white border-b border-stone-200 shadow-sm">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         <div className="relative w-full md:w-96">

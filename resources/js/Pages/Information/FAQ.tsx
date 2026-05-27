@@ -46,7 +46,7 @@ export default function FAQ({ faqs }: Props) {
                         <span className="inline-block bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1 mb-4">
                             Pusat Bantuan
                         </span>
-                        <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
                             FAQ & <span className="text-orange-600">Cara Order</span>
                         </h1>
                         <p className="text-stone-400 text-lg">

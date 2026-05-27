@@ -22,15 +22,15 @@ export default function FAQSection({ faqs }: Props) {
                             <HelpCircle size={14} />
                             Bantuan & Dukungan
                         </div>
-                        <h2 className="text-4xl sm:text-6xl font-black text-stone-900 uppercase tracking-tighter leading-tight mb-8">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 uppercase tracking-tighter leading-tight mb-8">
                             Pertanyaan yang <br /> Sering <span className="text-orange-600">Diajukan</span>
                         </h2>
-                        <p className="text-stone-500 text-lg leading-relaxed max-w-md">
+                        <p className="text-stone-500 text-base md:text-lg leading-relaxed max-w-md">
                             Kami telah merangkum beberapa hal yang sering ditanyakan untuk membantu Anda memahami layanan kami lebih baik.
                         </p>
                     </div>
 
-                    <div className="bg-stone-50 p-8 sm:p-12 border border-stone-100">
+                    <div className="bg-stone-50 p-6 sm:p-8 md:p-12 border border-stone-100">
                         {faqs.length > 0 ? (
                             <Accordion type="single" collapsible className="w-full space-y-4">
                                 {faqs.map((faq) => (

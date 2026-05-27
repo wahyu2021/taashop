@@ -36,7 +36,7 @@ export default function FeaturedProducts({ products }: Props) {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 {products.length > 0 ? (
-                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 sm:overflow-visible sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 lg:gap-8 sm:overflow-visible sm:pb-0 scrollbar-none [&::-webkit-scrollbar]:hidden">
                         {products.map((product, index) => (
                             <motion.div 
                                 key={product.id} 
@@ -61,13 +61,13 @@ export default function FeaturedProducts({ products }: Props) {
                                         </div>
                                     )}
                                 </div>
-                                <div className="p-6">
-                                    <h3 className="text-lg font-black uppercase tracking-tight mb-2 text-stone-900 truncate">
+                                <div className="p-5 md:p-6">
+                                    <h3 className="text-base md:text-lg font-black uppercase tracking-tight mb-2 text-stone-900 truncate">
                                         {product.title}
                                     </h3>
                                     <Link 
                                         href={`/catalog/${product.slug}`}
-                                        className="text-orange-600 text-xs font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                                        className="text-orange-600 text-[10px] md:text-xs font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
                                     >
                                         Lihat Detail <ArrowRight size={14} />
                                     </Link>

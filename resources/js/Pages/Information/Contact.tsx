@@ -68,7 +68,7 @@ export default function Contact() {
                         <span className="inline-block bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.3em] px-3 py-1 mb-4">
                             Layanan Pelanggan
                         </span>
-                        <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter mb-6 leading-none">
                             Hubungi <span className="text-orange-600">Kami</span>
                         </h1>
                         <p className="text-stone-400 text-lg">
@@ -78,7 +78,7 @@ export default function Contact() {
                 </div>
             </section>
 
-            <section className="py-16 sm:py-24 bg-stone-50">
+            <section className="py-12 md:py-24 bg-stone-50">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
                         
@@ -145,7 +145,7 @@ export default function Contact() {
 
                         {/* Contact Form */}
                         <div className="lg:col-span-7">
-                            <div className="bg-white border border-stone-200 p-8 sm:p-12 shadow-xl">
+                            <div className="bg-white border border-stone-200 p-6 sm:p-10 md:p-12 shadow-xl">
                                 <h3 className="text-2xl font-black text-stone-900 uppercase tracking-tighter mb-2">
                                     Kirim Pesan
                                 </h3>

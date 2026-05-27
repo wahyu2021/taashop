@@ -65,13 +65,13 @@ export default function PortfolioShowcase({ portfolios }: Props) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="mt-16 text-center"
+                        className="mt-12 md:mt-16 text-center"
                     >
                         <Link 
                             href="/portfolio"
                             className={cn(
                                 buttonVariants({ variant: 'outline' }),
-                                "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-black uppercase tracking-widest px-8 rounded-none h-14 inline-flex items-center"
+                                "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-black uppercase tracking-widest px-8 rounded-none h-12 md:h-14 inline-flex items-center text-xs md:text-sm"
                             )}
                         >
                             Lihat Semua Portfolio

@@ -331,7 +331,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto"
+                    className="flex-1 p-4 md:p-6 lg:p-8 max-w-400 w-full mx-auto"
                 >
                     {children}
                 </motion.main>

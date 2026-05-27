@@ -71,7 +71,7 @@ export default function Navbar() {
                         </Link>
 
                         {/* Desktop Links */}
-                        <div className="hidden md:flex items-center gap-8">
+                        <div className="hidden lg:flex items-center gap-8">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
@@ -91,7 +91,7 @@ export default function Navbar() {
                         </div>
 
                         {/* Desktop Action Button */}
-                        <div className="hidden md:block">
+                        <div className="hidden lg:block">
                             <a 
                                 href={whatsappUrl} 
                                 target="_blank" 
@@ -108,7 +108,7 @@ export default function Navbar() {
 
                         {/* Mobile Toggle */}
                         <button
-                            className="md:hidden relative z-50 w-10 h-10 flex items-center justify-center text-stone-900 focus:outline-none"
+                            className="lg:hidden relative z-50 w-10 h-10 flex items-center justify-center text-stone-900 focus:outline-none"
                             onClick={() => setIsOpen(!isOpen)}
                             aria-label={isOpen ? 'Tutup Menu' : 'Buka Menu'}
                         >
@@ -134,7 +134,7 @@ export default function Navbar() {
             {/* Mobile Menu Overlay */}
             <div
                 className={cn(
-                    'fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 md:hidden',
+                    'fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 lg:hidden',
                     isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 )}
                 onClick={closeMenu}
@@ -143,7 +143,7 @@ export default function Navbar() {
             {/* Mobile Menu Panel */}
             <div
                 className={cn(
-                    'fixed top-0 right-0 z-40 w-full sm:w-80 h-full bg-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden',
+                    'fixed top-0 right-0 z-40 w-full sm:w-80 h-full bg-white shadow-2xl transition-transform duration-300 ease-in-out lg:hidden',
                     isOpen ? 'translate-x-0' : 'translate-x-full'
                 )}
             >

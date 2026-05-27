@@ -66,7 +66,7 @@ export default function TestimonialIndex({ testimonials }: Props) {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[80px]">Avatar</TableHead>
+                                <TableHead className="w-20">Avatar</TableHead>
                                 <TableHead>Nama Pelanggan</TableHead>
                                 <TableHead>Rating</TableHead>
                                 <TableHead>Bukti</TableHead>

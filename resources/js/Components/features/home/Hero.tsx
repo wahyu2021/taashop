@@ -27,24 +27,24 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
             </div>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
                     {/* Left: Text Content */}
                     <div>
                         <span className="inline-block bg-orange-600 text-white text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] px-3 py-1 mb-6">
                             Premium Custom Sportswear
                         </span>
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-4">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-6">
                             {title || 'Bikin Jersey Impianmu Jadi Nyata'}
                         </h1>
-                        <p className="text-stone-400 text-md sm:text-lg max-w-xl mb-6 leading-relaxed">
+                        <p className="text-stone-400 text-sm sm:text-base md:text-lg max-w-xl mb-8 leading-relaxed">
                             {description || 'Taaashop hadir sebagai partner terpercaya untuk pembuatan jersey kustom dan sablon berkualitas tinggi dengan desain eksklusif dan bahan premium.'}
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0">
+                        <div className="flex flex-col sm:flex-row gap-4 mb-12 md:mb-0">
                             <Link 
                                 href="/catalog"
                                 className={cn(
                                     buttonVariants({ variant: 'default' }),
-                                    "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto flex items-center justify-center border-none"
+                                    "bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-8 py-3.5 md:py-4 rounded-none text-base md:text-lg h-auto flex items-center justify-center border-none"
                                 )}
                             >
                                 Lihat Katalog
@@ -53,7 +53,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                             <button 
                                 type="button"
                                 onClick={() => window.open(whatsappUrl, '_blank', 'noopener,noreferrer')}
-                                className="inline-flex items-center justify-center bg-transparent border border-stone-700 text-white hover:bg-stone-900 hover:text-white font-black uppercase tracking-widest px-6 py-4 rounded-none text-lg h-auto transition-colors cursor-pointer"
+                                className="inline-flex items-center justify-center bg-transparent border border-stone-700 text-white hover:bg-stone-900 hover:text-white font-black uppercase tracking-widest px-8 py-3.5 md:py-4 rounded-none text-base md:text-lg h-auto transition-colors cursor-pointer"
                             >
                                 Konsultasi Gratis
                             </button>
@@ -61,7 +61,7 @@ export default function Hero({ title, description, whatsappUrl, heroImageUrl }: 
                     </div>
 
                     {/* Right: Visual Area (Auto Slider) */}
-                    <div className="relative hidden lg:flex items-center justify-center">
+                    <div className="relative hidden md:flex items-center justify-center">
                         <HeroImageSlider heroImageUrl={heroImageUrl} />
                     </div>  
                 </div>
