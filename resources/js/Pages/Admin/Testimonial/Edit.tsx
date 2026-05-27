@@ -50,7 +50,7 @@ export default function Edit({ testimonial }: { testimonial: TestimonialData }) 
 
     return (
         <AdminLayout>
-            <Head title={`Edit Testimoni: ${testimonial.customer_name} | Admin Taaashop`} />
+            <Head title={`Edit Testimoni: ${testimonial.customer_name} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.testimonials.index')}

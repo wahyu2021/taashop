@@ -106,7 +106,7 @@ export default function Index({ products, categories, filters, statuses }: Props
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Produk | Admin Taaashop" />
+            <Head title="Manajemen Produk | Taaashop" />
 
             <AdminPageHeader 
                 title="Produk"

@@ -45,7 +45,7 @@ export default function FAQIndex({ faqs }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen FAQ | Admin Taaashop" />
+            <Head title="Manajemen FAQ | Taaashop" />
 
             <AdminPageHeader 
                 title="FAQ"

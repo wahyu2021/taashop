@@ -105,7 +105,7 @@ export default function Index({ submissions, filters, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Inbox Pesan | Admin Taaashop" />
+            <Head title="Inbox Pesan | Taaashop" />
 
             <AdminPageHeader 
                 title="Inbox Pesan"

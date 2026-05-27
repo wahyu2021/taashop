@@ -48,7 +48,7 @@ export default function Edit({ news, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Berita: ${news.title} | Admin Taaashop`} />
+            <Head title={`Edit Berita: ${news.title} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.news.index')}

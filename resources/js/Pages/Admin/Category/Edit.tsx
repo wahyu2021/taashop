@@ -44,7 +44,7 @@ export default function Edit({ category }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Kategori: ${category.name} | Admin Taaashop`} />
+            <Head title={`Edit Kategori: ${category.name} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.categories.index')}

@@ -24,7 +24,7 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="Register" />
+            <Head title="Register | Taaashop" />
 
             <form onSubmit={submit}>
                 <div>

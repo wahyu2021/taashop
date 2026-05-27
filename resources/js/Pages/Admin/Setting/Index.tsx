@@ -49,7 +49,7 @@ export default function Index({ groupedSettings }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Pengaturan Web | Admin Taaashop" />
+            <Head title="Pengaturan Web | Taaashop" />
 
             <div className="space-y-8 pb-20">
                 {/* Header & Global Actions */}

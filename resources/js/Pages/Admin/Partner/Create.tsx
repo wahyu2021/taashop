@@ -22,7 +22,7 @@ export default function Create() {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Partner | Admin Taaashop" />
+            <Head title="Tambah Partner | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.partners.index')}

@@ -33,7 +33,7 @@ export default function Create({ categories, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Portfolio | Admin Taaashop" />
+            <Head title="Tambah Portfolio | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.portfolios.index')}

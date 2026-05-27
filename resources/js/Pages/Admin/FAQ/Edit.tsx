@@ -24,7 +24,7 @@ export default function Edit({ faq }: { faq: any }) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit FAQ: ${faq.question} | Admin Taaashop`} />
+            <Head title={`Edit FAQ: ${faq.question} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.faqs.index')}

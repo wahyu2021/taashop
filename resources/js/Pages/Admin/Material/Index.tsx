@@ -101,7 +101,7 @@ export default function Index({ materials, filters, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Material | Admin Taaashop" />
+            <Head title="Manajemen Material | Taaashop" />
 
             <AdminPageHeader 
                 title="Material"

@@ -15,7 +15,7 @@ export default function CatalogShow({ product, related_products }: Props) {
 
     const whatsappUrl = `https://wa.me/${site_settings?.contact_whatsapp?.replace(/\D/g, '')}?text=Halo Taaashop, saya tertarik dengan produk: ${product.title}. Bisa minta info lebih lanjut?`;
 
-    const metaTitle = `${product.title} | Katalog Taaashop`;
+    const metaTitle = `${product.title} | Taaashop`;
     const metaDescription = product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 160) : 'Detail produk Taaashop.';
     const metaImage = product.image_url || site_settings?.hero_image || `${window.location.origin}/images/hero-jersey.webp`;
 

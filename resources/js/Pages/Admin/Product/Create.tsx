@@ -32,7 +32,7 @@ export default function Create({ categories, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Produk | Admin Taaashop" />
+            <Head title="Tambah Produk | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.products.index')}

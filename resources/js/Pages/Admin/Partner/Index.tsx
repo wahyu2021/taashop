@@ -95,7 +95,7 @@ export default function Index({ partners, filters }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Partner | Admin Taaashop" />
+            <Head title="Manajemen Partner | Taaashop" />
 
             <AdminPageHeader 
                 title="Partner & Klien"

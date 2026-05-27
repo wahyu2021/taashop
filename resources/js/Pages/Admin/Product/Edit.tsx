@@ -49,7 +49,7 @@ export default function Edit({ product, categories, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Edit Produk: ${product.title} | Admin Taaashop`} />
+            <Head title={`Edit Produk: ${product.title} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.products.index')}

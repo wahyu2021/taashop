@@ -30,7 +30,7 @@ export default function Create({ statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Tulis Berita | Admin Taaashop" />
+            <Head title="Tulis Berita | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.news.index')}

@@ -32,7 +32,7 @@ export default function Login({
 
     return (
         <div className="min-h-screen bg-stone-950 flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans selection:bg-orange-600 selection:text-white">
-            <Head title="Admin Login" />
+            <Head title="Admin Login | Taaashop" />
 
             {/* Background Decor */}
             <div className="absolute top-0 -left-20 w-96 h-96 bg-orange-600 rounded-full blur-[150px] opacity-20" />

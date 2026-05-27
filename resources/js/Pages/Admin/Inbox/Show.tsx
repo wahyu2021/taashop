@@ -53,7 +53,7 @@ export default function Show({ submission, statuses }: Props) {
 
     return (
         <AdminLayout>
-            <Head title={`Pesan dari ${submission.name} | Admin Taaashop`} />
+            <Head title={`Pesan dari ${submission.name} | Taaashop`} />
 
             <AdminFormHeader 
                 backHref={route('admin.inbox.index')}

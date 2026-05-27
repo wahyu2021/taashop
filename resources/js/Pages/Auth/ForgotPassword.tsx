@@ -18,7 +18,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
     return (
         <GuestLayout>
-            <Head title="Forgot Password" />
+            <Head title="Forgot Password | Taaashop" />
 
             <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                 Forgot your password? No problem. Just let us know your email

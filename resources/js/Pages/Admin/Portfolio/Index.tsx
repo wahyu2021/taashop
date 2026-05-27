@@ -107,7 +107,7 @@ export default function Index({ portfolios, categories, filters, statuses }: Pro
 
     return (
         <AdminLayout>
-            <Head title="Manajemen Portfolio | Admin Taaashop" />
+            <Head title="Manajemen Portfolio | Taaashop" />
 
             <AdminPageHeader 
                 title="Portfolio"

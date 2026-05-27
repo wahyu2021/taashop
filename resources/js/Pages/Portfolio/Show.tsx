@@ -19,7 +19,7 @@ export default function PortfolioShow({ portfolio, related_portfolios }: Props) 
 
     return (
         <PublicLayout>
-            <Head title={`${portfolio.title} | Portofolio Taaashop`} />
+            <Head title={`${portfolio.title} | Taaashop`} />
 
             {/* Breadcrumb / Back */}
             <div className="bg-stone-50 border-b border-stone-200">

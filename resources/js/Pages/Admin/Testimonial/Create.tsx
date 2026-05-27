@@ -48,7 +48,7 @@ export default function Create() {
 
     return (
         <AdminLayout>
-            <Head title="Tambah Testimoni | Admin Taaashop" />
+            <Head title="Tambah Testimoni | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.testimonials.index')}

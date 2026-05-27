@@ -24,7 +24,7 @@ export default function Create() {
 
     return (
         <AdminLayout>
-            <Head title="Tambah FAQ | Admin Taaashop" />
+            <Head title="Tambah FAQ | Taaashop" />
 
             <AdminFormHeader 
                 backHref={route('admin.faqs.index')}
