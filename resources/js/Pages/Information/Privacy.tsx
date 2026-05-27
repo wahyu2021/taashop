@@ -7,7 +7,7 @@ export default function Privacy() {
 
     return (
         <PublicLayout>
-            <Head title="Kebijakan Privasi - Taaashop" />
+            <Head title="Kebijakan Privasi | Taaashop" />
 
             <section className="bg-stone-950 py-20 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.03]" style={{

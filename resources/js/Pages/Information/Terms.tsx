@@ -7,7 +7,7 @@ export default function Terms() {
 
     return (
         <PublicLayout>
-            <Head title="Syarat dan Ketentuan - Taaashop" />
+            <Head title="Syarat dan Ketentuan | Taaashop" />
 
             <section className="bg-stone-950 py-20 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.03]" style={{
